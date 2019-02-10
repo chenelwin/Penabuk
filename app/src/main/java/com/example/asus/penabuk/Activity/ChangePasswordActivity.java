@@ -1,7 +1,9 @@
-package com.example.asus.penabuk;
+package com.example.asus.penabuk.Activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.example.asus.penabuk.R;
 
 public class ChangePasswordActivity extends AppCompatActivity {
 

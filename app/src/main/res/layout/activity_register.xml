@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".RegisterActivity">
+    tools:context=".Activity.RegisterActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -34,7 +34,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
-            android:backgroundTint="#000"/>
+            android:backgroundTint="#000"
+            android:id="@+id/regisEmail"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -46,7 +47,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text"
-            android:backgroundTint="#000"/>
+            android:backgroundTint="#000"
+            android:id="@+id/regisNama"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -58,7 +60,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number"
-            android:backgroundTint="#000"/>
+            android:backgroundTint="#000"
+            android:id="@+id/regisNohp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -70,7 +73,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
-            android:backgroundTint="#000"/>
+            android:backgroundTint="#000"
+            android:id="@+id/regisPassword"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -82,7 +86,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
-            android:backgroundTint="#000"/>
+            android:backgroundTint="#000"
+            android:id="@+id/regisRepassword"/>
 
         <Button
             android:layout_width="150dp"
