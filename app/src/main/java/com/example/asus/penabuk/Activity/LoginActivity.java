@@ -103,7 +103,8 @@ public class LoginActivity extends AppCompatActivity {
                     ResUser resUser = response.body();
                     Toast.makeText(LoginActivity.this, "Welcome", Toast.LENGTH_LONG).show();
                         String passingnama = resUser.getData().getName();
-                        Intent intent = new Intent(LoginActivity.this, TopUpActivity.class);
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class)
+                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                         progressDialog.dismiss();
                         startActivity(intent);
                         finish();

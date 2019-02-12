@@ -126,7 +126,6 @@ public class RegisterActivity extends AppCompatActivity {
                     finish();
                 }
                 else{
-                    Log.e("status", ""+response.code());
                     Toast.makeText(RegisterActivity.this, "Incorrect", Toast.LENGTH_LONG).show();
                     progressDialog.dismiss();
                 }
