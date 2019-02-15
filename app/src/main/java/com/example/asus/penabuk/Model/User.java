@@ -1,6 +1,6 @@
 package com.example.asus.penabuk.Model;
 
-public class Data {
+public class User {
     private Integer id;
     private String email;
     private String name;
@@ -46,4 +46,5 @@ public class Data {
     public void setBalance(Integer balance) {
         this.balance = balance;
     }
+
 }

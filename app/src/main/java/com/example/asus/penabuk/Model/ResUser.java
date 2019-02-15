@@ -1,13 +1,22 @@
 package com.example.asus.penabuk.Model;
 
 public class ResUser {
-    private Data data;
+    private User user;
+    private String message;
 
-    public Data getData() {
-        return data;
+    public User getUser() {
+        return user;
     }
 
-    public void setData(Data data) {
-        this.data = data;
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

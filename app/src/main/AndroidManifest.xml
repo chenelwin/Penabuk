@@ -22,7 +22,9 @@
         <activity android:name=".Activity.ChangePasswordActivity" />
         <activity android:name=".Activity.TopUpActivity" />
         <activity android:name=".Activity.RegisterActivity" />
-        <activity android:name=".Activity.MainActivity"></activity>
+        <activity android:name=".Activity.MainActivity" />
+        <activity android:name=".Activity.ViewAllActivity" />
+        <activity android:name=".Activity.ViewDetailActivity"></activity>
     </application>
 
 </manifest>

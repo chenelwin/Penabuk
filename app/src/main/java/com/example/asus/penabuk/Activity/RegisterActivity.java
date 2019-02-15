@@ -18,6 +18,8 @@ import com.example.asus.penabuk.R;
 import com.example.asus.penabuk.Remote.ApiUtils;
 import com.example.asus.penabuk.Remote.UserService;
 
+import java.io.IOException;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -126,7 +128,11 @@ public class RegisterActivity extends AppCompatActivity {
                     finish();
                 }
                 else{
-                    Toast.makeText(RegisterActivity.this, "Incorrect", Toast.LENGTH_LONG).show();
+                    try {
+                        Toast.makeText(RegisterActivity.this, ""+response.errorBody().string(), Toast.LENGTH_LONG).show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     progressDialog.dismiss();
                 }
             }

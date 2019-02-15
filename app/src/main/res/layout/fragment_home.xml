@@ -23,6 +23,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:orientation="horizontal"
         android:padding="10dp">
         <LinearLayout
@@ -32,19 +33,31 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Saldo"/>
+                android:text="Saldo"
+                android:textColor="#000"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Rp. 100.000"/>
+                android:text="Rp. 100.000"
+                android:textColor="#000"/>
         </LinearLayout>
 
-        <Button
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TOP UP"
-            android:layout_gravity="right"/>
+            android:gravity="right">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TOP UP"/>
+        </LinearLayout>
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/myborder"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -52,14 +65,27 @@
         android:orientation="horizontal"
         android:padding="10dp">
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Rekomendasi Buku"/>
+            android:text="Rekomendasi Buku"
+            android:textColor="#000"
+            android:textStyle="bold"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Lihat Semua" />
+            android:text="Lihat Semua"
+            android:layout_gravity="right"
+            android:id="@+id/textLihatsemua"
+            android:textColor="@color/colorPrimaryDark"/>
     </LinearLayout>
 
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#fff"
+        android:id="@+id/RvHomeFragment"
+        android:scrollbars="vertical">
+    </android.support.v7.widget.RecyclerView>
 
 </LinearLayout>

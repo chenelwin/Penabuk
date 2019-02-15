@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_margin="5dp">
+    
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/cvViewAllActivity">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="120dp"
+                android:id="@+id/bookImg"/>
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="BLABLABLA"
+                    android:textColor="#000"
+                    android:textSize="14sp"
+                    android:id="@+id/bookTitle"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rp. 100"
+                    android:textColor="#000"
+                    android:textSize="14sp"
+                    android:id="@+id/bookPrice"/>
+                <RatingBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="?android:attr/ratingBarStyleSmall"
+                    android:numStars="5"
+                    android:stepSize="0.01"
+                    android:isIndicator="true"
+                    android:id="@+id/bookRating"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="right">
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/checkbox"/>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="bottom"
+                    android:paddingBottom="5dp">
+                    <Button
+                        android:layout_width="120dp"
+                        android:layout_height="25dp"
+                        android:text="View Details"
+                        android:textSize="12sp"
+                        android:layout_margin="3dp"
+                        android:background="@drawable/myborder"
+                        android:id="@+id/btnView"/>
+                    <Button
+                        android:layout_width="120dp"
+                        android:layout_height="25dp"
+                        android:text="Add to Wishlist"
+                        android:textSize="12sp"
+                        android:layout_margin="3dp"
+                        android:background="@drawable/myborder"
+                        android:id="@+id/btnAdd"/>
+                </LinearLayout>
+            </LinearLayout>
+            
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

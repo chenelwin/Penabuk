@@ -18,6 +18,8 @@ import com.example.asus.penabuk.R;
 import com.example.asus.penabuk.Remote.ApiUtils;
 import com.example.asus.penabuk.Remote.UserService;
 
+import java.io.IOException;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -102,15 +104,21 @@ public class LoginActivity extends AppCompatActivity {
                 if(response.isSuccessful()){
                     ResUser resUser = response.body();
                     Toast.makeText(LoginActivity.this, "Welcome", Toast.LENGTH_LONG).show();
-                        String passingnama = resUser.getData().getName();
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class)
-                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        progressDialog.dismiss();
-                        startActivity(intent);
-                        finish();
+                    String passingnama = resUser.getUser().getName();
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class)
+                            .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    progressDialog.dismiss();
+                    startActivity(intent);
+                    finish();
+
                 }
+
                 else{
-                    Toast.makeText(LoginActivity.this, "Incorrect", Toast.LENGTH_SHORT).show();
+                    try {
+                        Toast.makeText(LoginActivity.this, ""+response.errorBody().string(), Toast.LENGTH_SHORT).show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     progressDialog.dismiss();
                 }
             }

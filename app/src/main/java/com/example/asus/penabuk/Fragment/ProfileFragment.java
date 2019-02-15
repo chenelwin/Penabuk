@@ -11,9 +11,12 @@ import com.example.asus.penabuk.R;
 
 public class ProfileFragment extends Fragment {
 
+    public View view;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        view = inflater.inflate(R.layout.fragment_profile, container, false);
+        return view;
     }
 }
