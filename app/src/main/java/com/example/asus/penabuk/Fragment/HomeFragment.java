@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +40,7 @@ public class HomeFragment extends Fragment {
     RecyclerView rvHomeFragment;
     HomeFragmentAdapter homeFragmentAdapter;
     List<Book> books;
+    Button btnTopup;
 
     @Nullable
     @Override
@@ -55,12 +57,21 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        btnTopup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), TopUpActivity.class);
+                startActivity(intent);
+            }
+        });
+
         return view;
     }
 
     private void initView(){
         textLihatsemua = (TextView)view.findViewById(R.id.textLihatsemua);
         rvHomeFragment = (RecyclerView)view.findViewById(R.id.RvHomeFragment);
+        btnTopup = (Button)view.findViewById(R.id.btnTopup);
     }
 
     private void doGetBook(){

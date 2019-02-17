@@ -18,6 +18,8 @@ public interface UserService {
     @POST("/register")
     Call<ResUser> registerRequest(@Body ReqUser reqUser);
 
+    @POST("/users/password/reset")
+
     @GET("/books")
     Call<ReqBook> getBookRequest();
 

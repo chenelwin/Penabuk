@@ -7,6 +7,8 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.asus.penabuk.Adapter.ViewAllAdapter;
@@ -29,6 +31,7 @@ public class ViewAllActivity extends AppCompatActivity {
     RecyclerView rvViewAllActivity;
     ViewAllAdapter viewAllAdapter;
     List<Book> books;
+    ImageView imgBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,11 +39,19 @@ public class ViewAllActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_all);
         initView();
         doGetBook();
+
+        imgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     private void initView(){
         context = this;
         rvViewAllActivity = (RecyclerView)findViewById(R.id.RvViewAllActivity);
+        imgBack = (ImageView)findViewById(R.id.imgBack);
     }
 
     private void doGetBook(){

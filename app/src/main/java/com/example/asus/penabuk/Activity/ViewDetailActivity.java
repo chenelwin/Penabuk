@@ -1,8 +1,10 @@
 package com.example.asus.penabuk.Activity;
 
 import android.content.Context;
+import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +30,7 @@ public class ViewDetailActivity extends AppCompatActivity {
     TextView bookAuthor;
     TextView bookPublish;
     TextView bookPrice;
+    ImageView imgBack;
 
 
     @Override
@@ -36,6 +39,13 @@ public class ViewDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_detail);
         initView();
         doGetBookById();
+
+        imgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     private void initView(){
@@ -45,6 +55,7 @@ public class ViewDetailActivity extends AppCompatActivity {
         bookAuthor = (TextView)findViewById(R.id.bookAuthor);
         bookPublish = (TextView)findViewById(R.id.bookPublish);
         bookPrice = (TextView)findViewById(R.id.bookPrice);
+        imgBack = (ImageView)findViewById(R.id.imgBack);
     }
 
     private void doGetBookById(){

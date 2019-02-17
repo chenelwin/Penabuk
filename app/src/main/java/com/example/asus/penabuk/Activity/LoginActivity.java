@@ -17,6 +17,7 @@ import com.example.asus.penabuk.Model.ResUser;
 import com.example.asus.penabuk.R;
 import com.example.asus.penabuk.Remote.ApiUtils;
 import com.example.asus.penabuk.Remote.UserService;
+import com.example.asus.penabuk.SharedPreferences.SharedPrefManager;
 
 import java.io.IOException;
 
@@ -34,11 +35,19 @@ public class LoginActivity extends AppCompatActivity {
     Button btnLogin;
     Context context;
     ProgressDialog progressDialog;
+    SharedPrefManager sharedPrefManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         initView();
+
+        if(sharedPrefManager.getSPSudahLogin()){
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
 
         textForgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,6 +81,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void initView(){
+        sharedPrefManager = new SharedPrefManager(this);
         context = this;
         textForgotPassword = (TextView)findViewById(R.id.textForgotPassword);
         btnRegister = (Button)findViewById(R.id.btnRegister);
@@ -104,9 +114,21 @@ public class LoginActivity extends AppCompatActivity {
                 if(response.isSuccessful()){
                     ResUser resUser = response.body();
                     Toast.makeText(LoginActivity.this, "Welcome", Toast.LENGTH_LONG).show();
-                    String passingnama = resUser.getUser().getName();
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class)
                             .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                    String passingid = resUser.getUser().getId().toString();
+                    String passingnama = resUser.getUser().getName();
+                    String passingemail = resUser.getUser().getEmail();
+                    String passingnohp = resUser.getUser().getPhone_number();
+                    String passingbalance = resUser.getUser().getBalance().toString();
+                    sharedPrefManager.saveSPString(SharedPrefManager.SP_EMAIL, passingemail);
+                    sharedPrefManager.saveSPString(SharedPrefManager.SP_ID, passingid);
+                    sharedPrefManager.saveSPString(SharedPrefManager.SP_NAMA, passingnama);
+                    sharedPrefManager.saveSPString(SharedPrefManager.SP_BALANCE, passingbalance);
+                    sharedPrefManager.saveSPString(SharedPrefManager.SP_NOHP, passingnohp);
+                    sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_SUDAH_LOGIN, true);
+
                     progressDialog.dismiss();
                     startActivity(intent);
                     finish();
