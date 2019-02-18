@@ -25,7 +25,9 @@
         <activity android:name=".Activity.MainActivity" />
         <activity android:name=".Activity.ViewAllActivity" />
         <activity android:name=".Activity.ViewDetailActivity" />
-        <activity android:name=".Activity.PaymentDetailActivity"></activity>
+        <activity android:name=".Activity.PaymentDetailActivity" />
+        <activity android:name=".Activity.EditProfileActivity" />
+        <activity android:name=".Activity.AddAddressActivity"></activity>
     </application>
 
 </manifest>
