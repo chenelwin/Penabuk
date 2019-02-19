@@ -31,6 +31,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -39,30 +40,66 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Provinsi"/>
+            android:text="Provinsi"
+            android:textColor="#000"/>
         <Spinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:spinnerMode="dialog"
             android:id="@+id/spinnerProvinsi" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Kota"/>
+            android:text="Kota"
+            android:textColor="#000"/>
         <Spinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:spinnerMode="dialog"
             android:id="@+id/spinnerKota"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Kecamatan"/>
+            android:text="Kecamatan"
+            android:textColor="#000"/>
         <Spinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:spinnerMode="dialog"
             android:id="@+id/spinnerKecamatan"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kode Pos"
+            android:textColor="#000"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editKodepos"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Alamat"
+            android:textColor="#000"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editAlamat"/>
+
     </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="30dp"
+        android:text="Simpan"
+        android:textColor="#fff"
+        android:background="@drawable/mybutton"
+        android:id="@+id/btnSimpan"/>
 
 </LinearLayout>

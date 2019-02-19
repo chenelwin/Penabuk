@@ -1,10 +1,14 @@
 package com.example.asus.penabuk.Remote;
 
+import com.example.asus.penabuk.Model.Address;
+import com.example.asus.penabuk.Model.ReqAddress;
 import com.example.asus.penabuk.Model.ReqBook;
 import com.example.asus.penabuk.Model.ReqBookId;
 import com.example.asus.penabuk.Model.ReqCity;
+import com.example.asus.penabuk.Model.ReqDistrict;
 import com.example.asus.penabuk.Model.ReqProvince;
 import com.example.asus.penabuk.Model.ReqUser;
+import com.example.asus.penabuk.Model.ResAddAddress;
 import com.example.asus.penabuk.Model.ResUser;
 
 import retrofit2.Call;
@@ -21,6 +25,9 @@ public interface UserService {
     @POST("/register")
     Call<ResUser> registerRequest(@Body ReqUser reqUser);
 
+    @POST("/addresses")
+    Call<ResAddAddress> addAddressRequest(@Body Address address, @Query("token") Integer id);
+
     @GET("/books")
     Call<ReqBook> getBookRequest();
 
@@ -32,4 +39,10 @@ public interface UserService {
 
     @GET("/cities")
     Call<ReqCity> getCity(@Query("province_id") Integer id);
+
+    @GET("/districts")
+    Call<ReqDistrict> getDistrict(@Query("city_id") Integer id);
+
+    @GET("/addresses")
+    Call<ReqAddress> getAddress(@Query("token") Integer id);
 }
