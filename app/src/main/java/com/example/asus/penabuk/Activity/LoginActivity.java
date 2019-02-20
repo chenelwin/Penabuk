@@ -93,7 +93,6 @@ public class LoginActivity extends AppCompatActivity {
     private boolean validateLogin(String email, String password){
         if(email == null || email.trim().length() == 0){
             Toast.makeText(this, "Email is required", Toast.LENGTH_SHORT).show();
-            Log.e("email", email);
             return false;
         }
         if(password == null || password.trim().length() == 0){

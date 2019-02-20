@@ -68,6 +68,12 @@ public class EditProfileActivity extends AppCompatActivity {
         userId = Integer.parseInt(sharedPrefManager.getSPId());
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        doGetAddress(userId);
+    }
+
     private void doGetAddress(Integer id){
         Call<ReqAddress> call = userService.getAddress(id);
         call.enqueue(new Callback<ReqAddress>() {

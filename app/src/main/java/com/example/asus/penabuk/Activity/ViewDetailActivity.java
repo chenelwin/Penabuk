@@ -1,10 +1,12 @@
 package com.example.asus.penabuk.Activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,6 +18,10 @@ import com.example.asus.penabuk.R;
 import com.example.asus.penabuk.Remote.ApiUtils;
 import com.example.asus.penabuk.Remote.UserService;
 import com.squareup.picasso.Picasso;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,6 +37,8 @@ public class ViewDetailActivity extends AppCompatActivity {
     TextView bookPublish;
     TextView bookPrice;
     ImageView imgBack;
+    List<Book> passingbook;
+    Button btnBuy;
 
 
     @Override
@@ -46,6 +54,15 @@ public class ViewDetailActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        btnBuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ViewDetailActivity.this, PaymentDetailActivity.class);
+                intent.putExtra("passingbook", (Serializable)passingbook);
+                startActivity(intent);
+            }
+        });
     }
 
     private void initView(){
@@ -55,7 +72,9 @@ public class ViewDetailActivity extends AppCompatActivity {
         bookAuthor = (TextView)findViewById(R.id.bookAuthor);
         bookPublish = (TextView)findViewById(R.id.bookPublish);
         bookPrice = (TextView)findViewById(R.id.bookPrice);
+        passingbook = new ArrayList<Book>();
         imgBack = (ImageView)findViewById(R.id.imgBack);
+        btnBuy = (Button)findViewById(R.id.btnBuy);
     }
 
     private void doGetBookById(){
@@ -66,6 +85,7 @@ public class ViewDetailActivity extends AppCompatActivity {
             public void onResponse(Call<ReqBookId> call, Response<ReqBookId> response) {
                 ReqBookId reqBookId = response.body();
                 Book book = reqBookId.getBook();
+                passingbook.add(book);
                 bookTitle.setText(book.getOriginal_title());
                 bookAuthor.setText(book.getAuthors());
                 bookPublish.setText(book.getOriginal_publication_year());

@@ -133,7 +133,8 @@
                     android:layout_height="25dp"
                     android:layout_margin="5dp"
                     android:text="Buy"
-                    android:background="@drawable/myborder"/>
+                    android:background="@drawable/myborder"
+                    android:id="@+id/btnBuy"/>
             </LinearLayout>
 
         </LinearLayout>

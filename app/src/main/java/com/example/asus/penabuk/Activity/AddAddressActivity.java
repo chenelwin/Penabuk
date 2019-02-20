@@ -79,9 +79,12 @@ public class AddAddressActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String address_line = editAlamat.getText().toString();
-                Integer zip_code = Integer.parseInt(editKodepos.getText().toString());
+                String strzip_code = editKodepos.getText().toString();
                 Integer userId = Integer.parseInt(sharedPrefManager.getSPId());
-                doAddAddress(district_idselected, address_line, zip_code, userId);
+                if(validateAddAddress(strzip_code, address_line)){
+                    Integer zip_code = Integer.parseInt(strzip_code);
+                    doAddAddress(district_idselected, address_line, zip_code, userId);
+                }
             }
         });
     }
@@ -98,6 +101,18 @@ public class AddAddressActivity extends AppCompatActivity {
         btnSimpan = (Button)findViewById(R.id.btnSimpan);
         editAlamat = (EditText)findViewById(R.id.editAlamat);
         editKodepos = (EditText)findViewById(R.id.editKodepos);
+    }
+
+    private boolean validateAddAddress(String kodepos, String alamat){
+        if(kodepos == null || kodepos.trim().length() == 0){
+            Toast.makeText(this, "Kode Pos is required", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(alamat == null || alamat.trim().length() == 0){
+            Toast.makeText(this, "Alamat is required", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 
     private void doGetProvinces(){

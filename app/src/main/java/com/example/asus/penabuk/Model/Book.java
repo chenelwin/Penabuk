@@ -1,6 +1,8 @@
 package com.example.asus.penabuk.Model;
 
-public class Book {
+import java.io.Serializable;
+
+public class Book implements Serializable {
 
     private Integer id;
     private String authors;

@@ -25,6 +25,7 @@ import com.example.asus.penabuk.Model.ReqBook;
 import com.example.asus.penabuk.R;
 import com.example.asus.penabuk.Remote.ApiUtils;
 import com.example.asus.penabuk.Remote.UserService;
+import com.example.asus.penabuk.SharedPreferences.SharedPrefManager;
 
 import java.util.List;
 
@@ -35,7 +36,9 @@ import retrofit2.Response;
 public class HomeFragment extends Fragment {
 
     UserService userService = ApiUtils.getUserService();
+    SharedPrefManager sharedPrefManager;
     public View view;
+    TextView balance;
     TextView textLihatsemua;
     RecyclerView rvHomeFragment;
     HomeFragmentAdapter homeFragmentAdapter;
@@ -69,6 +72,9 @@ public class HomeFragment extends Fragment {
     }
 
     private void initView(){
+        sharedPrefManager = new SharedPrefManager(view.getContext());
+        balance = (TextView)view.findViewById(R.id.balance);
+        balance.setText("Rp. "+sharedPrefManager.getSPBalance());
         textLihatsemua = (TextView)view.findViewById(R.id.textLihatsemua);
         rvHomeFragment = (RecyclerView)view.findViewById(R.id.RvHomeFragment);
         btnTopup = (Button)view.findViewById(R.id.btnTopup);

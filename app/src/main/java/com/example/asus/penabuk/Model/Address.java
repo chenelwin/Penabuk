@@ -58,6 +58,6 @@ public class Address {
 
     @Override
     public String toString(){
-        return this.address_line+" "+this.zip_code+" "+this.district+" "+this.city+" "+this.province;
+        return this.address_line+" "+this.district+" "+this.city+" "+this.zip_code+" "+this.province;
     }
 }
