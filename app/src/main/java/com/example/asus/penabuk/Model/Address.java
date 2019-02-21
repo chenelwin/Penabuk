@@ -1,12 +1,21 @@
 package com.example.asus.penabuk.Model;
 
 public class Address {
+    private Integer id;
     private Integer district_id;
     private Integer zip_code;
     private String address_line;
     private String district;
     private String city;
     private String province;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public Integer getDistrict_id() {
         return district_id;

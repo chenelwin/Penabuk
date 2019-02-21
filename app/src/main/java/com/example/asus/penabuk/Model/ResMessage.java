@@ -1,6 +1,6 @@
 package com.example.asus.penabuk.Model;
 
-public class ResAddAddress {
+public class ResMessage {
     private String message;
 
     public String getMessage() {

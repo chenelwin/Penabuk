@@ -1,15 +1,19 @@
 package com.example.asus.penabuk.Remote;
 
 import com.example.asus.penabuk.Model.Address;
+import com.example.asus.penabuk.Model.BookPayment;
 import com.example.asus.penabuk.Model.ReqAddress;
 import com.example.asus.penabuk.Model.ReqBook;
 import com.example.asus.penabuk.Model.ReqBookId;
 import com.example.asus.penabuk.Model.ReqCity;
 import com.example.asus.penabuk.Model.ReqDistrict;
+import com.example.asus.penabuk.Model.ReqPayment;
 import com.example.asus.penabuk.Model.ReqProvince;
 import com.example.asus.penabuk.Model.ReqUser;
-import com.example.asus.penabuk.Model.ResAddAddress;
+import com.example.asus.penabuk.Model.ResMessage;
 import com.example.asus.penabuk.Model.ResUser;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -26,7 +30,10 @@ public interface UserService {
     Call<ResUser> registerRequest(@Body ReqUser reqUser);
 
     @POST("/addresses")
-    Call<ResAddAddress> addAddressRequest(@Body Address address, @Query("token") Integer id);
+    Call<ResMessage> addAddressRequest(@Body Address address, @Query("token") Integer id);
+
+    @POST("/payments")
+    Call<ResMessage> paymentRequest(@Body ReqPayment reqPayment, @Query("token") Integer id);
 
     @GET("/books")
     Call<ReqBook> getBookRequest();

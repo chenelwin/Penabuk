@@ -1,10 +1,8 @@
 package com.example.asus.penabuk.Activity;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -18,22 +16,16 @@ import com.example.asus.penabuk.Model.Address;
 import com.example.asus.penabuk.Model.City;
 import com.example.asus.penabuk.Model.District;
 import com.example.asus.penabuk.Model.Province;
-import com.example.asus.penabuk.Model.ReqAddress;
 import com.example.asus.penabuk.Model.ReqCity;
 import com.example.asus.penabuk.Model.ReqDistrict;
 import com.example.asus.penabuk.Model.ReqProvince;
-import com.example.asus.penabuk.Model.ResAddAddress;
+import com.example.asus.penabuk.Model.ResMessage;
 import com.example.asus.penabuk.R;
 import com.example.asus.penabuk.Remote.ApiUtils;
 import com.example.asus.penabuk.Remote.UserService;
 import com.example.asus.penabuk.SharedPreferences.SharedPrefManager;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -221,17 +213,17 @@ public class AddAddressActivity extends AppCompatActivity {
         address.setDistrict_id(district_id);
         address.setAddress_line(address_line);
         address.setZip_code(zip_code);
-        Call<ResAddAddress> call = userService.addAddressRequest(address, userId);
-        call.enqueue(new Callback<ResAddAddress>() {
+        Call<ResMessage> call = userService.addAddressRequest(address, userId);
+        call.enqueue(new Callback<ResMessage>() {
             @Override
-            public void onResponse(Call<ResAddAddress> call, Response<ResAddAddress> response) {
-                ResAddAddress resAddAddress = response.body();
-                Toast.makeText(AddAddressActivity.this, resAddAddress.getMessage(), Toast.LENGTH_LONG).show();
+            public void onResponse(Call<ResMessage> call, Response<ResMessage> response) {
+                ResMessage resMessage = response.body();
+                Toast.makeText(AddAddressActivity.this, resMessage.getMessage(), Toast.LENGTH_LONG).show();
                 finish();
             }
 
             @Override
-            public void onFailure(Call<ResAddAddress> call, Throwable t) {
+            public void onFailure(Call<ResMessage> call, Throwable t) {
                 Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });

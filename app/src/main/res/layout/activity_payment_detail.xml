@@ -77,7 +77,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Bayar"
-            android:background="@drawable/myborder"/>
+            android:background="@drawable/myborder"
+            android:id="@+id/btnPay"/>
     </LinearLayout>
 
 </LinearLayout>
