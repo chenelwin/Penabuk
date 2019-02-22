@@ -22,6 +22,7 @@ import com.example.asus.penabuk.Adapter.HomeFragmentAdapter;
 import com.example.asus.penabuk.Adapter.ViewAllAdapter;
 import com.example.asus.penabuk.Model.Book;
 import com.example.asus.penabuk.Model.ReqBook;
+import com.example.asus.penabuk.Model.ResUser;
 import com.example.asus.penabuk.R;
 import com.example.asus.penabuk.Remote.ApiUtils;
 import com.example.asus.penabuk.Remote.UserService;
@@ -44,6 +45,7 @@ public class HomeFragment extends Fragment {
     HomeFragmentAdapter homeFragmentAdapter;
     List<Book> books;
     Button btnTopup;
+    Integer userId;
 
     @Nullable
     @Override
@@ -73,6 +75,7 @@ public class HomeFragment extends Fragment {
 
     private void initView(){
         sharedPrefManager = new SharedPrefManager(view.getContext());
+        userId = Integer.parseInt(sharedPrefManager.getSPId());
         balance = (TextView)view.findViewById(R.id.balance);
         balance.setText("Rp. "+sharedPrefManager.getSPBalance());
         textLihatsemua = (TextView)view.findViewById(R.id.textLihatsemua);
@@ -80,8 +83,14 @@ public class HomeFragment extends Fragment {
         btnTopup = (Button)view.findViewById(R.id.btnTopup);
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        doGetUser(userId);
+    }
+
     private void doGetBook(){
-        Call<ReqBook> call = userService.getBookRequest();
+        Call<ReqBook> call = userService.getBookRequest(userId, 1);
         call.enqueue(new Callback<ReqBook>() {
             @Override
             public void onResponse(Call<ReqBook> call, Response<ReqBook> response) {
@@ -96,6 +105,24 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onFailure(Call<ReqBook> call, Throwable t) {
+                Toast.makeText(view.getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void doGetUser(Integer id){
+        Call<ResUser> call = userService.getUser(id);
+        call.enqueue(new Callback<ResUser>() {
+            @Override
+            public void onResponse(Call<ResUser> call, Response<ResUser> response) {
+                ResUser resUser = response.body();
+                String updbalance = resUser.getUser().getBalance().toString();
+                sharedPrefManager.saveSPString(SharedPrefManager.SP_BALANCE, updbalance);
+                balance.setText("Rp. " + sharedPrefManager.getSPBalance());
+            }
+
+            @Override
+            public void onFailure(Call<ResUser> call, Throwable t) {
                 Toast.makeText(view.getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });

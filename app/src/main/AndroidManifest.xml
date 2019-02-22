@@ -11,23 +11,34 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.LoginActivity">
+        <activity android:name=".Activity.LoginActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.ForgotPasswordActivity" />
-        <activity android:name=".Activity.ChangePasswordActivity" />
-        <activity android:name=".Activity.TopUpActivity" />
-        <activity android:name=".Activity.RegisterActivity" />
-        <activity android:name=".Activity.MainActivity" />
-        <activity android:name=".Activity.ViewAllActivity" />
-        <activity android:name=".Activity.ViewDetailActivity" />
-        <activity android:name=".Activity.PaymentDetailActivity" />
-        <activity android:name=".Activity.EditProfileActivity" />
-        <activity android:name=".Activity.AddAddressActivity"></activity>
+        <activity android:name=".Activity.ForgotPasswordActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activity.ChangePasswordActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activity.TopUpActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activity.RegisterActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activity.MainActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activity.ViewAllActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activity.ViewDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activity.PaymentDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activity.EditProfileActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activity.AddAddressActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

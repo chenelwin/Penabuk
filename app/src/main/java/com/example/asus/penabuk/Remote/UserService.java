@@ -2,6 +2,7 @@ package com.example.asus.penabuk.Remote;
 
 import com.example.asus.penabuk.Model.Address;
 import com.example.asus.penabuk.Model.BookPayment;
+import com.example.asus.penabuk.Model.Payment;
 import com.example.asus.penabuk.Model.ReqAddress;
 import com.example.asus.penabuk.Model.ReqBook;
 import com.example.asus.penabuk.Model.ReqBookId;
@@ -33,10 +34,10 @@ public interface UserService {
     Call<ResMessage> addAddressRequest(@Body Address address, @Query("token") Integer id);
 
     @POST("/payments")
-    Call<ResMessage> paymentRequest(@Body ReqPayment reqPayment, @Query("token") Integer id);
+    Call<ResMessage> paymentRequest(@Body List<Payment> payments, @Query("token") Integer id);
 
     @GET("/books")
-    Call<ReqBook> getBookRequest();
+    Call<ReqBook> getBookRequest(@Query("token") Integer id, @Query("page") Integer page);
 
     @GET("/books/{id}")
     Call<ReqBookId> getBookById(@Path("id") Integer id);
@@ -52,4 +53,7 @@ public interface UserService {
 
     @GET("/addresses")
     Call<ReqAddress> getAddress(@Query("token") Integer id);
+
+    @GET("/users")
+    Call<ResUser> getUser(@Query("token") Integer id);
 }

@@ -1,5 +1,6 @@
 package com.example.asus.penabuk.Activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -7,10 +8,12 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -51,7 +54,8 @@ public class PaymentDetailActivity extends AppCompatActivity {
     RecyclerView rvPaymentDetailActivity;
     PaymentDetailAdapter paymentDetailAdapter;
     List<BookPayment> bookPayments;
-
+    ProgressDialog progressDialog;
+    ImageView imgBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,9 +64,17 @@ public class PaymentDetailActivity extends AppCompatActivity {
         initView();
         doGetAddress(userId);
 
+        imgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
         btnPay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progressDialog = ProgressDialog.show(context, null, "Please Wait..", true);
                 doPayment(userId, bookPayments);
             }
         });
@@ -73,6 +85,7 @@ public class PaymentDetailActivity extends AppCompatActivity {
         sharedPrefManager = new SharedPrefManager(context);
         spinnerAlamat = (Spinner)findViewById(R.id.spinnerAlamat);
         btnPay = (Button)findViewById(R.id.btnPay);
+        imgBack = (ImageView)findViewById(R.id.imgBack);
         userId = Integer.parseInt(sharedPrefManager.getSPId());
         rvPaymentDetailActivity = (RecyclerView)findViewById(R.id.RvPaymentDetail);
         bookPayments = new ArrayList<BookPayment>();
@@ -127,17 +140,19 @@ public class PaymentDetailActivity extends AppCompatActivity {
     }
 
     private void doPayment(Integer id, List<BookPayment> bookPayments){
-        ReqPayment reqPayment = new ReqPayment();
+        //ReqPayment reqPayment = new ReqPayment();
         List<Payment> payments = new ArrayList<>();
         for(int i=0; i<bookPayments.size(); i++){
             Payment payment = new Payment();
             payment.setBook_id(bookPayments.get(i).getBook().getId());
             payment.setAddress_id(addressId);
             payment.setCount(bookPayments.get(i).getCount());
+            //Log.e("testing", ""+payment.getBook_id()+payment.getAddress_id()+payment.getCount());
             payments.add(payment);
         }
-        reqPayment.setPayments(payments);
-        Call<ResMessage> call = userService.paymentRequest(reqPayment, id);
+        //reqPayment.setPayments(payments);
+
+        Call<ResMessage> call = userService.paymentRequest(payments, id);
         call.enqueue(new Callback<ResMessage>() {
             @Override
             public void onResponse(Call<ResMessage> call, Response<ResMessage> response) {
@@ -147,6 +162,7 @@ public class PaymentDetailActivity extends AppCompatActivity {
                     Intent intent = new Intent(PaymentDetailActivity.this, MainActivity.class)
                             .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
+                    progressDialog.dismiss();
                     finish();
                 }
                 else {
@@ -155,12 +171,14 @@ public class PaymentDetailActivity extends AppCompatActivity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+                    progressDialog.dismiss();
                 }
             }
 
             @Override
             public void onFailure(Call<ResMessage> call, Throwable t) {
                 Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
             }
         });
     }
