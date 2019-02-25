@@ -6,6 +6,7 @@ import com.example.asus.penabuk.Model.Payment;
 import com.example.asus.penabuk.Model.ReqAddress;
 import com.example.asus.penabuk.Model.ReqBook;
 import com.example.asus.penabuk.Model.ReqBookId;
+import com.example.asus.penabuk.Model.ReqChangePassword;
 import com.example.asus.penabuk.Model.ReqCity;
 import com.example.asus.penabuk.Model.ReqDistrict;
 import com.example.asus.penabuk.Model.ReqPayment;
@@ -13,6 +14,7 @@ import com.example.asus.penabuk.Model.ReqProvince;
 import com.example.asus.penabuk.Model.ReqUser;
 import com.example.asus.penabuk.Model.ResMessage;
 import com.example.asus.penabuk.Model.ResUser;
+import com.example.asus.penabuk.Model.User;
 
 import java.util.List;
 
@@ -35,6 +37,12 @@ public interface UserService {
 
     @POST("/payments")
     Call<ResMessage> paymentRequest(@Body List<Payment> payments, @Query("token") Integer id);
+
+    @POST("/users/profile")
+    Call<ResMessage> changeProfileRequest(@Body User user, @Query("token") Integer id);
+
+    @POST("/users/password")
+    Call<ResMessage> changePasswordRequest(@Body ReqChangePassword reqChangePassword, @Query("token") Integer id);
 
     @GET("/books")
     Call<ReqBook> getBookRequest(@Query("token") Integer id, @Query("page") Integer page);

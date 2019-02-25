@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.asus.penabuk.Activity.ChangePasswordActivity;
 import com.example.asus.penabuk.Activity.EditProfileActivity;
@@ -22,6 +23,7 @@ public class ProfileFragment extends Fragment {
     LinearLayout btnChangePassword;
     LinearLayout btnLogout;
     SharedPrefManager sharedPrefManager;
+    TextView profileNama;
 
     @Nullable
     @Override
@@ -65,8 +67,16 @@ public class ProfileFragment extends Fragment {
 
     private void initView(){
         sharedPrefManager = new SharedPrefManager(view.getContext());
+        profileNama = (TextView)view.findViewById(R.id.profileNama);
+        profileNama.setText(sharedPrefManager.getSPNama());
         btnEditProfile = (LinearLayout)view.findViewById(R.id.btnEditProfile);
         btnChangePassword = (LinearLayout)view.findViewById(R.id.btnChangePassword);
         btnLogout = (LinearLayout)view.findViewById(R.id.btnLogout);
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        profileNama.setText(sharedPrefManager.getSPNama());
     }
 }
