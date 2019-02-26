@@ -9,6 +9,8 @@ import com.example.asus.penabuk.Model.ReqBookId;
 import com.example.asus.penabuk.Model.ReqChangePassword;
 import com.example.asus.penabuk.Model.ReqCity;
 import com.example.asus.penabuk.Model.ReqDistrict;
+import com.example.asus.penabuk.Model.ReqHistory;
+import com.example.asus.penabuk.Model.ReqHistoryId;
 import com.example.asus.penabuk.Model.ReqPayment;
 import com.example.asus.penabuk.Model.ReqProvince;
 import com.example.asus.penabuk.Model.ReqUser;
@@ -64,4 +66,10 @@ public interface UserService {
 
     @GET("/users")
     Call<ResUser> getUser(@Query("token") Integer id);
+
+    @GET("/histories")
+    Call<ReqHistory> getHistory(@Query("token") Integer id);
+
+    @GET("/histories/{order_id}")
+    Call<ReqHistoryId> getHistoryById(@Path("order_id") String orderId, @Query("token") Integer userId);
 }

@@ -73,7 +73,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 String name = editName.getText().toString();
                 String phone_number = editPhonenumber.getText().toString();
                 if(validateChangeProfile(name,phone_number)) {
-                    progressDialog.show(context, null, "Please Wait..", true);
+                    progressDialog = ProgressDialog.show(context, null, "Please Wait..", true);
                     doChangeProfile(userId, name, phone_number);
                 }
             }
@@ -147,6 +147,7 @@ public class EditProfileActivity extends AppCompatActivity {
                     sharedPrefManager.saveSPString(SharedPrefManager.SP_NAMA, name);
                     sharedPrefManager.saveSPString(SharedPrefManager.SP_NOHP, phone_number);
                     finish();
+                    progressDialog.dismiss();
                 }
                 else {
                     try {
