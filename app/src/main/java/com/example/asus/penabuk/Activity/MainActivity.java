@@ -14,7 +14,7 @@ import android.view.MenuItem;
 import com.example.asus.penabuk.Fragment.HistoryFragment;
 import com.example.asus.penabuk.Fragment.HomeFragment;
 import com.example.asus.penabuk.Fragment.ProfileFragment;
-import com.example.asus.penabuk.Fragment.WishlistFragment;
+import com.example.asus.penabuk.Fragment.CartFragment;
 import com.example.asus.penabuk.R;
 
 import java.lang.reflect.Field;
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
                     selectedFragment = new HomeFragment();
                     break;
                 case R.id.nav_wishlist:
-                    selectedFragment = new WishlistFragment();
+                    selectedFragment = new CartFragment();
                     break;
                 case R.id.nav_history:
                     selectedFragment = new HistoryFragment();
