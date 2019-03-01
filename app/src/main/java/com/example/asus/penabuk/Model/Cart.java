@@ -2,7 +2,8 @@ package com.example.asus.penabuk.Model;
 
 public class Cart {
     private Integer cart_id;
-    private Book book;
+    private Book Book;
+    private boolean isSelected;
 
     public Integer getCart_id() {
         return cart_id;
@@ -13,10 +14,18 @@ public class Cart {
     }
 
     public Book getBook() {
-        return book;
+        return Book;
     }
 
     public void setBook(Book book) {
-        this.book = book;
+        this.Book = book;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 }

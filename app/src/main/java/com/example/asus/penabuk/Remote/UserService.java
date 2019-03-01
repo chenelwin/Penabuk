@@ -1,7 +1,6 @@
 package com.example.asus.penabuk.Remote;
 
 import com.example.asus.penabuk.Model.Address;
-import com.example.asus.penabuk.Model.BookPayment;
 import com.example.asus.penabuk.Model.Payment;
 import com.example.asus.penabuk.Model.ReqAddress;
 import com.example.asus.penabuk.Model.ReqBook;
@@ -12,7 +11,6 @@ import com.example.asus.penabuk.Model.ReqCity;
 import com.example.asus.penabuk.Model.ReqDistrict;
 import com.example.asus.penabuk.Model.ReqHistory;
 import com.example.asus.penabuk.Model.ReqHistoryId;
-import com.example.asus.penabuk.Model.ReqPayment;
 import com.example.asus.penabuk.Model.ReqProvince;
 import com.example.asus.penabuk.Model.ReqUser;
 import com.example.asus.penabuk.Model.ResMessage;
@@ -76,4 +74,5 @@ public interface UserService {
 
     @GET("/carts")
     Call<ReqCart> getCart(@Query("token") Integer id);
+
 }
