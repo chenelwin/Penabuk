@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.asus.penabuk.Model.Book;
+import com.example.asus.penabuk.Model.BookPayment;
 import com.example.asus.penabuk.Model.ReqBook;
 import com.example.asus.penabuk.Model.ReqBookId;
 import com.example.asus.penabuk.R;
@@ -38,6 +39,7 @@ public class ViewDetailActivity extends AppCompatActivity {
     TextView bookPrice;
     ImageView imgBack;
     List<Book> passingbook;
+    List<Integer> passingcartid;
     Button btnBuy;
 
 
@@ -60,6 +62,7 @@ public class ViewDetailActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(ViewDetailActivity.this, PaymentDetailActivity.class);
                 intent.putExtra("passingbook", (Serializable)passingbook);
+                intent.putExtra("passingcartid", (Serializable)passingcartid);
                 startActivity(intent);
             }
         });
@@ -72,7 +75,8 @@ public class ViewDetailActivity extends AppCompatActivity {
         bookAuthor = (TextView)findViewById(R.id.bookAuthor);
         bookPublish = (TextView)findViewById(R.id.bookPublish);
         bookPrice = (TextView)findViewById(R.id.bookPrice);
-        passingbook = new ArrayList<Book>();
+        passingbook = new ArrayList<>();
+        passingcartid = new ArrayList<>();
         imgBack = (ImageView)findViewById(R.id.imgBack);
         btnBuy = (Button)findViewById(R.id.btnBuy);
     }
@@ -86,6 +90,7 @@ public class ViewDetailActivity extends AppCompatActivity {
                 ReqBookId reqBookId = response.body();
                 Book book = reqBookId.getBook();
                 passingbook.add(book);
+                passingcartid.add(null);
                 bookTitle.setText(book.getOriginal_title());
                 bookAuthor.setText(book.getAuthors());
                 bookPublish.setText(book.getOriginal_publication_year());

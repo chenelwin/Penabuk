@@ -45,6 +45,7 @@ public class CartFragment extends Fragment {
     CartFragmentAdapter cartFragmentAdapter;
     List<Cart> carts;
     List<Book> passingbuku;
+    List<Integer> passingcartid;
     Integer userId;
 
     @Nullable
@@ -59,6 +60,7 @@ public class CartFragment extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), PaymentDetailActivity.class);
                 intent.putExtra("passingbook", (Serializable)passingbuku);
+                intent.putExtra("passingcartid", (Serializable)passingcartid);
                 startActivity(intent);
             }
         });
@@ -86,6 +88,7 @@ public class CartFragment extends Fragment {
         checkAll = (CheckBox)view.findViewById(R.id.checkAll);
         btnBuy = (Button)view.findViewById(R.id.btnBuy);
         passingbuku = new ArrayList<>();
+        passingcartid = new ArrayList<>();
     }
 
     public void doGetCart(Integer id){
@@ -98,12 +101,17 @@ public class CartFragment extends Fragment {
                 for(int i=0; i<carts.size(); i++){
                     Book book = carts.get(i).getBook();
                     passingbuku.add(book);
+                    Integer cartid = carts.get(i).getCart_id();
+                    passingcartid.add(cartid);
+                    Log.e("cart", "ke-"+cartid);
                 }
+
                 cartFragmentAdapter = new CartFragmentAdapter(carts);
 
                 rvCartFragment.setLayoutManager(new LinearLayoutManager(view.getContext()));
                 rvCartFragment.setItemAnimator(new DefaultItemAnimator());
                 rvCartFragment.setAdapter(cartFragmentAdapter);
+                Log.e("selesai", "size" + passingbuku.size());
             }
 
             @Override

@@ -88,20 +88,24 @@ public class PaymentDetailActivity extends AppCompatActivity {
         imgBack = (ImageView)findViewById(R.id.imgBack);
         userId = Integer.parseInt(sharedPrefManager.getSPId());
         rvPaymentDetailActivity = (RecyclerView)findViewById(R.id.RvPaymentDetail);
-        bookPayments = new ArrayList<BookPayment>();
+        bookPayments = new ArrayList<>();
         List<Book> books = (List<Book>)getIntent().getSerializableExtra("passingbook");
-        initBook(books);
+        List<Integer> passingcartid = (List<Integer>)getIntent().getSerializableExtra("passingcartid");
+        initBook(books, passingcartid);
         paymentDetailAdapter = new PaymentDetailAdapter(bookPayments);
+        paymentDetailAdapter.notifyDataSetChanged();
         rvPaymentDetailActivity.setLayoutManager(new LinearLayoutManager(context));
         rvPaymentDetailActivity.setItemAnimator(new DefaultItemAnimator());
         rvPaymentDetailActivity.setAdapter(paymentDetailAdapter);
     }
 
-    private void initBook(List<Book> books){
+    private void initBook(List<Book> books, List<Integer> passingcartid){
+        bookPayments.clear();
         for(int i=0; i<books.size(); i++){
             BookPayment bookPayment = new BookPayment();
             bookPayment.setBook(books.get(i));
             bookPayment.setCount(1);
+            bookPayment.setCart_id(passingcartid.get(i));
             bookPayments.add(bookPayment);
         }
     }
@@ -140,14 +144,15 @@ public class PaymentDetailActivity extends AppCompatActivity {
     }
 
     private void doPayment(Integer id, List<BookPayment> bookPayments){
-        //ReqPayment reqPayment = new ReqPayment();
         List<Payment> payments = new ArrayList<>();
         for(int i=0; i<bookPayments.size(); i++){
             Payment payment = new Payment();
             payment.setBook_id(bookPayments.get(i).getBook().getId());
             payment.setAddress_id(addressId);
             payment.setCount(bookPayments.get(i).getCount());
-            //Log.e("testing", ""+payment.getBook_id()+payment.getAddress_id()+payment.getCount());
+            if(bookPayments.get(i).getCart_id()!=null){
+                payment.setCart_id(bookPayments.get(i).getCart_id());
+            }
             payments.add(payment);
         }
         //reqPayment.setPayments(payments);
