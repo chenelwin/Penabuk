@@ -1,5 +1,6 @@
 package com.example.asus.penabuk.Activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.media.Image;
@@ -13,13 +14,17 @@ import android.widget.Toast;
 
 import com.example.asus.penabuk.Model.Book;
 import com.example.asus.penabuk.Model.BookPayment;
+import com.example.asus.penabuk.Model.Payment;
 import com.example.asus.penabuk.Model.ReqBook;
 import com.example.asus.penabuk.Model.ReqBookId;
+import com.example.asus.penabuk.Model.ResMessage;
 import com.example.asus.penabuk.R;
 import com.example.asus.penabuk.Remote.ApiUtils;
 import com.example.asus.penabuk.Remote.UserService;
+import com.example.asus.penabuk.SharedPreferences.SharedPrefManager;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,16 +36,20 @@ import retrofit2.Response;
 public class ViewDetailActivity extends AppCompatActivity {
 
     UserService userService = ApiUtils.getUserService();
+    SharedPrefManager sharedPrefManager;
     Context context;
     ImageView bookImg;
     TextView bookTitle;
     TextView bookAuthor;
     TextView bookPublish;
     TextView bookPrice;
+    Integer userId;
     ImageView imgBack;
     List<Book> passingbook;
     List<Integer> passingcartid;
+    Button btnAdd;
     Button btnBuy;
+    ProgressDialog progressDialog;
 
 
     @Override
@@ -57,6 +66,15 @@ public class ViewDetailActivity extends AppCompatActivity {
             }
         });
 
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                progressDialog = ProgressDialog.show(context, null, "Please Wait..", true);
+                Integer bookid = getIntent().getIntExtra("bookid", 0);
+                doAddCart(bookid, userId);
+            }
+        });
+
         btnBuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -70,6 +88,8 @@ public class ViewDetailActivity extends AppCompatActivity {
 
     private void initView(){
         context = this;
+        sharedPrefManager = new SharedPrefManager(context);
+        userId = Integer.parseInt(sharedPrefManager.getSPId());
         bookImg = (ImageView)findViewById(R.id.bookImg);
         bookTitle = (TextView)findViewById(R.id.bookTitle);
         bookAuthor = (TextView)findViewById(R.id.bookAuthor);
@@ -78,6 +98,7 @@ public class ViewDetailActivity extends AppCompatActivity {
         passingbook = new ArrayList<>();
         passingcartid = new ArrayList<>();
         imgBack = (ImageView)findViewById(R.id.imgBack);
+        btnAdd = (Button)findViewById(R.id.btnAdd);
         btnBuy = (Button)findViewById(R.id.btnBuy);
     }
 
@@ -106,6 +127,36 @@ public class ViewDetailActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<ReqBookId> call, Throwable t) {
                 Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void doAddCart(Integer book_id, Integer userId){
+        final Payment payment = new Payment();
+        payment.setBook_id(book_id);
+        Call<ResMessage> call = userService.addCartRequest(payment, userId);
+        call.enqueue(new Callback<ResMessage>() {
+            @Override
+            public void onResponse(Call<ResMessage> call, Response<ResMessage> response) {
+                if(response.isSuccessful()){
+                    ResMessage resMessage = response.body();
+                    Toast.makeText(context, resMessage.getMessage(), Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+                }
+                else {
+                    try {
+                        Toast.makeText(context, response.errorBody().string(), Toast.LENGTH_SHORT).show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    progressDialog.dismiss();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResMessage> call, Throwable t) {
+                Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
             }
         });
     }

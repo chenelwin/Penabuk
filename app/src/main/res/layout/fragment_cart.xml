@@ -68,7 +68,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Buy"
-            android:background="@drawable/myborder"
+            android:background="@drawable/mybutton"
+            android:textColor="#fff"
             android:id="@+id/btnBuy"/>
     </LinearLayout>
 

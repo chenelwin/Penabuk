@@ -45,6 +45,12 @@ public interface UserService {
     @POST("/users/password")
     Call<ResMessage> changePasswordRequest(@Body ReqChangePassword reqChangePassword, @Query("token") Integer id);
 
+    @POST("/users/password/reset")
+    Call<ResMessage> resetPasswordRequest(@Body User user);
+
+    @POST("/carts")
+    Call<ResMessage> addCartRequest(@Body Payment payment, @Query("token") Integer id);
+
     @GET("/books")
     Call<ReqBook> getBookRequest(@Query("token") Integer id, @Query("page") Integer page);
 

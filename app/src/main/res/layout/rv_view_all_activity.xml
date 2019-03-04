@@ -54,10 +54,6 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:gravity="right">
-                <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/checkbox"/>
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -67,15 +63,7 @@
                     <Button
                         android:layout_width="120dp"
                         android:layout_height="25dp"
-                        android:text="View Details"
-                        android:textSize="12sp"
-                        android:layout_margin="3dp"
-                        android:background="@drawable/myborder"
-                        android:id="@+id/btnView"/>
-                    <Button
-                        android:layout_width="120dp"
-                        android:layout_height="25dp"
-                        android:text="Add to Wishlist"
+                        android:text="Add to Cart"
                         android:textSize="12sp"
                         android:layout_margin="3dp"
                         android:background="@drawable/myborder"

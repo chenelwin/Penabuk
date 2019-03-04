@@ -1,5 +1,6 @@
 package com.example.asus.penabuk.Activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,19 +15,22 @@ import android.widget.Toast;
 
 import com.example.asus.penabuk.Adapter.ViewAllAdapter;
 import com.example.asus.penabuk.Model.Book;
+import com.example.asus.penabuk.Model.Payment;
 import com.example.asus.penabuk.Model.ReqBook;
+import com.example.asus.penabuk.Model.ResMessage;
 import com.example.asus.penabuk.R;
 import com.example.asus.penabuk.Remote.ApiUtils;
 import com.example.asus.penabuk.Remote.UserService;
 import com.example.asus.penabuk.SharedPreferences.SharedPrefManager;
 
+import java.io.IOException;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ViewAllActivity extends AppCompatActivity {
+public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter.PassingBtnAdd {
 
     UserService userService = ApiUtils.getUserService();
     SharedPrefManager sharedPrefManager;
@@ -37,6 +41,7 @@ public class ViewAllActivity extends AppCompatActivity {
     List<Book> books;
     ImageView imgBack;
     Integer userId;
+    ProgressDialog progressDialog;
 
     //EndlessScroll
     private int previousTotal = 0;
@@ -63,9 +68,16 @@ public class ViewAllActivity extends AppCompatActivity {
     private void initView(){
         context = this;
         sharedPrefManager = new SharedPrefManager(context);
+        ViewAllAdapter.passingBtnAdd = this;
         rvViewAllActivity = (RecyclerView)findViewById(R.id.RvViewAllActivity);
         imgBack = (ImageView)findViewById(R.id.imgBack);
         userId = Integer.parseInt(sharedPrefManager.getSPId());
+    }
+
+    @Override
+    public void passData(Integer book_id, int position){
+        progressDialog = ProgressDialog.show(context, null, "Please Wait..", true);
+        doAddCart(books.get(position).getId(), userId);
     }
 
     private void doGetBook(Integer id, Integer page){
@@ -87,6 +99,36 @@ public class ViewAllActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<ReqBook> call, Throwable t) {
                 Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void doAddCart(Integer book_id, Integer userId){
+        final Payment payment = new Payment();
+        payment.setBook_id(book_id);
+        Call<ResMessage> call = userService.addCartRequest(payment, userId);
+        call.enqueue(new Callback<ResMessage>() {
+            @Override
+            public void onResponse(Call<ResMessage> call, Response<ResMessage> response) {
+                if(response.isSuccessful()){
+                    ResMessage resMessage = response.body();
+                    Toast.makeText(context, resMessage.getMessage(), Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+                }
+                else {
+                    try {
+                        Toast.makeText(context, response.errorBody().string(), Toast.LENGTH_SHORT).show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    progressDialog.dismiss();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResMessage> call, Throwable t) {
+                Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
             }
         });
     }

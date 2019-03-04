@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.asus.penabuk.Activity.ViewDetailActivity;
 import com.example.asus.penabuk.Model.Book;
@@ -22,6 +23,12 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 public class ViewAllAdapter extends RecyclerView.Adapter<ViewAllAdapter.ViewHolder> {
+
+    public interface PassingBtnAdd{
+        void passData(Integer book_id, int position);
+    }
+
+    public static PassingBtnAdd passingBtnAdd;
 
     List<Book> books;
     Context context;
@@ -37,7 +44,7 @@ public class ViewAllAdapter extends RecyclerView.Adapter<ViewAllAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(ViewAllAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewAllAdapter.ViewHolder holder, final int position) {
         final Book book = books.get(holder.getAdapterPosition());
         holder.bookTitle.setText(book.getOriginal_title());
         holder.bookPrice.setText("Rp. " + book.getPrice());
@@ -49,7 +56,14 @@ public class ViewAllAdapter extends RecyclerView.Adapter<ViewAllAdapter.ViewHold
                 .centerCrop()
                 .into(holder.bookImg);
 
-        holder.btnView.setOnClickListener(new View.OnClickListener() {
+        holder.btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                passingBtnAdd.passData(book.getId(), position);
+            }
+        });
+
+        holder.cv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), ViewDetailActivity.class);
@@ -57,6 +71,8 @@ public class ViewAllAdapter extends RecyclerView.Adapter<ViewAllAdapter.ViewHold
                 view.getContext().startActivity(intent);
             }
         });
+
+
     }
 
     @Override
@@ -69,8 +85,6 @@ public class ViewAllAdapter extends RecyclerView.Adapter<ViewAllAdapter.ViewHold
         TextView bookTitle;
         TextView bookPrice;
         RatingBar bookRating;
-        CheckBox checkbox;
-        Button btnView;
         Button btnAdd;
         CardView cv;
 
@@ -80,8 +94,6 @@ public class ViewAllAdapter extends RecyclerView.Adapter<ViewAllAdapter.ViewHold
             bookTitle = (TextView)itemView.findViewById(R.id.bookTitle);
             bookPrice = (TextView)itemView.findViewById(R.id.bookPrice);
             bookRating = (RatingBar)itemView.findViewById(R.id.bookRating);
-            checkbox = (CheckBox)itemView.findViewById(R.id.checkbox);
-            btnView = (Button)itemView.findViewById(R.id.btnView);
             btnAdd = (Button)itemView.findViewById(R.id.btnAdd);
             cv = (CardView)itemView.findViewById(R.id.cvViewAllActivity);
         }
