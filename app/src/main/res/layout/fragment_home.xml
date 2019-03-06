@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <LinearLayout
@@ -54,11 +54,16 @@
         </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
+    <com.synnapps.carouselview.CarouselView
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginBottom="5dp"
-        android:background="@drawable/myborder"/>
+        android:layout_height="100dp"
+        app:pageColor="#fff"
+        app:fillColor="@color/colorPrimaryDark"
+        app:slideInterval="3000"
+        app:radius="6dp"
+        app:strokeColor="#000"
+        app:strokeWidth="1dp"
+        android:id="@+id/carousel"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -82,11 +87,24 @@
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
+        android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#fff"
         android:id="@+id/RvHomeFragment"
         android:scrollbars="vertical">
     </android.support.v7.widget.RecyclerView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#aaaaaa"
+        android:gravity="center">
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:id="@+id/loadingNext"/>
+    </LinearLayout>
 
 </LinearLayout>

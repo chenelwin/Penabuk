@@ -13,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +29,9 @@ import com.example.asus.penabuk.R;
 import com.example.asus.penabuk.Remote.ApiUtils;
 import com.example.asus.penabuk.Remote.UserService;
 import com.example.asus.penabuk.SharedPreferences.SharedPrefManager;
+import com.synnapps.carouselview.CarouselView;
+import com.synnapps.carouselview.ImageClickListener;
+import com.synnapps.carouselview.ImageListener;
 
 import java.util.List;
 
@@ -39,20 +44,34 @@ public class HomeFragment extends Fragment {
     UserService userService = ApiUtils.getUserService();
     SharedPrefManager sharedPrefManager;
     public View view;
+    CarouselView carousel;
     TextView balance;
     TextView textLihatsemua;
     RecyclerView rvHomeFragment;
     HomeFragmentAdapter homeFragmentAdapter;
+    GridLayoutManager rvManager;
     List<Book> books;
     Button btnTopup;
     Integer userId;
+
+    //Carousel
+    int[] images;
+    String[] imagetitle;
+
+    //EndlessScroll
+    private int previousTotal = 0;
+    private boolean loading = true;
+    int firstVisibleItem, visibleItemCount, totalItemCount;
+    ProgressBar loadingNext;
+    int page=1;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_home, container, false);
         initView();
-        doGetBook();
+        initCarouselItem();
+        doGetBook(userId, page);
 
         textLihatsemua.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,11 +95,32 @@ public class HomeFragment extends Fragment {
     private void initView(){
         sharedPrefManager = new SharedPrefManager(view.getContext());
         userId = Integer.parseInt(sharedPrefManager.getSPId());
+        carousel = (CarouselView)view.findViewById(R.id.carousel);
         balance = (TextView)view.findViewById(R.id.balance);
         balance.setText("Rp. "+sharedPrefManager.getSPBalance());
         textLihatsemua = (TextView)view.findViewById(R.id.textLihatsemua);
         rvHomeFragment = (RecyclerView)view.findViewById(R.id.RvHomeFragment);
+        loadingNext = (ProgressBar)view.findViewById(R.id.loadingNext);
         btnTopup = (Button)view.findViewById(R.id.btnTopup);
+    }
+
+    private void initCarouselItem(){
+        images = new int[]{ R.drawable.ikonmic, R.drawable.ikonsearch, R.drawable.ic_home_black_24dp, R.drawable.ic_favorite_black_24dp};
+        imagetitle = new String[] { "Mic", "Search", "Home", "Fav" };
+        carousel.setPageCount(images.length);
+        carousel.setImageListener(new ImageListener() {
+            @Override
+            public void setImageForPosition(int position, ImageView imageView) {
+                imageView.setImageResource(images[position]);
+            }
+        });
+
+        carousel.setImageClickListener(new ImageClickListener() {
+            @Override
+            public void onClick(int position) {
+                Toast.makeText(view.getContext(), imagetitle[position].toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -89,8 +129,8 @@ public class HomeFragment extends Fragment {
         doGetUser(userId);
     }
 
-    private void doGetBook(){
-        Call<ReqBook> call = userService.getBookRequest(userId, 1);
+    private void doGetBook(Integer id, Integer page){
+        Call<ReqBook> call = userService.getBookRequest(id, page);
         call.enqueue(new Callback<ReqBook>() {
             @Override
             public void onResponse(Call<ReqBook> call, Response<ReqBook> response) {
@@ -98,14 +138,39 @@ public class HomeFragment extends Fragment {
                 books = reqBook.getBooks();
                 homeFragmentAdapter = new HomeFragmentAdapter(books);
 
-                rvHomeFragment.setLayoutManager(new GridLayoutManager(view.getContext(), 2));
+                rvManager = new GridLayoutManager(view.getContext(), 2);
+                rvHomeFragment.setLayoutManager(rvManager);
                 rvHomeFragment.setItemAnimator(new DefaultItemAnimator());
                 rvHomeFragment.setAdapter(homeFragmentAdapter);
+                endlessScroll();
             }
 
             @Override
             public void onFailure(Call<ReqBook> call, Throwable t) {
                 Toast.makeText(view.getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void doGetNextPage(Integer id, Integer page){
+        loadingNext.setVisibility(View.VISIBLE);
+        Call<ReqBook> call = userService.getBookRequest(id, page);
+        call.enqueue(new Callback<ReqBook>() {
+            @Override
+            public void onResponse(Call<ReqBook> call, Response<ReqBook> response) {
+                ReqBook reqBook = response.body();
+                List<Book> nextBook = reqBook.getBooks();
+                for(int i=0; i<nextBook.size(); i++){
+                    books.add(nextBook.get(i));
+                }
+                homeFragmentAdapter.notifyDataSetChanged();
+                loadingNext.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(Call<ReqBook> call, Throwable t) {
+                Toast.makeText(view.getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                loadingNext.setVisibility(View.GONE);
             }
         });
     }
@@ -124,6 +189,33 @@ public class HomeFragment extends Fragment {
             @Override
             public void onFailure(Call<ResUser> call, Throwable t) {
                 Toast.makeText(view.getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void endlessScroll(){
+        rvHomeFragment.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                visibleItemCount = rvHomeFragment.getChildCount();
+                totalItemCount = rvManager.getItemCount();
+                firstVisibleItem = rvManager.findFirstVisibleItemPosition();
+
+                if (loading) {
+                    if (totalItemCount > previousTotal) {
+                        loading = false;
+                        previousTotal = totalItemCount;
+                    }
+                }
+                if(!loading && (visibleItemCount+firstVisibleItem)==totalItemCount){
+                    // End has been reached
+                    page++;
+                    doGetNextPage(userId, page);
+
+                    loading = true;
+                }
             }
         });
     }

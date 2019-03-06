@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.asus.penabuk.Adapter.ViewAllAdapter;
@@ -46,8 +47,8 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
     //EndlessScroll
     private int previousTotal = 0;
     private boolean loading = true;
-    private int visibleThreshold = 5;
     int firstVisibleItem, visibleItemCount, totalItemCount;
+    ProgressBar loadingNext;
     int page=1;
 
     @Override
@@ -72,6 +73,7 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
         rvViewAllActivity = (RecyclerView)findViewById(R.id.RvViewAllActivity);
         imgBack = (ImageView)findViewById(R.id.imgBack);
         userId = Integer.parseInt(sharedPrefManager.getSPId());
+        loadingNext = (ProgressBar)findViewById(R.id.loadingNext);
     }
 
     @Override
@@ -133,6 +135,29 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
         });
     }
 
+    private void doGetNextPage(Integer id, Integer page){
+        loadingNext.setVisibility(View.VISIBLE);
+        Call<ReqBook> call = userService.getBookRequest(id, page);
+        call.enqueue(new Callback<ReqBook>() {
+            @Override
+            public void onResponse(Call<ReqBook> call, Response<ReqBook> response) {
+                ReqBook reqBook = response.body();
+                List<Book> nextBook = reqBook.getBooks();
+                for(int i=0; i<nextBook.size(); i++){
+                    books.add(nextBook.get(i));
+                }
+                viewAllAdapter.notifyDataSetChanged();
+                loadingNext.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(Call<ReqBook> call, Throwable t) {
+                Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+                loadingNext.setVisibility(View.GONE);
+            }
+        });
+    }
+
     private void endlessScroll(){
         rvViewAllActivity.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -149,16 +174,10 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
                         previousTotal = totalItemCount;
                     }
                 }
-                /*
-                if (!loading && (totalItemCount - visibleItemCount)
-                        <= (firstVisibleItem + visibleThreshold)) {*/
                 if(!loading && (visibleItemCount+firstVisibleItem)==totalItemCount){
                     // End has been reached
-
-                    Log.e("Yaeye!", "end called");
-
                     page++;
-                    doGetBook(userId, page);
+                    doGetNextPage(userId, page);
 
                     loading = true;
                 }
