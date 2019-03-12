@@ -1,25 +1,19 @@
 package com.example.asus.penabuk.Model;
 
-public class Payment {
-    private Integer book_id;
-    private Integer count;
+import java.io.Serializable;
+import java.util.List;
+
+public class Payment implements Serializable {
+    private String password;
     private Integer address_id;
-    private Integer cart_id;
+    private List<Order> orders;
 
-    public Integer getBook_id() {
-        return book_id;
+    public String getPassword() {
+        return password;
     }
 
-    public void setBook_id(Integer book_id) {
-        this.book_id = book_id;
-    }
-
-    public Integer getCount() {
-        return count;
-    }
-
-    public void setCount(Integer count) {
-        this.count = count;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Integer getAddress_id() {
@@ -30,11 +24,11 @@ public class Payment {
         this.address_id = address_id;
     }
 
-    public Integer getCart_id() {
-        return cart_id;
+    public List<Order> getOrders() {
+        return orders;
     }
 
-    public void setCart_id(Integer cart_id) {
-        this.cart_id = cart_id;
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 }

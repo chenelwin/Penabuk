@@ -3,7 +3,6 @@ package com.example.asus.penabuk.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -13,9 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.asus.penabuk.Model.Book;
-import com.example.asus.penabuk.Model.BookPayment;
-import com.example.asus.penabuk.Model.Payment;
-import com.example.asus.penabuk.Model.ReqBook;
+import com.example.asus.penabuk.Model.Order;
 import com.example.asus.penabuk.Model.ReqBookId;
 import com.example.asus.penabuk.Model.ResMessage;
 import com.example.asus.penabuk.R;
@@ -47,6 +44,7 @@ public class ViewDetailActivity extends AppCompatActivity {
     ImageView imgBack;
     List<Book> passingbook;
     List<Integer> passingcartid;
+    List<Integer> passingcount;
     Button btnAdd;
     Button btnBuy;
     ProgressDialog progressDialog;
@@ -81,6 +79,7 @@ public class ViewDetailActivity extends AppCompatActivity {
                 Intent intent = new Intent(ViewDetailActivity.this, PaymentDetailActivity.class);
                 intent.putExtra("passingbook", (Serializable)passingbook);
                 intent.putExtra("passingcartid", (Serializable)passingcartid);
+                intent.putExtra("passingcount", (Serializable)passingcount);
                 startActivity(intent);
             }
         });
@@ -112,6 +111,7 @@ public class ViewDetailActivity extends AppCompatActivity {
                 Book book = reqBookId.getBook();
                 passingbook.add(book);
                 passingcartid.add(null);
+                passingcount.add(1);
                 bookTitle.setText(book.getOriginal_title());
                 bookAuthor.setText(book.getAuthors());
                 bookPublish.setText(book.getOriginal_publication_year());
@@ -132,9 +132,9 @@ public class ViewDetailActivity extends AppCompatActivity {
     }
 
     private void doAddCart(Integer book_id, Integer userId){
-        final Payment payment = new Payment();
-        payment.setBook_id(book_id);
-        Call<ResMessage> call = userService.addCartRequest(payment, userId);
+        final Order order = new Order();
+        order.setBook_id(book_id);
+        Call<ResMessage> call = userService.addCartRequest(order, userId);
         call.enqueue(new Callback<ResMessage>() {
             @Override
             public void onResponse(Call<ResMessage> call, Response<ResMessage> response) {

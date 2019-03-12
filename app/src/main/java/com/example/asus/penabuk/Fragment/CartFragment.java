@@ -46,6 +46,7 @@ public class CartFragment extends Fragment {
     List<Cart> carts;
     List<Book> passingbuku;
     List<Integer> passingcartid;
+    List<Integer> passingcount;
     Integer userId;
 
     @Nullable
@@ -58,27 +59,23 @@ public class CartFragment extends Fragment {
         btnBuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                initCount(carts);
                 Intent intent = new Intent(view.getContext(), PaymentDetailActivity.class);
                 intent.putExtra("passingbook", (Serializable)passingbuku);
                 intent.putExtra("passingcartid", (Serializable)passingcartid);
+                intent.putExtra("passingcount", (Serializable)passingcount);
                 startActivity(intent);
             }
         });
 
-        /*
-        checkAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(checkAll.isChecked()){
-                    doCheckAll(carts);
-                }
-                else{
-                    doUncheckAll(carts);
-                }
-            }
-        });*/
-
         return view;
+    }
+
+    private void initCount(List<Cart> carts){
+        for(int i=0; i<carts.size(); i++){
+            passingcount.add(carts.get(i).getCount());
+            Log.e("count", "ke-"+i+" : "+passingcount.get(i));
+        }
     }
 
     public void initView(){
@@ -89,6 +86,7 @@ public class CartFragment extends Fragment {
         btnBuy = (Button)view.findViewById(R.id.btnBuy);
         passingbuku = new ArrayList<>();
         passingcartid = new ArrayList<>();
+        passingcount = new ArrayList<>();
     }
 
     public void doGetCart(Integer id){
@@ -103,7 +101,6 @@ public class CartFragment extends Fragment {
                     passingbuku.add(book);
                     Integer cartid = carts.get(i).getCart_id();
                     passingcartid.add(cartid);
-                    Log.e("cart", "ke-"+cartid);
                 }
 
                 cartFragmentAdapter = new CartFragmentAdapter(carts);
@@ -111,7 +108,6 @@ public class CartFragment extends Fragment {
                 rvCartFragment.setLayoutManager(new LinearLayoutManager(view.getContext()));
                 rvCartFragment.setItemAnimator(new DefaultItemAnimator());
                 rvCartFragment.setAdapter(cartFragmentAdapter);
-                Log.e("selesai", "size" + passingbuku.size());
             }
 
             @Override

@@ -22,6 +22,7 @@ public class CartFragmentAdapter extends RecyclerView.Adapter<CartFragmentAdapte
 
     List<Cart> carts;
     Context context;
+    Integer count=1;
 
     public CartFragmentAdapter(List<Cart> cartList){this.carts = cartList;}
 
@@ -34,24 +35,40 @@ public class CartFragmentAdapter extends RecyclerView.Adapter<CartFragmentAdapte
     }
 
     @Override
-    public void onBindViewHolder(CartFragmentAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(final CartFragmentAdapter.ViewHolder holder, int position) {
         final Cart cart = carts.get(holder.getAdapterPosition());
         holder.cartTitle.setText(cart.getBook().getOriginal_title());
         holder.cartPrice.setText("Rp. " + cart.getBook().getPrice());
-        /*
-        cart.setSelected(true);
-        if(cart.isSelected()){
-            holder.checkCart.setChecked(true);
-        }
-        else {
-            holder.checkCart.setChecked(false);
-        }*/
 
         Picasso.with(context)
                 .load(cart.getBook().getImage_url())
                 .resize(80, 120)
                 .centerCrop()
                 .into(holder.cartImg);
+
+        holder.bookQty.setText(String.valueOf(count));
+
+        holder.imgPlus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Integer count = cart.getCount();
+                count++;
+                holder.bookQty.setText(String.valueOf(count));
+                cart.setCount(count);
+            }
+        });
+
+        holder.imgMinus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Integer count = cart.getCount();
+                if(count>1) {
+                    count--;
+                    holder.bookQty.setText(String.valueOf(count));
+                    cart.setCount(count);
+                }
+            }
+        });
     }
 
     @Override
@@ -64,6 +81,9 @@ public class CartFragmentAdapter extends RecyclerView.Adapter<CartFragmentAdapte
         ImageView cartImg;
         TextView cartTitle;
         TextView cartPrice;
+        ImageView imgMinus;
+        TextView bookQty;
+        ImageView imgPlus;
         CardView cv;
 
         public ViewHolder(View itemView){
@@ -72,6 +92,9 @@ public class CartFragmentAdapter extends RecyclerView.Adapter<CartFragmentAdapte
             cartImg = (ImageView)itemView.findViewById(R.id.cartImg);
             cartTitle = (TextView)itemView.findViewById(R.id.cartTitle);
             cartPrice = (TextView)itemView.findViewById(R.id.cartPrice);
+            imgMinus = (ImageView)itemView.findViewById(R.id.imgMinus);
+            bookQty = (TextView)itemView.findViewById(R.id.bookQty);
+            imgPlus = (ImageView)itemView.findViewById(R.id.imgPlus);
             cv = (CardView)itemView.findViewById(R.id.cvCartFragment);
         }
     }

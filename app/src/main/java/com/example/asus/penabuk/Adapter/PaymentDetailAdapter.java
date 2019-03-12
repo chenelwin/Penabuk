@@ -47,6 +47,7 @@ public class PaymentDetailAdapter extends RecyclerView.Adapter<PaymentDetailAdap
 
 
         holder.bookQty.setText(String.valueOf(count));
+        /*
         holder.imgPlus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,7 +68,7 @@ public class PaymentDetailAdapter extends RecyclerView.Adapter<PaymentDetailAdap
                     bookPayment.setCount(count);
                 }
             }
-        });
+        });*/
     }
 
     @Override

@@ -21,9 +21,9 @@ import com.example.asus.penabuk.Adapter.PaymentDetailAdapter;
 import com.example.asus.penabuk.Model.Address;
 import com.example.asus.penabuk.Model.Book;
 import com.example.asus.penabuk.Model.BookPayment;
+import com.example.asus.penabuk.Model.Order;
 import com.example.asus.penabuk.Model.Payment;
 import com.example.asus.penabuk.Model.ReqAddress;
-import com.example.asus.penabuk.Model.ReqPayment;
 import com.example.asus.penabuk.Model.ResMessage;
 import com.example.asus.penabuk.R;
 import com.example.asus.penabuk.Remote.ApiUtils;
@@ -31,6 +31,7 @@ import com.example.asus.penabuk.Remote.UserService;
 import com.example.asus.penabuk.SharedPreferences.SharedPrefManager;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,7 +76,7 @@ public class PaymentDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 progressDialog = ProgressDialog.show(context, null, "Please Wait..", true);
-                doPayment(userId, bookPayments);
+                doPayment(bookPayments);
             }
         });
     }
@@ -91,7 +92,8 @@ public class PaymentDetailActivity extends AppCompatActivity {
         bookPayments = new ArrayList<>();
         List<Book> books = (List<Book>)getIntent().getSerializableExtra("passingbook");
         List<Integer> passingcartid = (List<Integer>)getIntent().getSerializableExtra("passingcartid");
-        initBook(books, passingcartid);
+        List<Integer> passingcount = (List<Integer>)getIntent().getSerializableExtra("passingcount");
+        initBook(books, passingcartid, passingcount);
         paymentDetailAdapter = new PaymentDetailAdapter(bookPayments);
         paymentDetailAdapter.notifyDataSetChanged();
         rvPaymentDetailActivity.setLayoutManager(new LinearLayoutManager(context));
@@ -99,12 +101,11 @@ public class PaymentDetailActivity extends AppCompatActivity {
         rvPaymentDetailActivity.setAdapter(paymentDetailAdapter);
     }
 
-    private void initBook(List<Book> books, List<Integer> passingcartid){
-        bookPayments.clear();
+    private void initBook(List<Book> books, List<Integer> passingcartid, List<Integer> passingcount){
         for(int i=0; i<books.size(); i++){
             BookPayment bookPayment = new BookPayment();
             bookPayment.setBook(books.get(i));
-            bookPayment.setCount(1);
+            bookPayment.setCount(passingcount.get(i));
             bookPayment.setCart_id(passingcartid.get(i));
             bookPayments.add(bookPayment);
         }
@@ -143,21 +144,24 @@ public class PaymentDetailActivity extends AppCompatActivity {
         });
     }
 
-    private void doPayment(Integer id, List<BookPayment> bookPayments){
-        List<Payment> payments = new ArrayList<>();
+    private void doPayment(List<BookPayment> bookPayments){
+        List<Order> orders = new ArrayList<>();
         for(int i=0; i<bookPayments.size(); i++){
-            Payment payment = new Payment();
-            payment.setBook_id(bookPayments.get(i).getBook().getId());
-            payment.setAddress_id(addressId);
-            payment.setCount(bookPayments.get(i).getCount());
+            Order order = new Order();
+            order.setBook_id(bookPayments.get(i).getBook().getId());
+            order.setCount(bookPayments.get(i).getCount());
             if(bookPayments.get(i).getCart_id()!=null){
-                payment.setCart_id(bookPayments.get(i).getCart_id());
+                order.setCart_id(bookPayments.get(i).getCart_id());
             }
-            payments.add(payment);
+            orders.add(order);
         }
-        //reqPayment.setPayments(payments);
-
-        Call<ResMessage> call = userService.paymentRequest(payments, id);
+        Intent intent = new Intent(PaymentDetailActivity.this, ConfirmPaymentActivity.class);
+        intent.putExtra("passingorder", (Serializable)orders);
+        intent.putExtra("passingaddress", addressId);
+        startActivity(intent);
+        progressDialog.dismiss();
+        /*
+        Call<ResMessage> call = userService.paymentRequest(orders, id);
         call.enqueue(new Callback<ResMessage>() {
             @Override
             public void onResponse(Call<ResMessage> call, Response<ResMessage> response) {
@@ -185,6 +189,6 @@ public class PaymentDetailActivity extends AppCompatActivity {
                 Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
                 progressDialog.dismiss();
             }
-        });
+        });*/
     }
 }

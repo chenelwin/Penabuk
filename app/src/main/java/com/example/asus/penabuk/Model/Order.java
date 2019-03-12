@@ -2,17 +2,17 @@ package com.example.asus.penabuk.Model;
 
 import java.io.Serializable;
 
-public class BookPayment implements Serializable {
-    private Book book;
+public class Order implements Serializable {
+    private Integer book_id;
     private Integer count;
     private Integer cart_id;
 
-    public Book getBook() {
-        return book;
+    public Integer getBook_id() {
+        return book_id;
     }
 
-    public void setBook(Book book) {
-        this.book = book;
+    public void setBook_id(Integer book_id) {
+        this.book_id = book_id;
     }
 
     public Integer getCount() {

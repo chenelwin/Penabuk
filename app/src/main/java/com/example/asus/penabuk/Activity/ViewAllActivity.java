@@ -5,10 +5,8 @@ import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -16,7 +14,7 @@ import android.widget.Toast;
 
 import com.example.asus.penabuk.Adapter.ViewAllAdapter;
 import com.example.asus.penabuk.Model.Book;
-import com.example.asus.penabuk.Model.Payment;
+import com.example.asus.penabuk.Model.Order;
 import com.example.asus.penabuk.Model.ReqBook;
 import com.example.asus.penabuk.Model.ResMessage;
 import com.example.asus.penabuk.R;
@@ -106,9 +104,9 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
     }
 
     private void doAddCart(Integer book_id, Integer userId){
-        final Payment payment = new Payment();
-        payment.setBook_id(book_id);
-        Call<ResMessage> call = userService.addCartRequest(payment, userId);
+        final Order order = new Order();
+        order.setBook_id(book_id);
+        Call<ResMessage> call = userService.addCartRequest(order, userId);
         call.enqueue(new Callback<ResMessage>() {
             @Override
             public void onResponse(Call<ResMessage> call, Response<ResMessage> response) {

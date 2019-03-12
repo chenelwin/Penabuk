@@ -1,15 +1,13 @@
 package com.example.asus.penabuk.Model;
 
-import java.util.List;
-
 public class ReqPayment {
-    private List<Payment> payments;
+    private Payment payment;
 
-    public List<Payment> getPayments() {
-        return payments;
+    public Payment getPayment() {
+        return payment;
     }
 
-    public void setPayments(List<Payment> payments) {
-        this.payments = payments;
+    public void setPayment(Payment payment) {
+        this.payment = payment;
     }
 }
