@@ -72,6 +72,7 @@ public class CartFragment extends Fragment {
     }
 
     private void initCount(List<Cart> carts){
+        passingcount = new ArrayList<>();
         for(int i=0; i<carts.size(); i++){
             passingcount.add(carts.get(i).getCount());
             Log.e("count", "ke-"+i+" : "+passingcount.get(i));
@@ -86,7 +87,6 @@ public class CartFragment extends Fragment {
         btnBuy = (Button)view.findViewById(R.id.btnBuy);
         passingbuku = new ArrayList<>();
         passingcartid = new ArrayList<>();
-        passingcount = new ArrayList<>();
     }
 
     public void doGetCart(Integer id){

@@ -19,7 +19,7 @@ public class PaymentDetailAdapter extends RecyclerView.Adapter<PaymentDetailAdap
 
     List<BookPayment> bookPayments;
     Context context;
-    Integer count=1;
+    //Integer count=1;
 
     public PaymentDetailAdapter(List<BookPayment> bookPaymentList){
         this.bookPayments = bookPaymentList;
@@ -46,7 +46,8 @@ public class PaymentDetailAdapter extends RecyclerView.Adapter<PaymentDetailAdap
                 .into(holder.bookImg);
 
 
-        holder.bookQty.setText(String.valueOf(count));
+        holder.bookQty.setText("Qty : " + bookPayment.getCount());
+        //holder.bookQty.setText(String.valueOf(count));
         /*
         holder.imgPlus.setOnClickListener(new View.OnClickListener() {
             @Override

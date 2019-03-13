@@ -38,26 +38,11 @@
                     android:text="HARGA BUKU"
                     android:textColor="#000"
                     android:id="@+id/bookPrice"/>
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:src="@drawable/ikonminus"
-                        android:id="@+id/imgMinus"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="18sp"
-                        android:id="@+id/bookQty"/>
-                    <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:src="@drawable/ikonplus"
-                        android:id="@+id/imgPlus"/>
-                </LinearLayout>
+                    android:textSize="18sp"
+                    android:id="@+id/bookQty"/>
 
             </LinearLayout>
 

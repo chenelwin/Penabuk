@@ -96,6 +96,7 @@ public class ViewDetailActivity extends AppCompatActivity {
         bookPrice = (TextView)findViewById(R.id.bookPrice);
         passingbook = new ArrayList<>();
         passingcartid = new ArrayList<>();
+        passingcount = new ArrayList<>();
         imgBack = (ImageView)findViewById(R.id.imgBack);
         btnAdd = (Button)findViewById(R.id.btnAdd);
         btnBuy = (Button)findViewById(R.id.btnBuy);

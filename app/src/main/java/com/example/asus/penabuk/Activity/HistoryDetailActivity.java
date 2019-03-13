@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,6 +16,7 @@ import android.widget.Toast;
 import com.example.asus.penabuk.Adapter.HistoryDetailAdapter;
 import com.example.asus.penabuk.Model.History;
 import com.example.asus.penabuk.Model.ReqHistoryId;
+import com.example.asus.penabuk.Model.ResMessage;
 import com.example.asus.penabuk.R;
 import com.example.asus.penabuk.Remote.ApiUtils;
 import com.example.asus.penabuk.Remote.UserService;
@@ -34,6 +37,8 @@ public class HistoryDetailActivity extends AppCompatActivity {
     TextView textAddress;
     TextView textTotalprice;
     TextView textStatus;
+    Button btnCancel;
+    Button btnConfirm;
     History historyDetail;
     Integer userId;
     String orderId;
@@ -54,6 +59,13 @@ public class HistoryDetailActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                doCancelOrder(orderId, userId);
+            }
+        });
     }
 
     public void initView(){
@@ -61,6 +73,8 @@ public class HistoryDetailActivity extends AppCompatActivity {
         sharedPrefManager = new SharedPrefManager(context);
         userId = Integer.parseInt(sharedPrefManager.getSPId());
         imgBack = (ImageView)findViewById(R.id.imgBack);
+        btnCancel = (Button)findViewById(R.id.btnCancel);
+        btnConfirm = (Button)findViewById(R.id.btnConfirm);
         textOrderid = (TextView)findViewById(R.id.textOrderid);
         textDate = (TextView)findViewById(R.id.textDate);
         textAddress = (TextView)findViewById(R.id.textAddress);
@@ -82,6 +96,7 @@ public class HistoryDetailActivity extends AppCompatActivity {
                 textDate.setText(historyDetail.getCreatedAt());
                 textAddress.setText(historyDetail.getAddress().getAddress_line());
                 textStatus.setText(historyDetail.getStatus());
+                showButton(historyDetail.getStatus());
                 textTotalprice.setText("Rp. "+historyDetail.getTotal_price());
                 historyDetailAdapter = new HistoryDetailAdapter(historyDetail.getDetails());
                 rvHistoryDetail.setLayoutManager(new LinearLayoutManager(context));
@@ -92,6 +107,34 @@ public class HistoryDetailActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ReqHistoryId> call, Throwable t) {
+                Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void showButton(String statusorder){
+        if(statusorder.equals("Pending")){
+            btnCancel.setVisibility(View.VISIBLE);
+            btnConfirm.setVisibility(View.GONE);
+        }
+        if(statusorder.equals("Sedang dikirim") || statusorder.equals("Telah sampai tujuan")){
+            btnCancel.setVisibility(View.GONE);
+            btnConfirm.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void doCancelOrder(String orderId, Integer userId){
+        Call<ResMessage> call = userService.cancelOrderRequest(orderId, userId);
+        call.enqueue(new Callback<ResMessage>() {
+            @Override
+            public void onResponse(Call<ResMessage> call, Response<ResMessage> response) {
+                ResMessage resMessage = response.body();
+                Toast.makeText(context, resMessage.getMessage(), Toast.LENGTH_SHORT).show();
+                finish();
+            }
+
+            @Override
+            public void onFailure(Call<ResMessage> call, Throwable t) {
                 Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });

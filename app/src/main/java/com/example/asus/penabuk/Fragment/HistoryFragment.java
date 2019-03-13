@@ -40,7 +40,6 @@ public class HistoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_history, container, false);
         initView();
-        doGetHistory(userId);
 
         return view;
     }
@@ -50,6 +49,12 @@ public class HistoryFragment extends Fragment {
         userId = Integer.parseInt(sharedPrefManager.getSPId());
         rvHistoryFragment = (RecyclerView)view.findViewById(R.id.RvHistoryFragment);
 
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        doGetHistory(userId);
     }
 
     public void doGetHistory(Integer id){

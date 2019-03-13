@@ -50,6 +50,7 @@ public class PaymentDetailActivity extends AppCompatActivity {
     ArrayAdapter<Address> spinnerAlamatAdapter;
     List<Address> addresses;
     Button btnPay;
+    Button btnAddAddress;
     Integer userId;
     Integer addressId;
     RecyclerView rvPaymentDetailActivity;
@@ -72,6 +73,14 @@ public class PaymentDetailActivity extends AppCompatActivity {
             }
         });
 
+        btnAddAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(PaymentDetailActivity.this, AddAddressActivity.class);
+                startActivity(intent);
+            }
+        });
+
         btnPay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,6 +95,7 @@ public class PaymentDetailActivity extends AppCompatActivity {
         sharedPrefManager = new SharedPrefManager(context);
         spinnerAlamat = (Spinner)findViewById(R.id.spinnerAlamat);
         btnPay = (Button)findViewById(R.id.btnPay);
+        btnAddAddress = (Button)findViewById(R.id.btnAddAddress);
         imgBack = (ImageView)findViewById(R.id.imgBack);
         userId = Integer.parseInt(sharedPrefManager.getSPId());
         rvPaymentDetailActivity = (RecyclerView)findViewById(R.id.RvPaymentDetail);
@@ -109,6 +119,12 @@ public class PaymentDetailActivity extends AppCompatActivity {
             bookPayment.setCart_id(passingcartid.get(i));
             bookPayments.add(bookPayment);
         }
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        doGetAddress(userId);
     }
 
     private void doGetAddress(Integer userId){

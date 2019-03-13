@@ -52,6 +52,9 @@ public interface UserService {
     @POST("/carts")
     Call<ResMessage> addCartRequest(@Body Order order, @Query("token") Integer id);
 
+    @POST("/histories/{id}/cancel")
+    Call<ResMessage> cancelOrderRequest(@Path("id") String orderId, @Query("token") Integer userId);
+
     @GET("/books")
     Call<ReqBook> getBookRequest(@Query("token") Integer id, @Query("page") Integer page);
 
