@@ -93,8 +93,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#fff"
-        android:id="@+id/RvHomeFragment"
-        android:scrollbars="vertical">
+        android:scrollbars="vertical"
+        android:nestedScrollingEnabled="false"
+        android:id="@+id/RvHomeFragment">
     </android.support.v7.widget.RecyclerView>
 
     <LinearLayout

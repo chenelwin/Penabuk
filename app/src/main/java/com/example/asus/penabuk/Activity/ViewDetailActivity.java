@@ -5,9 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +41,11 @@ public class ViewDetailActivity extends AppCompatActivity {
     TextView bookTitle;
     TextView bookAuthor;
     TextView bookPublish;
+    TextView bookRating;
+    ImageView imgMinus;
+    TextView bookQty;
+    ImageView imgPlus;
+    RatingBar bookRatingBar;
     TextView bookPrice;
     Integer userId;
     ImageView imgBack;
@@ -48,7 +55,7 @@ public class ViewDetailActivity extends AppCompatActivity {
     Button btnAdd;
     Button btnBuy;
     ProgressDialog progressDialog;
-
+    Integer count = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +71,20 @@ public class ViewDetailActivity extends AppCompatActivity {
             }
         });
 
+        imgMinus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                qtyMinus();
+            }
+        });
+
+        imgPlus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                qtyPlus();
+            }
+        });
+
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,6 +97,9 @@ public class ViewDetailActivity extends AppCompatActivity {
         btnBuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                passingcount = new ArrayList<>();
+                passingcount.add(count);
+                Log.e("qty", count.toString() + " " + passingcount.get(0));
                 Intent intent = new Intent(ViewDetailActivity.this, PaymentDetailActivity.class);
                 intent.putExtra("passingbook", (Serializable)passingbook);
                 intent.putExtra("passingcartid", (Serializable)passingcartid);
@@ -93,10 +117,15 @@ public class ViewDetailActivity extends AppCompatActivity {
         bookTitle = (TextView)findViewById(R.id.bookTitle);
         bookAuthor = (TextView)findViewById(R.id.bookAuthor);
         bookPublish = (TextView)findViewById(R.id.bookPublish);
+        bookRating = (TextView)findViewById(R.id.bookRating);
+        bookRatingBar = (RatingBar)findViewById(R.id.bookRatingBar);
         bookPrice = (TextView)findViewById(R.id.bookPrice);
+        imgMinus = (ImageView)findViewById(R.id.imgMinus);
+        bookQty = (TextView)findViewById(R.id.bookQty);
+        bookQty.setText(String.valueOf(count));
+        imgPlus = (ImageView)findViewById(R.id.imgPlus);
         passingbook = new ArrayList<>();
         passingcartid = new ArrayList<>();
-        passingcount = new ArrayList<>();
         imgBack = (ImageView)findViewById(R.id.imgBack);
         btnAdd = (Button)findViewById(R.id.btnAdd);
         btnBuy = (Button)findViewById(R.id.btnBuy);
@@ -112,15 +141,16 @@ public class ViewDetailActivity extends AppCompatActivity {
                 Book book = reqBookId.getBook();
                 passingbook.add(book);
                 passingcartid.add(null);
-                passingcount.add(1);
                 bookTitle.setText(book.getOriginal_title());
                 bookAuthor.setText(book.getAuthors());
                 bookPublish.setText(book.getOriginal_publication_year());
+                bookRating.setText(book.getAverage_rating().toString());
+                bookRatingBar.setRating(book.getAverage_rating());
                 bookPrice.setText("Rp. " + book.getPrice());
 
                 Picasso.with(context)
                         .load(book.getImage_url())
-                        .resize(120, 160)
+                        .resize(100, 140)
                         .centerCrop()
                         .into(bookImg);
             }
@@ -130,6 +160,18 @@ public class ViewDetailActivity extends AppCompatActivity {
                 Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void qtyMinus(){
+        if(count>1) {
+            count--;
+            bookQty.setText(String.valueOf(count));
+        }
+    }
+
+    private void qtyPlus(){
+        count++;
+        bookQty.setText(String.valueOf(count));
     }
 
     private void doAddCart(Integer book_id, Integer userId){
