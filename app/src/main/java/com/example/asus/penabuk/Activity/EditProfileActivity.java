@@ -36,6 +36,7 @@ public class EditProfileActivity extends AppCompatActivity {
     SharedPrefManager sharedPrefManager;
     Integer userId;
     ImageView imgBack;
+    EditText editEmail;
     EditText editName;
     EditText editPhonenumber;
     Button btnAddAddress;
@@ -84,6 +85,8 @@ public class EditProfileActivity extends AppCompatActivity {
         context = this;
         sharedPrefManager = new SharedPrefManager(context);
         imgBack = (ImageView) findViewById(R.id.imgBack);
+        editEmail = (EditText)findViewById(R.id.editEmail);
+        editEmail.setText(sharedPrefManager.getSPEmail());
         editName = (EditText)findViewById(R.id.editName);
         editName.setText(sharedPrefManager.getSPNama());
         editPhonenumber = (EditText)findViewById(R.id.editPhonenumber);

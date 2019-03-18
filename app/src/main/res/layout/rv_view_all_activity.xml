@@ -30,13 +30,15 @@
                     android:layout_height="wrap_content"
                     android:text="BLABLABLA"
                     android:textColor="#000"
+                    android:textStyle="bold"
                     android:textSize="14sp"
                     android:id="@+id/bookTitle"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Rp. 100"
-                    android:textColor="#000"
+                    android:textColor="@color/colorPrice"
+                    android:textStyle="bold"
                     android:textSize="14sp"
                     android:id="@+id/bookPrice"/>
                 <RatingBar

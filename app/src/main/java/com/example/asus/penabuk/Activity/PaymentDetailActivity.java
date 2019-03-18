@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.asus.penabuk.Adapter.PaymentDetailAdapter;
@@ -32,6 +33,8 @@ import com.example.asus.penabuk.SharedPreferences.SharedPrefManager;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,6 +61,7 @@ public class PaymentDetailActivity extends AppCompatActivity {
     List<BookPayment> bookPayments;
     ProgressDialog progressDialog;
     ImageView imgBack;
+    TextView paymentPrice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +101,7 @@ public class PaymentDetailActivity extends AppCompatActivity {
         btnPay = (Button)findViewById(R.id.btnPay);
         btnAddAddress = (Button)findViewById(R.id.btnAddAddress);
         imgBack = (ImageView)findViewById(R.id.imgBack);
+        paymentPrice = (TextView)findViewById(R.id.paymentPrice);
         userId = Integer.parseInt(sharedPrefManager.getSPId());
         rvPaymentDetailActivity = (RecyclerView)findViewById(R.id.RvPaymentDetail);
         bookPayments = new ArrayList<>();
@@ -111,6 +116,19 @@ public class PaymentDetailActivity extends AppCompatActivity {
         rvPaymentDetailActivity.setAdapter(paymentDetailAdapter);
     }
 
+    private void initPaymentPrice(List<BookPayment> bookPayments){
+        Integer total = 0;
+        for(int i=0; i<bookPayments.size(); i++){
+            total += (bookPayments.get(i).getBook().getPrice() * bookPayments.get(i).getCount());
+        }
+        DecimalFormat formatter = new DecimalFormat("#,###,###");
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+        symbols.setGroupingSeparator('.');
+        formatter.setDecimalFormatSymbols(symbols);
+        String priceformat = formatter.format(total);
+        paymentPrice.setText("Rp. " + priceformat);
+    }
+
     private void initBook(List<Book> books, List<Integer> passingcartid, List<Integer> passingcount){
         for(int i=0; i<books.size(); i++){
             BookPayment bookPayment = new BookPayment();
@@ -119,6 +137,7 @@ public class PaymentDetailActivity extends AppCompatActivity {
             bookPayment.setCart_id(passingcartid.get(i));
             bookPayments.add(bookPayment);
         }
+        initPaymentPrice(bookPayments);
     }
 
     @Override

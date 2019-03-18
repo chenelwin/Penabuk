@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:text="Rp. 100000"
                 android:textStyle="bold"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/colorPrice"
                 android:id="@+id/bookPrice"/>
 
         </LinearLayout>

@@ -16,6 +16,8 @@ import com.example.asus.penabuk.Model.Cart;
 import com.example.asus.penabuk.R;
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.List;
 
 public class CartFragmentAdapter extends RecyclerView.Adapter<CartFragmentAdapter.ViewHolder> {
@@ -38,7 +40,13 @@ public class CartFragmentAdapter extends RecyclerView.Adapter<CartFragmentAdapte
     public void onBindViewHolder(final CartFragmentAdapter.ViewHolder holder, int position) {
         final Cart cart = carts.get(holder.getAdapterPosition());
         holder.cartTitle.setText(cart.getBook().getOriginal_title());
-        holder.cartPrice.setText("Rp. " + cart.getBook().getPrice());
+
+        DecimalFormat formatter = new DecimalFormat("#,###,###");
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+        symbols.setGroupingSeparator('.');
+        formatter.setDecimalFormatSymbols(symbols);
+        String priceformat = formatter.format(cart.getBook().getPrice());
+        holder.cartPrice.setText("Rp. " + priceformat);
 
         Picasso.with(context)
                 .load(cart.getBook().getImage_url())

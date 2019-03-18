@@ -82,7 +82,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="HARGA TOTAL"/>
+            android:text="HARGA TOTAL"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrice"
+            android:id="@+id/paymentPrice"/>
         <LinearLayout
             android:layout_weight="1"
             android:layout_width="match_parent"

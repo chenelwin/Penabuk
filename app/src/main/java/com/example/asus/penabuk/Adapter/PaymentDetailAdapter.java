@@ -13,6 +13,8 @@ import com.example.asus.penabuk.Model.BookPayment;
 import com.example.asus.penabuk.R;
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.List;
 
 public class PaymentDetailAdapter extends RecyclerView.Adapter<PaymentDetailAdapter.ViewHolder> {
@@ -37,7 +39,12 @@ public class PaymentDetailAdapter extends RecyclerView.Adapter<PaymentDetailAdap
     public void onBindViewHolder(final PaymentDetailAdapter.ViewHolder holder, int position) {
         final BookPayment bookPayment = bookPayments.get(holder.getAdapterPosition());
         holder.bookTitle.setText(bookPayment.getBook().getOriginal_title());
-        holder.bookPrice.setText("Rp. " + bookPayment.getBook().getPrice());
+        DecimalFormat formatter = new DecimalFormat("#,###,###");
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+        symbols.setGroupingSeparator('.');
+        formatter.setDecimalFormatSymbols(symbols);
+        String priceformat = formatter.format(bookPayment.getBook().getPrice());
+        holder.bookPrice.setText("Rp. " + priceformat);
 
         Picasso.with(context)
                 .load(bookPayment.getBook().getImage_url())
