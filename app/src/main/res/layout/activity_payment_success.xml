@@ -10,16 +10,39 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center"
         android:orientation="vertical">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sukses"
-            android:textSize="20sp"/>
+            android:layout_margin="15dp"
+            android:text="Pembayaran Berhasil"
+            android:textColor="#000"
+            android:textSize="24sp"/>
+
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_margin="20dp"
+            android:src="@drawable/ikonsuccess"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Terima kasih telah melakukan pemesanan."
+            android:textColor="#000"
+            android:textSize="16sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cek pesanan Anda pada halaman riwayat."
+            android:textColor="#000"
+            android:textSize="16sp"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="history"
+            android:layout_margin="20dp"
+            android:padding="10dp"
+            android:text="lihat riwayat"
             android:textColor="#fff"
             android:background="@drawable/mybutton"
             android:id="@+id/btnHistory"/>

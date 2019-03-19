@@ -28,148 +28,174 @@
             android:textColor="#fff"/>
     </LinearLayout>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="40dp"
-        android:background="#dddddd"
-        android:orientation="vertical"
-        android:padding="20dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Instruksi :"
-            android:textSize="16sp"
-            android:textColor="#000"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:src="@drawable/mybullet"
-                android:layout_margin="5dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Masukkan kartu ATM dan PIN Anda."
-                android:textColor="#000"/>
-        </LinearLayout>
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="40dp"
+                android:background="#dddddd"
+                android:orientation="vertical"
+                android:padding="20dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Instruksi :"
+                    android:textSize="16sp"
+                    android:textColor="#000"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:src="@drawable/mybullet"
+                        android:layout_margin="5dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Masukkan kartu ATM dan PIN Anda."
+                        android:textColor="#000"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:src="@drawable/mybullet"
+                        android:layout_margin="5dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Pilih menu Transfer lalu pilih Bank Lain."
+                        android:textColor="#000"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:src="@drawable/mybullet"
+                        android:layout_margin="5dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Masukkan rekening tujuan berupa kode bank (2121) + nomor ponsel Anda\n2121 0812xxxxxxxx"
+                        android:textColor="#000"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:src="@drawable/mybullet"
+                        android:layout_margin="5dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Masukkan nominal Transfer."
+                        android:textColor="#000"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:src="@drawable/mybullet"
+                        android:layout_margin="5dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Ikuti instruksi untuk menyelesaikan transaksi.."
+                        android:textColor="#000"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Catatan :"
+                    android:textStyle="italic"
+                    android:textColor="#000"
+                    android:layout_marginTop="20dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:src="@drawable/mybullet"
+                        android:layout_margin="5dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Minimum top-up Rp.100.000"
+                        android:textColor="#000"
+                        android:textStyle="italic"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:src="@drawable/mybullet"
+                        android:layout_margin="5dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Gratis biaya top-up."
+                        android:textColor="#000"
+                        android:textStyle="italic"/>
+                </LinearLayout>
+            </LinearLayout>
+
             <ImageView
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:src="@drawable/mybullet"
-                android:layout_margin="5dp"/>
-            <TextView
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:src="@drawable/ikoncamera"
+                android:id="@+id/imgUpload"/>
+
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Pilih menu Transfer lalu pilih Bank Lain."
-                android:textColor="#000"/>
+                android:layout_margin="20dp"
+                android:text="Upload"
+                android:textColor="#fff"
+                android:background="@drawable/mybutton"/>
+
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:src="@drawable/mybullet"
-                android:layout_margin="5dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Masukkan rekening tujuan berupa kode bank (2121) + nomor ponsel Anda\n2121 0812xxxxxxxx"
-                android:textColor="#000"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:src="@drawable/mybullet"
-                android:layout_margin="5dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Masukkan nominal Transfer."
-                android:textColor="#000"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:src="@drawable/mybullet"
-                android:layout_margin="5dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Ikuti instruksi untuk menyelesaikan transaksi.."
-                android:textColor="#000"/>
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Catatan :"
-            android:textStyle="italic"
-            android:textColor="#000"
-            android:layout_marginTop="20dp"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:src="@drawable/mybullet"
-                android:layout_margin="5dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Minimum top-up Rp.100.000"
-                android:textColor="#000"
-                android:textStyle="italic"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:src="@drawable/mybullet"
-                android:layout_margin="5dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Gratis biaya top-up."
-                android:textColor="#000"
-                android:textStyle="italic"/>
-        </LinearLayout>
-
-    </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

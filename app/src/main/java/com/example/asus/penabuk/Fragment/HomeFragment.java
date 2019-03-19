@@ -33,6 +33,8 @@ import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageClickListener;
 import com.synnapps.carouselview.ImageListener;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.List;
 
 import retrofit2.Call;
@@ -97,7 +99,6 @@ public class HomeFragment extends Fragment {
         userId = Integer.parseInt(sharedPrefManager.getSPId());
         carousel = (CarouselView)view.findViewById(R.id.carousel);
         balance = (TextView)view.findViewById(R.id.balance);
-        balance.setText("Rp. "+sharedPrefManager.getSPBalance());
         textLihatsemua = (TextView)view.findViewById(R.id.textLihatsemua);
         rvHomeFragment = (RecyclerView)view.findViewById(R.id.RvHomeFragment);
         loadingNext = (ProgressBar)view.findViewById(R.id.loadingNext);
@@ -183,7 +184,14 @@ public class HomeFragment extends Fragment {
                 ResUser resUser = response.body();
                 String updbalance = resUser.getUser().getBalance().toString();
                 sharedPrefManager.saveSPString(SharedPrefManager.SP_BALANCE, updbalance);
-                balance.setText("Rp. " + sharedPrefManager.getSPBalance());
+
+                Integer tmpbalance = Integer.parseInt(sharedPrefManager.getSPBalance());
+                DecimalFormat formatter = new DecimalFormat("#,###,###");
+                DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+                symbols.setGroupingSeparator('.');
+                formatter.setDecimalFormatSymbols(symbols);
+                String priceformat = formatter.format(tmpbalance);
+                balance.setText("Rp. " + priceformat);
             }
 
             @Override

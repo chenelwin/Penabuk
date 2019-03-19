@@ -117,11 +117,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="20dp"
         android:gravity="center">
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="20dp"
             android:text="Batal"
             android:textColor="#fff"
             android:background="@drawable/mybuttonred"
@@ -130,6 +130,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="20dp"
             android:text="Konfirmasi"
             android:textColor="#fff"
             android:background="@drawable/mybutton"

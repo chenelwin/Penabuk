@@ -79,7 +79,7 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
                 intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
                 intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.ENGLISH);
                 try{
-                    startActivityForResult(intent, 200);
+                    startActivityForResult(intent, 0);
                 }catch (ActivityNotFoundException a){
                     Toast.makeText(context, a.getMessage(), Toast.LENGTH_SHORT).show();
                 }
@@ -90,7 +90,7 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==200){
+        if(requestCode==0){
             if(resultCode==RESULT_OK && data != null){
                 ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                 searchKey.setText(result.get(0));

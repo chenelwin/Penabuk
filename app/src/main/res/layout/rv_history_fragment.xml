@@ -41,6 +41,11 @@
                 android:id="@+id/textStatus"/>
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/myborder"/>
+
 
 
     </android.support.v7.widget.CardView>

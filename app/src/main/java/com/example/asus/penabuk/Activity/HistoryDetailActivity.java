@@ -121,6 +121,10 @@ public class HistoryDetailActivity extends AppCompatActivity {
             btnCancel.setVisibility(View.GONE);
             btnConfirm.setVisibility(View.VISIBLE);
         }
+        if(statusorder.equals("Batal")){
+            btnCancel.setVisibility(View.GONE);
+            btnConfirm.setVisibility(View.GONE);
+        }
     }
 
     private void doCancelOrder(String orderId, Integer userId){
