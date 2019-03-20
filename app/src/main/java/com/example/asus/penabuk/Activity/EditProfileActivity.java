@@ -51,20 +51,11 @@ public class EditProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
         initView();
-        doGetAddress(userId);
 
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
-            }
-        });
-
-        btnAddAddress.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(EditProfileActivity.this, AddAddressActivity.class);
-                startActivity(intent);
             }
         });
 
@@ -91,17 +82,9 @@ public class EditProfileActivity extends AppCompatActivity {
         editName.setText(sharedPrefManager.getSPNama());
         editPhonenumber = (EditText)findViewById(R.id.editPhonenumber);
         editPhonenumber.setText(sharedPrefManager.getSPNohp());
-        btnAddAddress = (Button)findViewById(R.id.btnAddAddress);
         btnSimpan = (Button)findViewById(R.id.btnSimpan);
-        spinnerAlamat = (Spinner)findViewById(R.id.spinnerAlamat);
 
         userId = Integer.parseInt(sharedPrefManager.getSPId());
-    }
-
-    @Override
-    public void onResume(){
-        super.onResume();
-        doGetAddress(userId);
     }
 
     private boolean validateChangeProfile(String name, String phone_number){
@@ -114,26 +97,6 @@ public class EditProfileActivity extends AppCompatActivity {
             return false;
         }
         return true;
-    }
-
-    private void doGetAddress(Integer id){
-        Call<ReqAddress> call = userService.getAddress(id);
-        call.enqueue(new Callback<ReqAddress>() {
-            @Override
-            public void onResponse(Call<ReqAddress> call, Response<ReqAddress> response) {
-                ReqAddress reqAddress = response.body();
-                addresses = reqAddress.getAddresses();
-
-                spinnerAlamatAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, addresses);
-                spinnerAlamatAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinnerAlamat.setAdapter(spinnerAlamatAdapter);
-            }
-
-            @Override
-            public void onFailure(Call<ReqAddress> call, Throwable t) {
-                Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     private void doChangeProfile(Integer id, final String name, final String phone_number){

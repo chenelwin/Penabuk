@@ -14,6 +14,8 @@ import com.example.asus.penabuk.Activity.HistoryDetailActivity;
 import com.example.asus.penabuk.Model.History;
 import com.example.asus.penabuk.R;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.List;
 
 public class HistoryFragmentAdapter extends RecyclerView.Adapter<HistoryFragmentAdapter.ViewHolder> {
@@ -36,7 +38,12 @@ public class HistoryFragmentAdapter extends RecyclerView.Adapter<HistoryFragment
         final History history = histories.get(holder.getAdapterPosition());
         holder.textOrderid.setText(history.getOrder_id());
         holder.textDate.setText(history.getCreatedAt());
-        holder.textPrice.setText("Rp. "+history.getTotal_price());
+        DecimalFormat formatter = new DecimalFormat("#,###,###");
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+        symbols.setGroupingSeparator('.');
+        formatter.setDecimalFormatSymbols(symbols);
+        String priceformat = formatter.format(history.getTotal_price());
+        holder.textPrice.setText("Rp. " + priceformat);
         holder.textStatus.setText(history.getStatus());
 
         holder.cv.setOnClickListener(new View.OnClickListener() {

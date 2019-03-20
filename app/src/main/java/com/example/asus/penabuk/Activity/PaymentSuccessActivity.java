@@ -23,6 +23,7 @@ public class PaymentSuccessActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(PaymentSuccessActivity.this, MainActivity.class)
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("statusmain", 3);
                 startActivity(intent);
             }
         });

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.asus.penabuk.Activity.AddressActivity;
 import com.example.asus.penabuk.Activity.ChangePasswordActivity;
 import com.example.asus.penabuk.Activity.EditProfileActivity;
 import com.example.asus.penabuk.Activity.LoginActivity;
@@ -20,6 +21,7 @@ public class ProfileFragment extends Fragment {
 
     public View view;
     LinearLayout btnEditProfile;
+    LinearLayout btnAddress;
     LinearLayout btnChangePassword;
     LinearLayout btnLogout;
     SharedPrefManager sharedPrefManager;
@@ -35,6 +37,14 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), EditProfileActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), AddressActivity.class);
                 startActivity(intent);
             }
         });
@@ -70,6 +80,7 @@ public class ProfileFragment extends Fragment {
         profileNama = (TextView)view.findViewById(R.id.profileNama);
         profileNama.setText(sharedPrefManager.getSPNama());
         btnEditProfile = (LinearLayout)view.findViewById(R.id.btnEditProfile);
+        btnAddress = (LinearLayout)view.findViewById(R.id.btnAddress);
         btnChangePassword = (LinearLayout)view.findViewById(R.id.btnChangePassword);
         btnLogout = (LinearLayout)view.findViewById(R.id.btnLogout);
     }

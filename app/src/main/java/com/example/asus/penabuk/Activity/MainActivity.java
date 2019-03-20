@@ -22,6 +22,7 @@ import java.lang.reflect.Field;
 public class MainActivity extends AppCompatActivity {
 
     Fragment selectedFragment;
+    Integer status=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +33,16 @@ public class MainActivity extends AppCompatActivity {
         disableShiftMode(bottom_navigation);
         bottom_navigation.setOnNavigationItemSelectedListener(navListener);
 
-        selectedFragment = new HomeFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
+        status = getIntent().getIntExtra("statusmain", 0);
+
+        if(status==3){
+            selectedFragment = new HistoryFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
+        }
+        else if(status==0) {
+            selectedFragment = new HomeFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
+        }
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener

@@ -53,7 +53,8 @@
             android:screenOrientation="portrait" />
         <activity android:name=".Activity.HistoryDetailActivity" />
         <activity android:name=".Activity.ConfirmPaymentActivity" />
-        <activity android:name=".Activity.PaymentSuccessActivity"></activity>
+        <activity android:name=".Activity.PaymentSuccessActivity" />
+        <activity android:name=".Activity.AddressActivity"></activity>
     </application>
 
 </manifest>

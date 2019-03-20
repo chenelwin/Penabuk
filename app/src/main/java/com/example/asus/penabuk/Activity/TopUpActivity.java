@@ -3,6 +3,7 @@ package com.example.asus.penabuk.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
@@ -66,8 +67,8 @@ public class TopUpActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==0){
             if(resultCode==RESULT_OK && data!=null){
-                Uri imgdata = data.getData();
-                imgUpload.setImageURI(imgdata);
+                Bitmap imgdata = (Bitmap) data.getExtras().get("data");
+                imgUpload.setImageBitmap(imgdata);
             }
         }
         else if(requestCode==1){

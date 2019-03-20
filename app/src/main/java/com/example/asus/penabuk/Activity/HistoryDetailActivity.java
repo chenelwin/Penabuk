@@ -37,6 +37,7 @@ public class HistoryDetailActivity extends AppCompatActivity {
     TextView textAddress;
     TextView textTotalprice;
     TextView textStatus;
+    TextView textTotalQty;
     Button btnCancel;
     Button btnConfirm;
     History historyDetail;
@@ -80,6 +81,7 @@ public class HistoryDetailActivity extends AppCompatActivity {
         textAddress = (TextView)findViewById(R.id.textAddress);
         textTotalprice = (TextView)findViewById(R.id.textTotalharga);
         textStatus = (TextView)findViewById(R.id.textStatus);
+        textTotalQty = (TextView)findViewById(R.id.textTotalQty);
         orderId = getIntent().getStringExtra("passingorderid");
         rvHistoryDetail = (RecyclerView)findViewById(R.id.RvHistoryDetail);
     }
@@ -98,6 +100,12 @@ public class HistoryDetailActivity extends AppCompatActivity {
                 textStatus.setText(historyDetail.getStatus());
                 showButton(historyDetail.getStatus());
                 textTotalprice.setText("Rp. "+historyDetail.getTotal_price());
+                Integer totalQty = 0;
+                for(int i=0; i<historyDetail.getDetails().size(); i++){
+                    totalQty += historyDetail.getDetails().get(i).getTotal();
+                }
+                textTotalQty.setText(totalQty.toString());
+
                 historyDetailAdapter = new HistoryDetailAdapter(historyDetail.getDetails());
                 rvHistoryDetail.setLayoutManager(new LinearLayoutManager(context));
                 rvHistoryDetail.setItemAnimator(new DefaultItemAnimator());
