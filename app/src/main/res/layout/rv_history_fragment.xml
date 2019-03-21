@@ -42,7 +42,8 @@
                     android:padding="10dp"
                     android:text="View Detail"
                     android:textSize="12sp"
-                    android:background="@drawable/myborder"/>
+                    android:background="@drawable/myborder"
+                    android:id="@+id/btnView"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"

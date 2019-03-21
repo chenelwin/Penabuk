@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -46,7 +47,7 @@ public class HistoryFragmentAdapter extends RecyclerView.Adapter<HistoryFragment
         holder.textPrice.setText("Rp. " + priceformat);
         holder.textStatus.setText(history.getStatus());
 
-        holder.cv.setOnClickListener(new View.OnClickListener() {
+        holder.btnView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, HistoryDetailActivity.class);
@@ -62,6 +63,7 @@ public class HistoryFragmentAdapter extends RecyclerView.Adapter<HistoryFragment
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
+        Button btnView;
         TextView textOrderid;
         TextView textDate;
         TextView textPrice;
@@ -70,6 +72,7 @@ public class HistoryFragmentAdapter extends RecyclerView.Adapter<HistoryFragment
 
         public ViewHolder(View itemView){
             super(itemView);
+            btnView = (Button)itemView.findViewById(R.id.btnView);
             textOrderid = (TextView)itemView.findViewById(R.id.textOrderid);
             textDate = (TextView)itemView.findViewById(R.id.textDate);
             textPrice = (TextView)itemView.findViewById(R.id.textPrice);

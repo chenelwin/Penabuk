@@ -24,7 +24,6 @@ public class CartFragmentAdapter extends RecyclerView.Adapter<CartFragmentAdapte
 
     List<Cart> carts;
     Context context;
-    Integer count=1;
 
     public CartFragmentAdapter(List<Cart> cartList){this.carts = cartList;}
 
@@ -54,7 +53,7 @@ public class CartFragmentAdapter extends RecyclerView.Adapter<CartFragmentAdapte
                 .centerCrop()
                 .into(holder.cartImg);
 
-        holder.bookQty.setText(String.valueOf(count));
+        holder.bookQty.setText(String.valueOf(cart.getCount()));
 
         holder.imgPlus.setOnClickListener(new View.OnClickListener() {
             @Override

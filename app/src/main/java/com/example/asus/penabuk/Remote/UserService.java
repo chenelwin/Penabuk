@@ -85,4 +85,7 @@ public interface UserService {
     @GET("/carts")
     Call<ReqCart> getCart(@Query("token") Integer id);
 
+    @GET("/search")
+    Call<ReqBook> getBookByVoice(@Query("voice") String voiceKey);
+
 }

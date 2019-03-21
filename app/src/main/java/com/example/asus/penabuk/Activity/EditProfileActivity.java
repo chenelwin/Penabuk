@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.asus.penabuk.ErrorUtils.ErrorUtils;
 import com.example.asus.penabuk.Model.Address;
 import com.example.asus.penabuk.Model.ReqAddress;
 import com.example.asus.penabuk.Model.ResMessage;
@@ -116,11 +117,8 @@ public class EditProfileActivity extends AppCompatActivity {
                     progressDialog.dismiss();
                 }
                 else {
-                    try {
-                        Toast.makeText(context, response.errorBody().string(), Toast.LENGTH_SHORT).show();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    ResMessage resMessage = ErrorUtils.parseError(response);
+                    Toast.makeText(EditProfileActivity.this, resMessage.getMessage(), Toast.LENGTH_LONG).show();
                     progressDialog.dismiss();
                 }
             }

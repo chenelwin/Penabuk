@@ -106,8 +106,8 @@ public class HomeFragment extends Fragment {
     }
 
     private void initCarouselItem(){
-        images = new int[]{ R.drawable.ikonmic, R.drawable.ikonsearch, R.drawable.ic_home_black_24dp, R.drawable.ic_favorite_black_24dp};
-        imagetitle = new String[] { "Mic", "Search", "Home", "Fav" };
+        images = new int[]{ R.drawable.slider1, R.drawable.slider2, R.drawable.slider3, R.drawable.slider4};
+        imagetitle = new String[] { "Pic1", "Pic2", "Pic3", "Pic4" };
         carousel.setPageCount(images.length);
         carousel.setImageListener(new ImageListener() {
             @Override

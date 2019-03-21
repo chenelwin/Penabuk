@@ -12,7 +12,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.asus.penabuk.ErrorUtils.ErrorUtils;
 import com.example.asus.penabuk.Model.ReqUser;
+import com.example.asus.penabuk.Model.ResMessage;
 import com.example.asus.penabuk.Model.ResUser;
 import com.example.asus.penabuk.R;
 import com.example.asus.penabuk.Remote.ApiUtils;
@@ -121,18 +123,15 @@ public class RegisterActivity extends AppCompatActivity {
             public void onResponse(Call<ResUser> call, Response<ResUser> response) {
                 if(response.code()==200){
                     ResUser resUser = response.body();
-                    Toast.makeText(RegisterActivity.this, "Berhasil Register", Toast.LENGTH_LONG).show();
+                    Toast.makeText(RegisterActivity.this, resUser.getMessage(), Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                     progressDialog.dismiss();
                     startActivity(intent);
                     finish();
                 }
                 else{
-                    try {
-                        Toast.makeText(RegisterActivity.this, ""+response.errorBody().string(), Toast.LENGTH_LONG).show();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    ResMessage resMessage = ErrorUtils.parseError(response);
+                    Toast.makeText(RegisterActivity.this, resMessage.getMessage(), Toast.LENGTH_LONG).show();
                     progressDialog.dismiss();
                 }
             }

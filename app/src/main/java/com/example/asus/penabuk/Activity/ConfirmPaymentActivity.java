@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.asus.penabuk.ErrorUtils.ErrorUtils;
 import com.example.asus.penabuk.Model.Order;
 import com.example.asus.penabuk.Model.Payment;
 import com.example.asus.penabuk.Model.ResMessage;
@@ -85,11 +86,8 @@ public class ConfirmPaymentActivity extends AppCompatActivity {
                     finish();
                 }
                 else {
-                    try {
-                        Toast.makeText(context, response.errorBody().string(), Toast.LENGTH_SHORT).show();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    ResMessage resMessage = ErrorUtils.parseError(response);
+                    Toast.makeText(ConfirmPaymentActivity.this, resMessage.getMessage(), Toast.LENGTH_LONG).show();
                     progressDialog.dismiss();
                 }
             }

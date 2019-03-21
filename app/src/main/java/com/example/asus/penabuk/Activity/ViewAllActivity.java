@@ -94,6 +94,7 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
             if(resultCode==RESULT_OK && data != null){
                 ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                 searchKey.setText(result.get(0));
+                doGetBookByVoice(result.get(0));
             }
         }
     }
@@ -130,6 +131,29 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
                 rvViewAllActivity.setItemAnimator(new DefaultItemAnimator());
                 rvViewAllActivity.setAdapter(viewAllAdapter);
                 endlessScroll();
+            }
+
+            @Override
+            public void onFailure(Call<ReqBook> call, Throwable t) {
+                Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void doGetBookByVoice(String voiceKey){
+        Call<ReqBook> call = userService.getBookByVoice(voiceKey);
+        call.enqueue(new Callback<ReqBook>() {
+            @Override
+            public void onResponse(Call<ReqBook> call, Response<ReqBook> response) {
+                ReqBook reqBook = response.body();
+                books = reqBook.getBooks();
+                viewAllAdapter = new ViewAllAdapter(books);
+                page=5;
+
+                rvManager = new LinearLayoutManager(context);
+                rvViewAllActivity.setLayoutManager(rvManager);
+                rvViewAllActivity.setItemAnimator(new DefaultItemAnimator());
+                rvViewAllActivity.setAdapter(viewAllAdapter);
             }
 
             @Override

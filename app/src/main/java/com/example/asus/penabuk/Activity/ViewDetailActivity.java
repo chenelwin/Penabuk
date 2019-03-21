@@ -13,6 +13,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.asus.penabuk.ErrorUtils.ErrorUtils;
 import com.example.asus.penabuk.Model.Book;
 import com.example.asus.penabuk.Model.Order;
 import com.example.asus.penabuk.Model.ReqBookId;
@@ -187,11 +188,8 @@ public class ViewDetailActivity extends AppCompatActivity {
                     progressDialog.dismiss();
                 }
                 else {
-                    try {
-                        Toast.makeText(context, response.errorBody().string(), Toast.LENGTH_SHORT).show();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    ResMessage resMessage = ErrorUtils.parseError(response);
+                    Toast.makeText(ViewDetailActivity.this, resMessage.getMessage(), Toast.LENGTH_LONG).show();
                     progressDialog.dismiss();
                 }
             }

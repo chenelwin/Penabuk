@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.asus.penabuk.ErrorUtils.ErrorUtils;
 import com.example.asus.penabuk.Model.ReqChangePassword;
 import com.example.asus.penabuk.Model.ResMessage;
 import com.example.asus.penabuk.R;
@@ -109,11 +110,8 @@ public class ChangePasswordActivity extends AppCompatActivity {
                     finish();
                 }
                 else {
-                    try {
-                        Toast.makeText(context, response.errorBody().string(), Toast.LENGTH_SHORT).show();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    ResMessage resMessage = ErrorUtils.parseError(response);
+                    Toast.makeText(ChangePasswordActivity.this, resMessage.getMessage(), Toast.LENGTH_LONG).show();
                     progressDialog.dismiss();
                 }
             }
