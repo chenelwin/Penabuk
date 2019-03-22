@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.asus.penabuk.Model.Address;
@@ -14,6 +15,12 @@ import com.example.asus.penabuk.R;
 import java.util.List;
 
 public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHolder> {
+
+    public interface PassingBtnRemove{
+        void passData(Integer address_id, int position);
+    }
+
+    public static PassingBtnRemove passingBtnRemove;
 
     Context context;
     List<Address> addresses;
@@ -30,11 +37,21 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(AddressAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(AddressAdapter.ViewHolder holder, final int position) {
         final Address address = addresses.get(holder.getAdapterPosition());
 
         String tmpaddress = address.getAddress_line()+", "+address.getCity()+", "+address.getDistrict()+", "+address.getProvince()+" "+address.getZip_code();
         holder.textAddress.setText(tmpaddress);
+
+        holder.btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                passingBtnRemove.passData(address.getId(), position);
+                addresses.remove(position);
+                notifyItemRemoved(position);
+                notifyItemRangeChanged(position, addresses.size());
+            }
+        });
     }
 
     @Override
@@ -45,11 +62,13 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         TextView textAddress;
+        ImageView btnDelete;
         CardView cv;
 
         public ViewHolder(View itemView){
             super(itemView);
             textAddress = (TextView)itemView.findViewById(R.id.textAddress);
+            btnDelete = (ImageView)itemView.findViewById(R.id.btnDelete);
             cv = (CardView)itemView.findViewById(R.id.cvAddress);
         }
     }

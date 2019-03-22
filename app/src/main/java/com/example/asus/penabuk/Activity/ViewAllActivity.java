@@ -114,7 +114,7 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
     @Override
     public void passData(Integer book_id, int position){
         progressDialog = ProgressDialog.show(context, null, "Please Wait..", true);
-        doAddCart(books.get(position).getId(), userId);
+        doAddCart(book_id, userId);
     }
 
     private void doGetBook(Integer id, Integer page){

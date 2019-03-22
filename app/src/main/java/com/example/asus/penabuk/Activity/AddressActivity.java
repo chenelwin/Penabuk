@@ -1,5 +1,6 @@
 package com.example.asus.penabuk.Activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import com.example.asus.penabuk.Adapter.AddressAdapter;
 import com.example.asus.penabuk.Model.Address;
 import com.example.asus.penabuk.Model.ReqAddress;
+import com.example.asus.penabuk.Model.ResMessage;
 import com.example.asus.penabuk.R;
 import com.example.asus.penabuk.Remote.ApiUtils;
 import com.example.asus.penabuk.Remote.UserService;
@@ -26,11 +28,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AddressActivity extends AppCompatActivity {
+public class AddressActivity extends AppCompatActivity implements AddressAdapter.PassingBtnRemove {
 
     Context context;
     SharedPrefManager sharedPrefManager;
     UserService userService = ApiUtils.getUserService();
+    ProgressDialog progressDialog;
     ImageView imgBack;
     Button btnAddAddress;
     RecyclerView rvAddress;
@@ -68,10 +71,17 @@ public class AddressActivity extends AppCompatActivity {
         doGetAddress(userId);
     }
 
+    @Override
+    public void passData(Integer address_id, int position){
+        progressDialog = ProgressDialog.show(context, null, "Please Wait..", true);
+        doRemoveAddress(address_id, userId);
+    }
+
     private void initView(){
         context = this;
         sharedPrefManager = new SharedPrefManager(context);
         userId = Integer.parseInt(sharedPrefManager.getSPId());
+        AddressAdapter.passingBtnRemove = this;
         imgBack = (ImageView)findViewById(R.id.imgBack);
         btnAddAddress = (Button)findViewById(R.id.btnAddAddress);
         rvAddress = (RecyclerView)findViewById(R.id.RvAddress);
@@ -94,6 +104,24 @@ public class AddressActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<ReqAddress> call, Throwable t) {
                 Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void doRemoveAddress(Integer addressId, Integer userId){
+        Call<ResMessage> call = userService.removeAddressRequest(addressId, userId);
+        call.enqueue(new Callback<ResMessage>() {
+            @Override
+            public void onResponse(Call<ResMessage> call, Response<ResMessage> response) {
+                ResMessage resMessage = response.body();
+                Toast.makeText(context, resMessage.getMessage(), Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<ResMessage> call, Throwable t) {
+                Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
             }
         });
     }

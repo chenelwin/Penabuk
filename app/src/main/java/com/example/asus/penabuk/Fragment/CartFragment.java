@@ -1,5 +1,6 @@
 package com.example.asus.penabuk.Fragment;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -21,6 +22,7 @@ import com.example.asus.penabuk.Adapter.CartFragmentAdapter;
 import com.example.asus.penabuk.Model.Book;
 import com.example.asus.penabuk.Model.Cart;
 import com.example.asus.penabuk.Model.ReqCart;
+import com.example.asus.penabuk.Model.ResMessage;
 import com.example.asus.penabuk.R;
 import com.example.asus.penabuk.Remote.ApiUtils;
 import com.example.asus.penabuk.Remote.UserService;
@@ -34,7 +36,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CartFragment extends Fragment {
+public class CartFragment extends Fragment implements CartFragmentAdapter.PassingBtnRemove {
 
     UserService userService = ApiUtils.getUserService();
     SharedPrefManager sharedPrefManager;
@@ -48,6 +50,7 @@ public class CartFragment extends Fragment {
     List<Integer> passingcartid;
     List<Integer> passingcount;
     Integer userId;
+    ProgressDialog progressDialog;
 
     @Nullable
     @Override
@@ -71,6 +74,12 @@ public class CartFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void passData(Integer cart_id, int position){
+        progressDialog = ProgressDialog.show(view.getContext(), null, "Please Wait..", true);
+        doRemoveCart(cart_id, userId);
+    }
+
     private void initCount(List<Cart> carts){
         passingcount = new ArrayList<>();
         for(int i=0; i<carts.size(); i++){
@@ -82,6 +91,7 @@ public class CartFragment extends Fragment {
     public void initView(){
         sharedPrefManager = new SharedPrefManager(view.getContext());
         userId = Integer.parseInt(sharedPrefManager.getSPId());
+        CartFragmentAdapter.passingBtnRemove = this;
         rvCartFragment = (RecyclerView)view.findViewById(R.id.RvCartFragment);
         checkAll = (CheckBox)view.findViewById(R.id.checkAll);
         btnBuy = (Button)view.findViewById(R.id.btnBuy);
@@ -113,6 +123,25 @@ public class CartFragment extends Fragment {
             @Override
             public void onFailure(Call<ReqCart> call, Throwable t) {
                 Toast.makeText(view.getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void doRemoveCart(Integer cartId, Integer userId){
+        Call<ResMessage> call = userService.removeCartRequest(cartId, userId);
+        call.enqueue(new Callback<ResMessage>() {
+            @Override
+            public void onResponse(Call<ResMessage> call, Response<ResMessage> response) {
+                ResMessage resMessage = response.body();
+                Toast.makeText(view.getContext(), resMessage.getMessage(), Toast.LENGTH_SHORT).show();
+
+                progressDialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<ResMessage> call, Throwable t) {
+                Toast.makeText(view.getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
             }
         });
     }

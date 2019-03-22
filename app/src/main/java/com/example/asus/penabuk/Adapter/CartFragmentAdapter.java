@@ -22,6 +22,12 @@ import java.util.List;
 
 public class CartFragmentAdapter extends RecyclerView.Adapter<CartFragmentAdapter.ViewHolder> {
 
+    public interface PassingBtnRemove{
+        void passData(Integer cart_id, int position);
+    }
+
+    public static PassingBtnRemove passingBtnRemove;
+
     List<Cart> carts;
     Context context;
 
@@ -36,7 +42,7 @@ public class CartFragmentAdapter extends RecyclerView.Adapter<CartFragmentAdapte
     }
 
     @Override
-    public void onBindViewHolder(final CartFragmentAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(final CartFragmentAdapter.ViewHolder holder, final int position) {
         final Cart cart = carts.get(holder.getAdapterPosition());
         holder.cartTitle.setText(cart.getBook().getOriginal_title());
 
@@ -76,6 +82,16 @@ public class CartFragmentAdapter extends RecyclerView.Adapter<CartFragmentAdapte
                 }
             }
         });
+
+        holder.btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                passingBtnRemove.passData(cart.getCart_id(), position);
+                carts.remove(position);
+                notifyItemRemoved(position);
+                notifyItemRangeChanged(position, carts.size());
+            }
+        });
     }
 
     @Override
@@ -91,6 +107,7 @@ public class CartFragmentAdapter extends RecyclerView.Adapter<CartFragmentAdapte
         ImageView imgMinus;
         TextView bookQty;
         ImageView imgPlus;
+        ImageView btnDelete;
         CardView cv;
 
         public ViewHolder(View itemView){
@@ -102,6 +119,7 @@ public class CartFragmentAdapter extends RecyclerView.Adapter<CartFragmentAdapte
             imgMinus = (ImageView)itemView.findViewById(R.id.imgMinus);
             bookQty = (TextView)itemView.findViewById(R.id.bookQty);
             imgPlus = (ImageView)itemView.findViewById(R.id.imgPlus);
+            btnDelete = (ImageView)itemView.findViewById(R.id.btnDelete);
             cv = (CardView)itemView.findViewById(R.id.cvCartFragment);
         }
     }
