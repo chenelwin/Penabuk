@@ -13,6 +13,7 @@ import com.example.asus.penabuk.Model.ReqDistrict;
 import com.example.asus.penabuk.Model.ReqHistory;
 import com.example.asus.penabuk.Model.ReqHistoryId;
 import com.example.asus.penabuk.Model.ReqProvince;
+import com.example.asus.penabuk.Model.ReqReview;
 import com.example.asus.penabuk.Model.ReqUser;
 import com.example.asus.penabuk.Model.ResMessage;
 import com.example.asus.penabuk.Model.ResUser;
@@ -61,11 +62,14 @@ public interface UserService {
     @POST("remove/address/{id}")
     Call<ResMessage> removeAddressRequest(@Path("id") Integer addressId, @Query("token") Integer userId);
 
+    @POST("books/rate")
+    Call<ResMessage> reviewRequest(@Body ReqReview reqReview, @Query("token") Integer userId);
+
     @GET("/books")
     Call<ReqBook> getBookRequest(@Query("token") Integer id, @Query("page") Integer page);
 
     @GET("/books/{id}")
-    Call<ReqBookId> getBookById(@Path("id") Integer id);
+    Call<ReqBookId> getBookById(@Path("id") Integer bookId, @Query("token") Integer userId);
 
     @GET("/provinces")
     Call<ReqProvince> getProvince();

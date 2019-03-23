@@ -5,19 +5,26 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.asus.penabuk.Adapter.ViewDetailAdapter;
 import com.example.asus.penabuk.ErrorUtils.ErrorUtils;
 import com.example.asus.penabuk.Model.Book;
 import com.example.asus.penabuk.Model.Order;
 import com.example.asus.penabuk.Model.ReqBookId;
+import com.example.asus.penabuk.Model.ReqReview;
 import com.example.asus.penabuk.Model.ResMessage;
+import com.example.asus.penabuk.Model.Review;
 import com.example.asus.penabuk.R;
 import com.example.asus.penabuk.Remote.ApiUtils;
 import com.example.asus.penabuk.Remote.UserService;
@@ -38,6 +45,8 @@ public class ViewDetailActivity extends AppCompatActivity {
     UserService userService = ApiUtils.getUserService();
     SharedPrefManager sharedPrefManager;
     Context context;
+    RecyclerView rvViewDetail;
+    ViewDetailAdapter viewDetailAdapter;
     ImageView bookImg;
     TextView bookTitle;
     TextView bookAuthor;
@@ -50,6 +59,7 @@ public class ViewDetailActivity extends AppCompatActivity {
     TextView bookPrice;
     Integer userId;
     ImageView imgBack;
+    List<Review> reviews;
     List<Book> passingbook;
     List<Integer> passingcartid;
     List<Integer> passingcount;
@@ -57,6 +67,11 @@ public class ViewDetailActivity extends AppCompatActivity {
     Button btnBuy;
     ProgressDialog progressDialog;
     Integer count = 1;
+
+    //Review User
+    RatingBar userRate;
+    EditText userComment;
+    Button btnReview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,12 +110,25 @@ public class ViewDetailActivity extends AppCompatActivity {
             }
         });
 
+        btnReview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Integer bookid = getIntent().getIntExtra("bookid", 0);
+                Integer rating = Math.round(userRate.getRating());
+                String review = userComment.getText().toString();
+                if(validateReview(rating, review)) {
+                    progressDialog = ProgressDialog.show(context, null, "Please Wait..", true);
+                    doGiveReview(bookid, rating, review);
+                }
+            }
+        });
+
         btnBuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 passingcount = new ArrayList<>();
                 passingcount.add(count);
-                Log.e("qty", count.toString() + " " + passingcount.get(0));
+                passingbook.get(0).setReviews(null);
                 Intent intent = new Intent(ViewDetailActivity.this, PaymentDetailActivity.class);
                 intent.putExtra("passingbook", (Serializable)passingbook);
                 intent.putExtra("passingcartid", (Serializable)passingcartid);
@@ -114,6 +142,7 @@ public class ViewDetailActivity extends AppCompatActivity {
         context = this;
         sharedPrefManager = new SharedPrefManager(context);
         userId = Integer.parseInt(sharedPrefManager.getSPId());
+        rvViewDetail = (RecyclerView)findViewById(R.id.RvViewDetail);
         bookImg = (ImageView)findViewById(R.id.bookImg);
         bookTitle = (TextView)findViewById(R.id.bookTitle);
         bookAuthor = (TextView)findViewById(R.id.bookAuthor);
@@ -130,11 +159,28 @@ public class ViewDetailActivity extends AppCompatActivity {
         imgBack = (ImageView)findViewById(R.id.imgBack);
         btnAdd = (Button)findViewById(R.id.btnAdd);
         btnBuy = (Button)findViewById(R.id.btnBuy);
+
+        //Review User
+        userRate = (RatingBar)findViewById(R.id.userRate);
+        userComment = (EditText) findViewById(R.id.userComment);
+        btnReview = (Button)findViewById(R.id.btnReview);
+    }
+
+    private boolean validateReview(Integer rating, String review){
+        if(rating<1){
+            Toast.makeText(this, "Rating is required", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(review == null || review.trim().length() == 0){
+            Toast.makeText(this, "Comment is required", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 
     private void doGetBookById(){
-        Integer id = getIntent().getIntExtra("bookid", 0);
-        Call<ReqBookId> call = userService.getBookById(id);
+        Integer bookId = getIntent().getIntExtra("bookid", 0);
+        Call<ReqBookId> call = userService.getBookById(bookId, userId);
         call.enqueue(new Callback<ReqBookId>() {
             @Override
             public void onResponse(Call<ReqBookId> call, Response<ReqBookId> response) {
@@ -154,11 +200,48 @@ public class ViewDetailActivity extends AppCompatActivity {
                         .resize(100, 140)
                         .centerCrop()
                         .into(bookImg);
+
+                reviews = book.getReviews();
+                viewDetailAdapter = new ViewDetailAdapter(reviews);
+                rvViewDetail.setLayoutManager(new LinearLayoutManager(context));
+                rvViewDetail.setItemAnimator(new DefaultItemAnimator());
+                rvViewDetail.setAdapter(viewDetailAdapter);
             }
 
             @Override
             public void onFailure(Call<ReqBookId> call, Throwable t) {
                 Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void doGiveReview(Integer book_id, Integer rating, String review){
+        final ReqReview reqReview = new ReqReview();
+        reqReview.setBook_id(book_id);
+        reqReview.setRating(rating);
+        reqReview.setReview(review);
+
+        Call<ResMessage> call = userService.reviewRequest(reqReview, userId);
+        call.enqueue(new Callback<ResMessage>() {
+            @Override
+            public void onResponse(Call<ResMessage> call, Response<ResMessage> response) {
+                if(response.isSuccessful()){
+                    ResMessage resMessage = response.body();
+                    Toast.makeText(ViewDetailActivity.this, resMessage.getMessage(), Toast.LENGTH_LONG).show();
+                    doGetBookById();
+                    progressDialog.dismiss();
+                }
+                else {
+                    ResMessage resMessage = ErrorUtils.parseError(response);
+                    Toast.makeText(ViewDetailActivity.this, resMessage.getMessage(), Toast.LENGTH_LONG).show();
+                    progressDialog.dismiss();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResMessage> call, Throwable t) {
+                Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
             }
         });
     }

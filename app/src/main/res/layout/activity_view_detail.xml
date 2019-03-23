@@ -30,143 +30,175 @@
 
     </LinearLayout>
 
-    <TextView
+    <android.support.v4.widget.NestedScrollView
+        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="JUDUL BUKU DISINI"
-        android:textColor="#000"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        android:layout_margin="10dp"
-        android:textAlignment="center"
-        android:id="@+id/bookTitle"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="5dp">
-
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="140dp"
-            android:layout_marginRight="5dp"
-            android:id="@+id/bookImg"/>
+        android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="JUDUL BUKU DISINI"
+                android:textColor="#000"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_margin="10dp"
+                android:textAlignment="center"
+                android:id="@+id/bookTitle"/>
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Pengarang : "
-                    android:textColor="#000"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/bookAuthor"
-                    android:textColor="#000"/>
-            </LinearLayout>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="5dp">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="wrap_content"
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="140dp"
+                    android:layout_marginRight="5dp"
+                    android:id="@+id/bookImg"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Tahun Publikasi : "
-                    android:textColor="#000"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/bookPublish"
-                    android:textColor="#000"/>
-            </LinearLayout>
+                    android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Average Rating : "
-                    android:textColor="#000"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/bookRating"
-                    android:textColor="#000"/>
-            </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Pengarang : "
+                            android:textColor="#000"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/bookAuthor"
+                            android:textColor="#000"/>
+                    </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <RatingBar
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="?android:attr/ratingBarStyleSmall"
-                    android:numStars="5"
-                    android:stepSize="0.01"
-                    android:isIndicator="true"
-                    android:id="@+id/bookRatingBar"/>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tahun Publikasi : "
+                            android:textColor="#000"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/bookPublish"
+                            android:textColor="#000"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Average Rating : "
+                            android:textColor="#000"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <RatingBar
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="?android:attr/ratingBarStyleSmall"
+                            android:numStars="5"
+                            android:stepSize="0.01"
+                            android:isIndicator="true"
+                            android:id="@+id/bookRatingBar"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:id="@+id/bookRating"
+                            android:textColor="#000"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Harga : "
+                            android:textColor="#000"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/bookPrice"
+                            android:textColor="#000"/>
+                    </LinearLayout>
+
+                    <Button
+                        android:layout_width="120dp"
+                        android:layout_height="25dp"
+                        android:layout_margin="5dp"
+                        android:text="Add to Cart"
+                        android:background="@drawable/myborder"
+                        android:id="@+id/btnAdd"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <RatingBar
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Harga : "
-                    android:textColor="#000"/>
-                <TextView
+                    style="?android:attr/ratingBarStyle"
+                    android:scaleX="0.7"
+                    android:scaleY="0.7"
+                    android:transformPivotX="0dp"
+                    android:transformPivotY="0dp"
+                    android:numStars="5"
+                    android:stepSize="1"
+                    android:id="@+id/userRate"/>
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:lines="1"
+                    android:id="@+id/userComment"/>
+                <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/bookPrice"
-                    android:textColor="#000"/>
+                    android:layout_margin="10dp"
+                    android:text="Kirim"
+                    android:textColor="#fff"
+                    android:layout_gravity="right"
+                    android:background="@drawable/mybutton"
+                    android:id="@+id/btnReview"/>
+
             </LinearLayout>
 
-            <Button
-                android:layout_width="120dp"
-                android:layout_height="25dp"
-                android:layout_margin="5dp"
-                android:text="Add to Cart"
-                android:background="@drawable/myborder"
-                android:id="@+id/btnAdd"/>
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#fff"
+                android:scrollbars="vertical"
+                android:nestedScrollingEnabled="false"
+                android:id="@+id/RvViewDetail">
+            </android.support.v7.widget.RecyclerView>
 
         </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="10dp">
-
-        <RatingBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="?android:attr/ratingBarStyle"
-            android:scaleX="0.7"
-            android:scaleY="0.7"
-            android:transformPivotX="0dp"
-            android:transformPivotY="0dp"
-            android:numStars="5"
-            android:stepSize="1"
-            android:id="@+id/userRate"/>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:lines="2"/>
-
-    </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 
     <LinearLayout
         android:layout_width="match_parent"

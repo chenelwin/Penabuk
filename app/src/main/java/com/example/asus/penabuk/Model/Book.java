@@ -1,6 +1,7 @@
 package com.example.asus.penabuk.Model;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Book implements Serializable {
 
@@ -13,6 +14,8 @@ public class Book implements Serializable {
     private String image_url;
     private String small_image_url;
     private Integer price;
+    private Integer user_rating;
+    private List<Review> reviews;
 
     public Integer getId() {
         return id;
@@ -84,5 +87,21 @@ public class Book implements Serializable {
 
     public void setPrice(Integer price) {
         this.price = price;
+    }
+
+    public Integer getUser_rating() {
+        return user_rating;
+    }
+
+    public void setUser_rating(Integer user_rating) {
+        this.user_rating = user_rating;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
     }
 }
