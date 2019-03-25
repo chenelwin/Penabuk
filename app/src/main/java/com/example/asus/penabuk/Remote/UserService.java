@@ -21,10 +21,14 @@ import com.example.asus.penabuk.Model.User;
 
 import java.util.List;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -59,11 +63,15 @@ public interface UserService {
     @POST("/remove/cart/{id}")
     Call<ResMessage> removeCartRequest(@Path("id") Integer cartId, @Query("token") Integer userId);
 
-    @POST("remove/address/{id}")
+    @POST("/remove/address/{id}")
     Call<ResMessage> removeAddressRequest(@Path("id") Integer addressId, @Query("token") Integer userId);
 
-    @POST("books/rate")
+    @POST("/books/rate")
     Call<ResMessage> reviewRequest(@Body ReqReview reqReview, @Query("token") Integer userId);
+
+    @Multipart
+    @POST("/topup/balance")
+    Call<ResMessage> uploadRequest(@Part("balance") RequestBody balance, @Part MultipartBody.Part image, @Query("token") Integer userId);
 
     @GET("/books")
     Call<ReqBook> getBookRequest(@Query("token") Integer id, @Query("page") Integer page);

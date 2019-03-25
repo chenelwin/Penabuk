@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,6 +49,8 @@ public class ViewDetailActivity extends AppCompatActivity {
     RecyclerView rvViewDetail;
     ViewDetailAdapter viewDetailAdapter;
     ImageView bookImg;
+    LinearLayout layoutReviewUser;
+    LinearLayout layoutReviewUserDone;
     TextView bookTitle;
     TextView bookAuthor;
     TextView bookPublish;
@@ -143,6 +146,8 @@ public class ViewDetailActivity extends AppCompatActivity {
         sharedPrefManager = new SharedPrefManager(context);
         userId = Integer.parseInt(sharedPrefManager.getSPId());
         rvViewDetail = (RecyclerView)findViewById(R.id.RvViewDetail);
+        layoutReviewUser = (LinearLayout)findViewById(R.id.layoutReviewUser);
+        layoutReviewUserDone = (LinearLayout)findViewById(R.id.layoutReviewUserDone);
         bookImg = (ImageView)findViewById(R.id.bookImg);
         bookTitle = (TextView)findViewById(R.id.bookTitle);
         bookAuthor = (TextView)findViewById(R.id.bookAuthor);
@@ -194,6 +199,15 @@ public class ViewDetailActivity extends AppCompatActivity {
                 bookRating.setText(book.getAverage_rating().toString());
                 bookRatingBar.setRating(book.getAverage_rating());
                 bookPrice.setText("Rp. " + book.getPrice());
+
+                if(book.getUser_rating()==0){
+                    layoutReviewUser.setVisibility(View.VISIBLE);
+                    layoutReviewUserDone.setVisibility(View.GONE);
+                }
+                else if(book.getUser_rating()>0){
+                    layoutReviewUser.setVisibility(View.GONE);
+                    layoutReviewUserDone.setVisibility(View.VISIBLE);
+                }
 
                 Picasso.with(context)
                         .load(book.getImage_url())

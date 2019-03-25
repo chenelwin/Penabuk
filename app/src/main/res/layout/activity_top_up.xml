@@ -181,6 +181,18 @@
                 </LinearLayout>
             </LinearLayout>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Masukkan saldo dan upload bukti transfer."/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:id="@+id/balanceUpload"/>
+
             <ImageView
                 android:layout_width="200dp"
                 android:layout_height="200dp"
@@ -193,7 +205,8 @@
                 android:layout_margin="20dp"
                 android:text="Upload"
                 android:textColor="#fff"
-                android:background="@drawable/mybutton"/>
+                android:background="@drawable/mybutton"
+                android:id="@+id/btnUpload"/>
 
         </LinearLayout>
     </ScrollView>

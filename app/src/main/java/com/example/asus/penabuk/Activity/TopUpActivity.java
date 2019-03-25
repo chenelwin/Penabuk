@@ -10,15 +10,21 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.example.asus.penabuk.R;
+
+import java.io.IOException;
 
 public class TopUpActivity extends AppCompatActivity {
 
     Context context;
     ImageView imgBack;
     ImageView imgUpload;
+    EditText balanceUpload;
+    Button btnUpload;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,12 +60,21 @@ public class TopUpActivity extends AppCompatActivity {
                 builder.show();
             }
         });
+
+        btnUpload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
     private void initView(){
         context = this;
         imgBack = (ImageView)findViewById(R.id.imgBack);
         imgUpload = (ImageView)findViewById(R.id.imgUpload);
+        balanceUpload = (EditText)findViewById(R.id.balanceUpload);
+        btnUpload = (Button)findViewById(R.id.btnUpload);
     }
 
     @Override
@@ -74,8 +89,17 @@ public class TopUpActivity extends AppCompatActivity {
         else if(requestCode==1){
             if(resultCode==RESULT_OK && data!=null){
                 Uri imgdata = data.getData();
-                imgUpload.setImageURI(imgdata);
+                try {
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imgdata);
+                    imgUpload.setImageBitmap(bitmap);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
+    }
+
+    private void doUpload(){
+
     }
 }
