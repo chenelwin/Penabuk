@@ -102,7 +102,7 @@ public class HistoryDetailActivity extends AppCompatActivity {
                 textTotalprice.setText("Rp. "+historyDetail.getTotal_price());
                 Integer totalQty = 0;
                 for(int i=0; i<historyDetail.getDetails().size(); i++){
-                    totalQty += historyDetail.getDetails().get(i).getTotal();
+                    totalQty += historyDetail.getDetails().get(i).getCount();
                 }
                 textTotalQty.setText(totalQty.toString());
 

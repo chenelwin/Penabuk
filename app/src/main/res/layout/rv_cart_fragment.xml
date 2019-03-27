@@ -18,7 +18,7 @@
             <CheckBox
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:checked="true"
+                android:checked="false"
                 android:id="@+id/checkCart"/>
             <ImageView
                 android:layout_width="80dp"

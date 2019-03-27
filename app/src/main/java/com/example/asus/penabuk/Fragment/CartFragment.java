@@ -15,9 +15,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.asus.penabuk.Activity.PaymentDetailActivity;
+import com.example.asus.penabuk.Activity.ViewAllActivity;
 import com.example.asus.penabuk.Adapter.CartFragmentAdapter;
 import com.example.asus.penabuk.Model.Book;
 import com.example.asus.penabuk.Model.Cart;
@@ -49,6 +51,9 @@ public class CartFragment extends Fragment implements CartFragmentAdapter.Passin
     List<Book> passingbuku;
     List<Integer> passingcartid;
     List<Integer> passingcount;
+    LinearLayout layoutCart;
+    LinearLayout layoutNoCart;
+    Button btnNoCart;
     Integer userId;
     ProgressDialog progressDialog;
 
@@ -59,15 +64,42 @@ public class CartFragment extends Fragment implements CartFragmentAdapter.Passin
         initView();
         doGetCart(userId);
 
+        /*
+        checkAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b) {
+                    cartFragmentAdapter.selectAll();
+                }
+                else if(!b){
+                    cartFragmentAdapter.deselectAll();
+                }
+            }
+        });*/
+
+        btnNoCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), ViewAllActivity.class);
+                startActivity(intent);
+            }
+        });
+
         btnBuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 initCount(carts);
-                Intent intent = new Intent(view.getContext(), PaymentDetailActivity.class);
-                intent.putExtra("passingbook", (Serializable)passingbuku);
-                intent.putExtra("passingcartid", (Serializable)passingcartid);
-                intent.putExtra("passingcount", (Serializable)passingcount);
-                startActivity(intent);
+                if(passingcount.size()>0) {
+
+                    Intent intent = new Intent(view.getContext(), PaymentDetailActivity.class);
+                    intent.putExtra("passingbook", (Serializable) passingbuku);
+                    intent.putExtra("passingcartid", (Serializable) passingcartid);
+                    intent.putExtra("passingcount", (Serializable) passingcount);
+                    startActivity(intent);
+                }
+                else if(passingcount.size()==0){
+                    Toast.makeText(view.getContext(), "Pilih buku yang ingin dibeli", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -80,11 +112,17 @@ public class CartFragment extends Fragment implements CartFragmentAdapter.Passin
         doRemoveCart(cart_id, userId);
     }
 
+
     private void initCount(List<Cart> carts){
         passingcount = new ArrayList<>();
+        passingbuku = new ArrayList<>();
+        passingcartid = new ArrayList<>();
         for(int i=0; i<carts.size(); i++){
-            passingcount.add(carts.get(i).getCount());
-            Log.e("count", "ke-"+i+" : "+passingcount.get(i));
+            if(carts.get(i).isSelected()) {
+                passingcount.add(carts.get(i).getCount());
+                passingbuku.add(carts.get(i).getBook());
+                passingcartid.add(carts.get(i).getCart_id());
+            }
         }
     }
 
@@ -95,8 +133,11 @@ public class CartFragment extends Fragment implements CartFragmentAdapter.Passin
         rvCartFragment = (RecyclerView)view.findViewById(R.id.RvCartFragment);
         checkAll = (CheckBox)view.findViewById(R.id.checkAll);
         btnBuy = (Button)view.findViewById(R.id.btnBuy);
-        passingbuku = new ArrayList<>();
-        passingcartid = new ArrayList<>();
+        //passingbuku = new ArrayList<>();
+        //passingcartid = new ArrayList<>();
+        layoutCart = (LinearLayout)view.findViewById(R.id.layoutCart);
+        layoutNoCart = (LinearLayout)view.findViewById(R.id.layoutNoCart);
+        btnNoCart = (Button)view.findViewById(R.id.btnNoCart);
     }
 
     public void doGetCart(Integer id){
@@ -106,12 +147,14 @@ public class CartFragment extends Fragment implements CartFragmentAdapter.Passin
             public void onResponse(Call<ReqCart> call, Response<ReqCart> response) {
                 ReqCart reqCart = response.body();
                 carts = reqCart.getCarts();
+                /*
                 for(int i=0; i<carts.size(); i++){
                     Book book = carts.get(i).getBook();
                     passingbuku.add(book);
                     Integer cartid = carts.get(i).getCart_id();
                     passingcartid.add(cartid);
-                }
+                }*/
+                checkCartSize(carts);
 
                 cartFragmentAdapter = new CartFragmentAdapter(carts);
 
@@ -134,6 +177,7 @@ public class CartFragment extends Fragment implements CartFragmentAdapter.Passin
             public void onResponse(Call<ResMessage> call, Response<ResMessage> response) {
                 ResMessage resMessage = response.body();
                 Toast.makeText(view.getContext(), resMessage.getMessage(), Toast.LENGTH_SHORT).show();
+                checkCartSize(carts);
 
                 progressDialog.dismiss();
             }
@@ -146,16 +190,17 @@ public class CartFragment extends Fragment implements CartFragmentAdapter.Passin
         });
     }
 
-    public void doCheckAll(List<Cart> carts){
-        for(int i=0; i<carts.size(); i++){
-            carts.get(i).setSelected(true);
+    private void checkCartSize(List<Cart> carts){
+        if(carts.size()==0){
+            layoutCart.setVisibility(View.GONE);
+            layoutNoCart.setVisibility(View.VISIBLE);
+        }
+        else if(carts.size()>0){
+            layoutCart.setVisibility(View.VISIBLE);
+            layoutNoCart.setVisibility(View.GONE);
         }
     }
 
-    public void doUncheckAll(List<Cart> carts){
-        for(int i=0; i<carts.size(); i++){
-            carts.get(i).setSelected(false);
-        }
-    }
+
 
 }

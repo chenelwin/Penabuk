@@ -4,10 +4,12 @@ import android.content.Context;
 import android.provider.ContactsContract;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,6 +20,7 @@ import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CartFragmentAdapter extends RecyclerView.Adapter<CartFragmentAdapter.ViewHolder> {
@@ -30,6 +33,7 @@ public class CartFragmentAdapter extends RecyclerView.Adapter<CartFragmentAdapte
 
     List<Cart> carts;
     Context context;
+    boolean isSelectedAll;
 
     public CartFragmentAdapter(List<Cart> cartList){this.carts = cartList;}
 
@@ -92,12 +96,46 @@ public class CartFragmentAdapter extends RecyclerView.Adapter<CartFragmentAdapte
                 notifyItemRangeChanged(position, carts.size());
             }
         });
+
+        holder.checkCart.setOnCheckedChangeListener(null);
+
+        holder.checkCart.setChecked(cart.isSelected());
+
+        holder.checkCart.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    cart.setSelected(true);
+                }
+                else if(!b){
+                    cart.setSelected(false);
+                }
+            }
+        });
+        /*
+        if(!isSelectedAll){
+            holder.checkCart.setChecked(false);
+        }
+        else if(isSelectedAll){
+            holder.checkCart.setChecked(true);
+        }*/
     }
 
     @Override
     public int getItemCount() {
         return carts.size();
     }
+
+    /*
+    public void selectAll(){
+        isSelectedAll = true;
+        notifyDataSetChanged();
+    }
+
+    public void deselectAll(){
+        isSelectedAll = false;
+        notifyDataSetChanged();
+    }*/
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         CheckBox checkCart;

@@ -1,34 +1,34 @@
 package com.example.asus.penabuk.Model;
 
 public class BookHistory {
-    private String name;
-    private Integer value;
-    private Integer total;
+    private String title;
+    private Integer price;
+    private Integer count;
     private String image_url;
     private String small_image_url;
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public Integer getValue() {
-        return value;
+    public Integer getPrice() {
+        return price;
     }
 
-    public void setValue(Integer value) {
-        this.value = value;
+    public void setPrice(Integer price) {
+        this.price = price;
     }
 
-    public Integer getTotal() {
-        return total;
+    public Integer getCount() {
+        return count;
     }
 
-    public void setTotal(Integer total) {
-        this.total = total;
+    public void setCount(Integer count) {
+        this.count = count;
     }
 
     public String getImage_url() {

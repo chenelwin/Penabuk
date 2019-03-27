@@ -36,16 +36,16 @@ public class HistoryDetailAdapter extends RecyclerView.Adapter<HistoryDetailAdap
     public void onBindViewHolder(HistoryDetailAdapter.ViewHolder holder, int position) {
         final BookHistory bookHistory = bookHistories.get(holder.getAdapterPosition());
 
-        holder.textTitle.setText(bookHistory.getName());
+        holder.textTitle.setText(bookHistory.getTitle());
 
         DecimalFormat formatter = new DecimalFormat("#,###,###");
         DecimalFormatSymbols symbols = new DecimalFormatSymbols();
         symbols.setGroupingSeparator('.');
         formatter.setDecimalFormatSymbols(symbols);
-        String priceformat = formatter.format(bookHistory.getValue());
+        String priceformat = formatter.format(bookHistory.getPrice());
         holder.textPrice.setText("Rp. " + priceformat);
 
-        holder.textQty.setText("Qty : " + bookHistory.getTotal());
+        holder.textQty.setText("Qty : " + bookHistory.getCount());
 
         Picasso.with(context)
                 .load(bookHistory.getImage_url())
