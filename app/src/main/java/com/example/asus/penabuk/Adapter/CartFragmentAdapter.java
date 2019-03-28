@@ -25,6 +25,13 @@ import java.util.List;
 
 public class CartFragmentAdapter extends RecyclerView.Adapter<CartFragmentAdapter.ViewHolder> {
 
+    //passing data utk update harga
+    public interface TotalHarga{
+        void passTotalHarga(List<Cart> cartChecked);
+    }
+    public static TotalHarga totalHarga;
+
+    //passing data utk dihapus
     public interface PassingBtnRemove{
         void passData(Integer cart_id, int position);
     }
@@ -33,7 +40,7 @@ public class CartFragmentAdapter extends RecyclerView.Adapter<CartFragmentAdapte
 
     List<Cart> carts;
     Context context;
-    boolean isSelectedAll;
+    List<Cart> cartChecked = new ArrayList<>();
 
     public CartFragmentAdapter(List<Cart> cartList){this.carts = cartList;}
 
@@ -72,6 +79,7 @@ public class CartFragmentAdapter extends RecyclerView.Adapter<CartFragmentAdapte
                 count++;
                 holder.bookQty.setText(String.valueOf(count));
                 cart.setCount(count);
+                totalHarga.passTotalHarga(cartChecked);
             }
         });
 
@@ -83,6 +91,7 @@ public class CartFragmentAdapter extends RecyclerView.Adapter<CartFragmentAdapte
                     count--;
                     holder.bookQty.setText(String.valueOf(count));
                     cart.setCount(count);
+                    totalHarga.passTotalHarga(cartChecked);
                 }
             }
         });
@@ -92,33 +101,30 @@ public class CartFragmentAdapter extends RecyclerView.Adapter<CartFragmentAdapte
             public void onClick(View view) {
                 passingBtnRemove.passData(cart.getCart_id(), position);
                 carts.remove(position);
-                notifyItemRemoved(position);
-                notifyItemRangeChanged(position, carts.size());
+                cartChecked.remove(cart);
+                totalHarga.passTotalHarga(cartChecked);
             }
         });
 
         holder.checkCart.setOnCheckedChangeListener(null);
-
         holder.checkCart.setChecked(cart.isSelected());
-
         holder.checkCart.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(b){
                     cart.setSelected(true);
+                    cartChecked.add(cart);
+                    totalHarga.passTotalHarga(cartChecked);
+                    Log.e("kenak cek", ""+cart.getBook().getTitle());
                 }
                 else if(!b){
                     cart.setSelected(false);
+                    cartChecked.remove(cart);
+                    totalHarga.passTotalHarga(cartChecked);
+                    Log.e("kenak hapus", ""+cart.getBook().getTitle());
                 }
             }
         });
-        /*
-        if(!isSelectedAll){
-            holder.checkCart.setChecked(false);
-        }
-        else if(isSelectedAll){
-            holder.checkCart.setChecked(true);
-        }*/
     }
 
     @Override
@@ -126,16 +132,20 @@ public class CartFragmentAdapter extends RecyclerView.Adapter<CartFragmentAdapte
         return carts.size();
     }
 
-    /*
+
     public void selectAll(){
-        isSelectedAll = true;
+        for(int i=0; i<carts.size(); i++){
+            carts.get(i).setSelected(true);
+        }
         notifyDataSetChanged();
     }
 
     public void deselectAll(){
-        isSelectedAll = false;
+        for(int i=0; i<carts.size(); i++){
+            carts.get(i).setSelected(false);
+        }
         notifyDataSetChanged();
-    }*/
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         CheckBox checkCart;

@@ -48,8 +48,6 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHold
             public void onClick(View view) {
                 passingBtnRemove.passData(address.getId(), position);
                 addresses.remove(position);
-                notifyItemRemoved(position);
-                notifyItemRangeChanged(position, addresses.size());
             }
         });
     }

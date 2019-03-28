@@ -74,7 +74,7 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
     @Override
     public void passData(Integer address_id, int position){
         progressDialog = ProgressDialog.show(context, null, "Please Wait..", true);
-        doRemoveAddress(address_id, userId);
+        doRemoveAddress(address_id, userId, position);
     }
 
     private void initView(){
@@ -108,13 +108,15 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
         });
     }
 
-    private void doRemoveAddress(Integer addressId, Integer userId){
+    private void doRemoveAddress(Integer addressId, Integer userId, final int position){
         Call<ResMessage> call = userService.removeAddressRequest(addressId, userId);
         call.enqueue(new Callback<ResMessage>() {
             @Override
             public void onResponse(Call<ResMessage> call, Response<ResMessage> response) {
                 ResMessage resMessage = response.body();
                 Toast.makeText(context, resMessage.getMessage(), Toast.LENGTH_SHORT).show();
+                addressAdapter.notifyItemRemoved(position);
+                addressAdapter.notifyItemRangeChanged(position, addresses.size());
                 progressDialog.dismiss();
             }
 

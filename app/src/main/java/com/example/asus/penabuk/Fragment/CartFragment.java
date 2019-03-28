@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.asus.penabuk.Activity.PaymentDetailActivity;
@@ -31,6 +32,8 @@ import com.example.asus.penabuk.Remote.UserService;
 import com.example.asus.penabuk.SharedPreferences.SharedPrefManager;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,12 +41,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CartFragment extends Fragment implements CartFragmentAdapter.PassingBtnRemove {
+public class CartFragment extends Fragment implements CartFragmentAdapter.PassingBtnRemove, CartFragmentAdapter.TotalHarga {
 
     UserService userService = ApiUtils.getUserService();
     SharedPrefManager sharedPrefManager;
     public View view;
     CheckBox checkAll;
+    TextView cartTotalPrice;
     Button btnBuy;
     RecyclerView rvCartFragment;
     CartFragmentAdapter cartFragmentAdapter;
@@ -64,7 +68,7 @@ public class CartFragment extends Fragment implements CartFragmentAdapter.Passin
         initView();
         doGetCart(userId);
 
-        /*
+
         checkAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -75,7 +79,7 @@ public class CartFragment extends Fragment implements CartFragmentAdapter.Passin
                     cartFragmentAdapter.deselectAll();
                 }
             }
-        });*/
+        });
 
         btnNoCart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,7 +113,21 @@ public class CartFragment extends Fragment implements CartFragmentAdapter.Passin
     @Override
     public void passData(Integer cart_id, int position){
         progressDialog = ProgressDialog.show(view.getContext(), null, "Please Wait..", true);
-        doRemoveCart(cart_id, userId);
+        doRemoveCart(cart_id, userId, position);
+    }
+
+    @Override
+    public void passTotalHarga(List<Cart> cartChecked){
+        Integer currentPrice = 0;
+        for(int i=0; i<cartChecked.size(); i++){
+            currentPrice += (cartChecked.get(i).getCount()*cartChecked.get(i).getBook().getPrice());
+        }
+        DecimalFormat formatter = new DecimalFormat("#,###,###");
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+        symbols.setGroupingSeparator('.');
+        formatter.setDecimalFormatSymbols(symbols);
+        String priceformat = formatter.format(currentPrice);
+        cartTotalPrice.setText("Rp. " + priceformat);
     }
 
 
@@ -130,11 +148,11 @@ public class CartFragment extends Fragment implements CartFragmentAdapter.Passin
         sharedPrefManager = new SharedPrefManager(view.getContext());
         userId = Integer.parseInt(sharedPrefManager.getSPId());
         CartFragmentAdapter.passingBtnRemove = this;
+        CartFragmentAdapter.totalHarga = this;
         rvCartFragment = (RecyclerView)view.findViewById(R.id.RvCartFragment);
         checkAll = (CheckBox)view.findViewById(R.id.checkAll);
         btnBuy = (Button)view.findViewById(R.id.btnBuy);
-        //passingbuku = new ArrayList<>();
-        //passingcartid = new ArrayList<>();
+        cartTotalPrice = (TextView)view.findViewById(R.id.cartTotalPrice);
         layoutCart = (LinearLayout)view.findViewById(R.id.layoutCart);
         layoutNoCart = (LinearLayout)view.findViewById(R.id.layoutNoCart);
         btnNoCart = (Button)view.findViewById(R.id.btnNoCart);
@@ -170,13 +188,15 @@ public class CartFragment extends Fragment implements CartFragmentAdapter.Passin
         });
     }
 
-    private void doRemoveCart(Integer cartId, Integer userId){
+    private void doRemoveCart(Integer cartId, Integer userId, final int position){
         Call<ResMessage> call = userService.removeCartRequest(cartId, userId);
         call.enqueue(new Callback<ResMessage>() {
             @Override
             public void onResponse(Call<ResMessage> call, Response<ResMessage> response) {
                 ResMessage resMessage = response.body();
                 Toast.makeText(view.getContext(), resMessage.getMessage(), Toast.LENGTH_SHORT).show();
+                cartFragmentAdapter.notifyItemRemoved(position);
+                cartFragmentAdapter.notifyItemRangeChanged(position, carts.size());
                 checkCartSize(carts);
 
                 progressDialog.dismiss();
