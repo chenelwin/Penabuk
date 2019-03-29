@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,23 +28,17 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
     UserService userService = ApiUtils.getUserService();
     Context context;
-    ImageView imgBack;
     EditText inputEmail;
     Button btnReset;
     ProgressDialog progressDialog;
+
+    Toolbar toolbarForgotPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password);
         initView();
-
-        imgBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
 
         btnReset.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,9 +54,23 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
     private void initView(){
         context = this;
-        imgBack = (ImageView)findViewById(R.id.imgBack);
+        initToolbar();
         inputEmail = (EditText)findViewById(R.id.inputEmail);
         btnReset = (Button)findViewById(R.id.btnReset);
+    }
+
+    private void initToolbar(){
+        toolbarForgotPassword = (Toolbar)findViewById(R.id.toolbarForgotPassword);
+        setSupportActionBar(toolbarForgotPassword);
+        getSupportActionBar().setTitle("Forgot Password");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        toolbarForgotPassword.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     private boolean validateReset(String email){

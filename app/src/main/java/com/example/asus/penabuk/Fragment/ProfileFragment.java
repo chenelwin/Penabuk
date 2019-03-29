@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +28,8 @@ public class ProfileFragment extends Fragment {
     LinearLayout btnLogout;
     SharedPrefManager sharedPrefManager;
     TextView profileNama;
+
+    Toolbar toolbarProfile;
 
     @Nullable
     @Override
@@ -77,12 +81,19 @@ public class ProfileFragment extends Fragment {
 
     private void initView(){
         sharedPrefManager = new SharedPrefManager(view.getContext());
+        initToolbar();
         profileNama = (TextView)view.findViewById(R.id.profileNama);
         profileNama.setText(sharedPrefManager.getSPNama());
         btnEditProfile = (LinearLayout)view.findViewById(R.id.btnEditProfile);
         btnAddress = (LinearLayout)view.findViewById(R.id.btnAddress);
         btnChangePassword = (LinearLayout)view.findViewById(R.id.btnChangePassword);
         btnLogout = (LinearLayout)view.findViewById(R.id.btnLogout);
+    }
+
+    private void initToolbar(){
+        toolbarProfile = (Toolbar)view.findViewById(R.id.toolbarProfile);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbarProfile);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Profil");
     }
 
     @Override

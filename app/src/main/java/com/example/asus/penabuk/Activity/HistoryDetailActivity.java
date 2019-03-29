@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -31,7 +32,6 @@ public class HistoryDetailActivity extends AppCompatActivity {
     UserService userService = ApiUtils.getUserService();
     SharedPrefManager sharedPrefManager;
     Context context;
-    ImageView imgBack;
     TextView textOrderid;
     TextView textDate;
     TextView textAddress;
@@ -47,19 +47,14 @@ public class HistoryDetailActivity extends AppCompatActivity {
     RecyclerView rvHistoryDetail;
     HistoryDetailAdapter historyDetailAdapter;
 
+    Toolbar toolbarHistoryDetail;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history_detail);
         initView();
         doGetHistoryById(orderId, userId);
-
-        imgBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,8 +67,8 @@ public class HistoryDetailActivity extends AppCompatActivity {
     public void initView(){
         context = this;
         sharedPrefManager = new SharedPrefManager(context);
+        initToolbar();
         userId = Integer.parseInt(sharedPrefManager.getSPId());
-        imgBack = (ImageView)findViewById(R.id.imgBack);
         btnCancel = (Button)findViewById(R.id.btnCancel);
         btnConfirm = (Button)findViewById(R.id.btnConfirm);
         textOrderid = (TextView)findViewById(R.id.textOrderid);
@@ -84,6 +79,20 @@ public class HistoryDetailActivity extends AppCompatActivity {
         textTotalQty = (TextView)findViewById(R.id.textTotalQty);
         orderId = getIntent().getStringExtra("passingorderid");
         rvHistoryDetail = (RecyclerView)findViewById(R.id.RvHistoryDetail);
+    }
+
+    private void initToolbar(){
+        toolbarHistoryDetail = (Toolbar)findViewById(R.id.toolbarHistoryDetail);
+        setSupportActionBar(toolbarHistoryDetail);
+        getSupportActionBar().setTitle("History Detail");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        toolbarHistoryDetail.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     public void doGetHistoryById(String orderId, Integer userId){

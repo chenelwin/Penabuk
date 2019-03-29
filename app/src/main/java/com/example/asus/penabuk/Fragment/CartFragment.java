@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,6 +62,8 @@ public class CartFragment extends Fragment implements CartFragmentAdapter.Passin
     Button btnNoCart;
     Integer userId;
     ProgressDialog progressDialog;
+
+    Toolbar toolbarCart;
 
     @Nullable
     @Override
@@ -146,6 +150,7 @@ public class CartFragment extends Fragment implements CartFragmentAdapter.Passin
 
     public void initView(){
         sharedPrefManager = new SharedPrefManager(view.getContext());
+        initToolbar();
         userId = Integer.parseInt(sharedPrefManager.getSPId());
         CartFragmentAdapter.passingBtnRemove = this;
         CartFragmentAdapter.totalHarga = this;
@@ -156,6 +161,12 @@ public class CartFragment extends Fragment implements CartFragmentAdapter.Passin
         layoutCart = (LinearLayout)view.findViewById(R.id.layoutCart);
         layoutNoCart = (LinearLayout)view.findViewById(R.id.layoutNoCart);
         btnNoCart = (Button)view.findViewById(R.id.btnNoCart);
+    }
+
+    private void initToolbar(){
+        toolbarCart = (Toolbar)view.findViewById(R.id.toolbarCart);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbarCart);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Keranjang");
     }
 
     public void doGetCart(Integer id){

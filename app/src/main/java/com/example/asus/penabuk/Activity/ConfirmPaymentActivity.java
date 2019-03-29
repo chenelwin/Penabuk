@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -39,6 +40,8 @@ public class ConfirmPaymentActivity extends AppCompatActivity {
     Integer userId;
     ProgressDialog progressDialog;
 
+    Toolbar toolbarConfirmPayment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,12 +61,27 @@ public class ConfirmPaymentActivity extends AppCompatActivity {
     private void initView(){
         context = this;
         sharedPrefManager = new SharedPrefManager(context);
+        initToolbar();
         confirmPassword = (EditText)findViewById(R.id.confirmPassword);
         btnConfirm = (Button)findViewById(R.id.btnConfirm);
         orders = (List<Order>)getIntent().getSerializableExtra("passingorder");
         addressId = getIntent().getIntExtra("passingaddress", 0);
         userId = Integer.parseInt(sharedPrefManager.getSPId());
         Log.e("userid", userId.toString());
+    }
+
+    private void initToolbar(){
+        toolbarConfirmPayment = (Toolbar)findViewById(R.id.toolbarConfirmPayment);
+        setSupportActionBar(toolbarConfirmPayment);
+        getSupportActionBar().setTitle("Konfirmasi");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        toolbarConfirmPayment.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     private void doConfirmation(String password){

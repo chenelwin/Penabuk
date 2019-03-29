@@ -16,6 +16,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -46,7 +47,6 @@ public class TopUpActivity extends AppCompatActivity {
     Context context;
     UserService userService = ApiUtils.getUserService();
     SharedPrefManager sharedPrefManager;
-    ImageView imgBack;
     ImageView imgUpload;
     EditText balanceUpload;
     Button btnUpload;
@@ -55,18 +55,13 @@ public class TopUpActivity extends AppCompatActivity {
     Boolean imgAttached;
     ProgressDialog progressDialog;
 
+    Toolbar toolbarTopup;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_top_up);
         initView();
-
-        imgBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
 
         imgUpload.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,12 +85,26 @@ public class TopUpActivity extends AppCompatActivity {
     private void initView(){
         context = this;
         sharedPrefManager = new SharedPrefManager(context);
+        initToolbar();
         userId = Integer.parseInt(sharedPrefManager.getSPId());
         imgAttached = false;
-        imgBack = (ImageView)findViewById(R.id.imgBack);
         imgUpload = (ImageView)findViewById(R.id.imgUpload);
         balanceUpload = (EditText)findViewById(R.id.balanceUpload);
         btnUpload = (Button)findViewById(R.id.btnUpload);
+    }
+
+    private void initToolbar(){
+        toolbarTopup = (Toolbar)findViewById(R.id.toolbarTopup);
+        setSupportActionBar(toolbarTopup);
+        getSupportActionBar().setTitle("Top Up");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        toolbarTopup.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     @Override

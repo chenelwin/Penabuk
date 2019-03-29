@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -36,7 +37,6 @@ public class EditProfileActivity extends AppCompatActivity {
     Context context;
     SharedPrefManager sharedPrefManager;
     Integer userId;
-    ImageView imgBack;
     EditText editEmail;
     EditText editName;
     EditText editPhonenumber;
@@ -47,18 +47,13 @@ public class EditProfileActivity extends AppCompatActivity {
     List<Address> addresses;
     ProgressDialog progressDialog;
 
+    Toolbar toolbarEditProfile;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
         initView();
-
-        imgBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
 
         btnSimpan.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,7 +71,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private void initView(){
         context = this;
         sharedPrefManager = new SharedPrefManager(context);
-        imgBack = (ImageView) findViewById(R.id.imgBack);
+        initToolbar();
         editEmail = (EditText)findViewById(R.id.editEmail);
         editEmail.setText(sharedPrefManager.getSPEmail());
         editName = (EditText)findViewById(R.id.editName);
@@ -86,6 +81,20 @@ public class EditProfileActivity extends AppCompatActivity {
         btnSimpan = (Button)findViewById(R.id.btnSimpan);
 
         userId = Integer.parseInt(sharedPrefManager.getSPId());
+    }
+
+    private void initToolbar(){
+        toolbarEditProfile = (Toolbar)findViewById(R.id.toolbarEditProfile);
+        setSupportActionBar(toolbarEditProfile);
+        getSupportActionBar().setTitle("Edit Profil");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        toolbarEditProfile.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     private boolean validateChangeProfile(String name, String phone_number){

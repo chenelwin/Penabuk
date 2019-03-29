@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,7 +30,6 @@ public class ChangePasswordActivity extends AppCompatActivity {
     UserService userService = ApiUtils.getUserService();
     Context context;
     SharedPrefManager sharedPrefManager;
-    ImageView imgBack;
     EditText oldpass;
     EditText newpass;
     EditText repass;
@@ -37,18 +37,14 @@ public class ChangePasswordActivity extends AppCompatActivity {
     Integer userId;
     ProgressDialog progressDialog;
 
+    Toolbar toolbarChangePassword;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_password);
         initView();
 
-        imgBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
 
         btnGanti.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,12 +63,26 @@ public class ChangePasswordActivity extends AppCompatActivity {
     private void initView(){
         context = this;
         sharedPrefManager = new SharedPrefManager(context);
+        initToolbar();
         userId = Integer.parseInt(sharedPrefManager.getSPId());
-        imgBack = (ImageView)findViewById(R.id.imgBack);
         oldpass = (EditText)findViewById(R.id.oldpass);
         newpass = (EditText)findViewById(R.id.newpass);
         repass = (EditText)findViewById(R.id.repass);
         btnGanti = (Button)findViewById(R.id.btnGanti);
+    }
+
+    private void initToolbar(){
+        toolbarChangePassword = (Toolbar)findViewById(R.id.toolbarChangePassword);
+        setSupportActionBar(toolbarChangePassword);
+        getSupportActionBar().setTitle("Ubah Kata Sandi");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        toolbarChangePassword.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     private boolean validateChangePassword(String oldpassword, String newpassword, String repassword){

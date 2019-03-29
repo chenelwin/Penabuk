@@ -3,9 +3,11 @@ package com.example.asus.penabuk.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +37,8 @@ public class HistoryFragment extends Fragment {
     HistoryFragmentAdapter historyFragmentAdapter;
     List<History> histories;
 
+    Toolbar toolbarHistory;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -46,9 +50,15 @@ public class HistoryFragment extends Fragment {
 
     public void initView(){
         sharedPrefManager = new SharedPrefManager(view.getContext());
+        initToolbar();
         userId = Integer.parseInt(sharedPrefManager.getSPId());
         rvHistoryFragment = (RecyclerView)view.findViewById(R.id.RvHistoryFragment);
+    }
 
+    private void initToolbar(){
+        toolbarHistory = (Toolbar)view.findViewById(R.id.toolbarHistory);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbarHistory);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Riwayat");
     }
 
     @Override

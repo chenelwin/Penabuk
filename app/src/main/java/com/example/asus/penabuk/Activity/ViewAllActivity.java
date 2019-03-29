@@ -10,6 +10,10 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -58,6 +62,8 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
     ProgressBar loadingNext;
     int page=1;
 
+    Toolbar toolbarViewAll;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,26 +71,6 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
         initView();
         doGetBook(userId, page);
 
-        imgBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-
-        btnMic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.ENGLISH);
-                try{
-                    startActivityForResult(intent, 0);
-                }catch (ActivityNotFoundException a){
-                    Toast.makeText(context, a.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
     }
 
     @Override
@@ -93,8 +79,8 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
         if(requestCode==0){
             if(resultCode==RESULT_OK && data != null){
                 ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                searchKey.setText(result.get(0));
                 doGetBookByVoice(result.get(0));
+                getSupportActionBar().setTitle(result.get(0));
             }
         }
     }
@@ -102,13 +88,44 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
     private void initView(){
         context = this;
         sharedPrefManager = new SharedPrefManager(context);
-        btnMic = (ImageView) findViewById(R.id.btnMic);
-        searchKey = (TextView)findViewById(R.id.searchKey);
+        initToolbar();
         ViewAllAdapter.passingBtnAdd = this;
         rvViewAllActivity = (RecyclerView)findViewById(R.id.RvViewAllActivity);
-        imgBack = (ImageView)findViewById(R.id.imgBack);
         userId = Integer.parseInt(sharedPrefManager.getSPId());
         loadingNext = (ProgressBar)findViewById(R.id.loadingNext);
+    }
+
+    private void initToolbar(){
+        toolbarViewAll = (Toolbar)findViewById(R.id.toolbarViewAll);
+        setSupportActionBar(toolbarViewAll);
+        getSupportActionBar().setTitle("Lihat Semua");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        toolbarViewAll.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_viewall, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.item_mic:
+                saySomething();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
@@ -138,6 +155,17 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
                 Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void saySomething(){
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.ENGLISH);
+        try{
+            startActivityForResult(intent, 0);
+        }catch (ActivityNotFoundException a){
+            Toast.makeText(context, a.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void doGetBookByVoice(String voiceKey){

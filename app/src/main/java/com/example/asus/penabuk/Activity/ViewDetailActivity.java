@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -61,7 +62,6 @@ public class ViewDetailActivity extends AppCompatActivity {
     RatingBar bookRatingBar;
     TextView bookPrice;
     Integer userId;
-    ImageView imgBack;
     List<Review> reviews;
     List<Book> passingbook;
     List<Integer> passingcartid;
@@ -76,19 +76,14 @@ public class ViewDetailActivity extends AppCompatActivity {
     EditText userComment;
     Button btnReview;
 
+    Toolbar toolbarViewDetail;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_detail);
         initView();
         doGetBookById();
-
-        imgBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
 
         imgMinus.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,6 +139,7 @@ public class ViewDetailActivity extends AppCompatActivity {
     private void initView(){
         context = this;
         sharedPrefManager = new SharedPrefManager(context);
+        initToolbar();
         userId = Integer.parseInt(sharedPrefManager.getSPId());
         rvViewDetail = (RecyclerView)findViewById(R.id.RvViewDetail);
         layoutReviewUser = (LinearLayout)findViewById(R.id.layoutReviewUser);
@@ -161,7 +157,6 @@ public class ViewDetailActivity extends AppCompatActivity {
         imgPlus = (ImageView)findViewById(R.id.imgPlus);
         passingbook = new ArrayList<>();
         passingcartid = new ArrayList<>();
-        imgBack = (ImageView)findViewById(R.id.imgBack);
         btnAdd = (Button)findViewById(R.id.btnAdd);
         btnBuy = (Button)findViewById(R.id.btnBuy);
 
@@ -169,6 +164,20 @@ public class ViewDetailActivity extends AppCompatActivity {
         userRate = (RatingBar)findViewById(R.id.userRate);
         userComment = (EditText) findViewById(R.id.userComment);
         btnReview = (Button)findViewById(R.id.btnReview);
+    }
+
+    private void initToolbar(){
+        toolbarViewDetail = (Toolbar)findViewById(R.id.toolbarViewDetail);
+        setSupportActionBar(toolbarViewDetail);
+        getSupportActionBar().setTitle("Detail Buku");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        toolbarViewDetail.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     private boolean validateReview(Integer rating, String review){

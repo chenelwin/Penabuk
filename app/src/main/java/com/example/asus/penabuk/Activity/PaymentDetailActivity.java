@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -60,8 +61,9 @@ public class PaymentDetailActivity extends AppCompatActivity {
     PaymentDetailAdapter paymentDetailAdapter;
     List<BookPayment> bookPayments;
     ProgressDialog progressDialog;
-    ImageView imgBack;
     TextView paymentPrice;
+
+    Toolbar toolbarPaymentDetail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,12 +72,6 @@ public class PaymentDetailActivity extends AppCompatActivity {
         initView();
         doGetAddress(userId);
 
-        imgBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
 
         btnAddAddress.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,10 +93,10 @@ public class PaymentDetailActivity extends AppCompatActivity {
     private void initView(){
         context = this;
         sharedPrefManager = new SharedPrefManager(context);
+        initToolbar();
         spinnerAlamat = (Spinner)findViewById(R.id.spinnerAlamat);
         btnPay = (Button)findViewById(R.id.btnPay);
         btnAddAddress = (Button)findViewById(R.id.btnAddAddress);
-        imgBack = (ImageView)findViewById(R.id.imgBack);
         paymentPrice = (TextView)findViewById(R.id.paymentPrice);
         userId = Integer.parseInt(sharedPrefManager.getSPId());
         rvPaymentDetailActivity = (RecyclerView)findViewById(R.id.RvPaymentDetail);
@@ -114,6 +110,20 @@ public class PaymentDetailActivity extends AppCompatActivity {
         rvPaymentDetailActivity.setLayoutManager(new LinearLayoutManager(context));
         rvPaymentDetailActivity.setItemAnimator(new DefaultItemAnimator());
         rvPaymentDetailActivity.setAdapter(paymentDetailAdapter);
+    }
+
+    private void initToolbar(){
+        toolbarPaymentDetail = (Toolbar)findViewById(R.id.toolbarPaymentDetail);
+        setSupportActionBar(toolbarPaymentDetail);
+        getSupportActionBar().setTitle("Payment Detail");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        toolbarPaymentDetail.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     private void initPaymentPrice(List<BookPayment> bookPayments){

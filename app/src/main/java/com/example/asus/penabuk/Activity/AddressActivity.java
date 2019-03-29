@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -34,12 +35,13 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
     SharedPrefManager sharedPrefManager;
     UserService userService = ApiUtils.getUserService();
     ProgressDialog progressDialog;
-    ImageView imgBack;
     Button btnAddAddress;
     RecyclerView rvAddress;
     AddressAdapter addressAdapter;
     List<Address> addresses;
     Integer userId;
+
+    Toolbar toolbarAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,13 +50,6 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
 
         initView();
         doGetAddress(userId);
-
-        imgBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
 
         btnAddAddress.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,11 +75,25 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
     private void initView(){
         context = this;
         sharedPrefManager = new SharedPrefManager(context);
+        initToolbar();
         userId = Integer.parseInt(sharedPrefManager.getSPId());
         AddressAdapter.passingBtnRemove = this;
-        imgBack = (ImageView)findViewById(R.id.imgBack);
         btnAddAddress = (Button)findViewById(R.id.btnAddAddress);
         rvAddress = (RecyclerView)findViewById(R.id.RvAddress);
+    }
+
+    private void initToolbar(){
+        toolbarAddress = (Toolbar)findViewById(R.id.toolbarAddress);
+        setSupportActionBar(toolbarAddress);
+        getSupportActionBar().setTitle("Alamat");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        toolbarAddress.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     private void doGetAddress(Integer userId){

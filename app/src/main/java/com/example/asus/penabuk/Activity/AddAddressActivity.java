@@ -3,6 +3,7 @@ package com.example.asus.penabuk.Activity;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -36,7 +37,6 @@ public class AddAddressActivity extends AppCompatActivity {
     UserService userService = ApiUtils.getUserService();
     Context context;
     SharedPrefManager sharedPrefManager;
-    ImageView imgBack;
     Spinner spinnerProvinsi;
     Spinner spinnerKota;
     Spinner spinnerKecamatan;
@@ -51,6 +51,8 @@ public class AddAddressActivity extends AppCompatActivity {
     EditText editKodepos;
     EditText editAlamat;
 
+    Toolbar toolbarAddAddress;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,13 +61,6 @@ public class AddAddressActivity extends AppCompatActivity {
         initView();
 
         doGetProvinces();
-
-        imgBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
 
         btnSimpan.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,7 +79,7 @@ public class AddAddressActivity extends AppCompatActivity {
     private void initView(){
         context = this;
         sharedPrefManager = new SharedPrefManager(context);
-        imgBack = (ImageView)findViewById(R.id.imgBack);
+        initToolbar();
         spinnerProvinsi = (Spinner)findViewById(R.id.spinnerProvinsi);
         spinnerKota = (Spinner)findViewById(R.id.spinnerKota);
         spinnerKecamatan = (Spinner)findViewById(R.id.spinnerKecamatan);
@@ -93,6 +88,20 @@ public class AddAddressActivity extends AppCompatActivity {
         btnSimpan = (Button)findViewById(R.id.btnSimpan);
         editAlamat = (EditText)findViewById(R.id.editAlamat);
         editKodepos = (EditText)findViewById(R.id.editKodepos);
+    }
+
+    private void initToolbar(){
+        toolbarAddAddress = (Toolbar)findViewById(R.id.toolbarAddAddress);
+        setSupportActionBar(toolbarAddAddress);
+        getSupportActionBar().setTitle("Tambah Alamat");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        toolbarAddAddress.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     private boolean validateAddAddress(String kodepos, String alamat){
