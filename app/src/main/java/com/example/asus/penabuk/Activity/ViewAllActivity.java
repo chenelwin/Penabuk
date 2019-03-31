@@ -30,6 +30,7 @@ import com.example.asus.penabuk.R;
 import com.example.asus.penabuk.Remote.ApiUtils;
 import com.example.asus.penabuk.Remote.UserService;
 import com.example.asus.penabuk.SharedPreferences.SharedPrefManager;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -63,6 +64,7 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
     int page=1;
 
     Toolbar toolbarViewAll;
+    MaterialSearchView materialSearchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,17 +75,7 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
 
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==0){
-            if(resultCode==RESULT_OK && data != null){
-                ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                doGetBookByVoice(result.get(0));
-                getSupportActionBar().setTitle(result.get(0));
-            }
-        }
-    }
+
 
     private void initView(){
         context = this;
@@ -101,10 +93,26 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
         getSupportActionBar().setTitle("Lihat Semua");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        materialSearchView = (MaterialSearchView)findViewById(R.id.materialSearchView);
+
         toolbarViewAll.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
+            }
+        });
+
+        materialSearchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                doGetBookByVoice(query);
+                getSupportActionBar().setTitle(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
             }
         });
     }
@@ -114,6 +122,8 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_viewall, menu);
+        MenuItem menuItem = menu.findItem(R.id.item_search);
+        materialSearchView.setMenuItem(menuItem);
         return true;
     }
 
@@ -128,10 +138,24 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
         }
     }
 
+
+
     @Override
     public void passData(Integer book_id, int position){
         progressDialog = ProgressDialog.show(context, null, "Please Wait..", true);
         doAddCart(book_id, userId);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==0){
+            if(resultCode==RESULT_OK && data != null){
+                ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                doGetBookByVoice(result.get(0));
+                getSupportActionBar().setTitle(result.get(0));
+            }
+        }
     }
 
     private void doGetBook(Integer id, Integer page){
