@@ -40,7 +40,6 @@ public class CartFragmentAdapter extends RecyclerView.Adapter<CartFragmentAdapte
 
     List<Cart> carts;
     Context context;
-    List<Cart> cartChecked = new ArrayList<>();
 
     public CartFragmentAdapter(List<Cart> cartList){this.carts = cartList;}
 
@@ -79,7 +78,7 @@ public class CartFragmentAdapter extends RecyclerView.Adapter<CartFragmentAdapte
                 count++;
                 holder.bookQty.setText(String.valueOf(count));
                 cart.setCount(count);
-                totalHarga.passTotalHarga(cartChecked);
+                totalHarga.passTotalHarga(carts);
             }
         });
 
@@ -87,11 +86,11 @@ public class CartFragmentAdapter extends RecyclerView.Adapter<CartFragmentAdapte
             @Override
             public void onClick(View view) {
                 Integer count = cart.getCount();
-                if(count>1) {
+                if (count > 1) {
                     count--;
                     holder.bookQty.setText(String.valueOf(count));
                     cart.setCount(count);
-                    totalHarga.passTotalHarga(cartChecked);
+                    totalHarga.passTotalHarga(carts);
                 }
             }
         });
@@ -101,8 +100,7 @@ public class CartFragmentAdapter extends RecyclerView.Adapter<CartFragmentAdapte
             public void onClick(View view) {
                 passingBtnRemove.passData(cart.getCart_id(), position);
                 carts.remove(position);
-                cartChecked.remove(cart);
-                totalHarga.passTotalHarga(cartChecked);
+                totalHarga.passTotalHarga(carts);
             }
         });
 
@@ -111,20 +109,20 @@ public class CartFragmentAdapter extends RecyclerView.Adapter<CartFragmentAdapte
         holder.checkCart.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(b){
+                if (b) {
                     cart.setSelected(true);
-                    cartChecked.add(cart);
-                    totalHarga.passTotalHarga(cartChecked);
-                    Log.e("kenak cek", ""+cart.getBook().getTitle());
-                }
-                else if(!b){
+                    totalHarga.passTotalHarga(carts);
+                    Log.e("kenak cek", "" + cart.getBook().getTitle());
+                } else if (!b) {
                     cart.setSelected(false);
-                    cartChecked.remove(cart);
-                    totalHarga.passTotalHarga(cartChecked);
-                    Log.e("kenak hapus", ""+cart.getBook().getTitle());
+                    totalHarga.passTotalHarga(carts);
+                    Log.e("kenak hapus", "" + cart.getBook().getTitle());
                 }
             }
         });
+        //holder.checkCart.setChecked(cart.isSelected());
+
+
     }
 
     @Override
@@ -138,6 +136,7 @@ public class CartFragmentAdapter extends RecyclerView.Adapter<CartFragmentAdapte
             carts.get(i).setSelected(true);
         }
         notifyDataSetChanged();
+        totalHarga.passTotalHarga(carts);
     }
 
     public void deselectAll(){
@@ -145,6 +144,8 @@ public class CartFragmentAdapter extends RecyclerView.Adapter<CartFragmentAdapte
             carts.get(i).setSelected(false);
         }
         notifyDataSetChanged();
+        totalHarga.passTotalHarga(carts);
+        Log.e("cek", "" + carts.get(0).isSelected());
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

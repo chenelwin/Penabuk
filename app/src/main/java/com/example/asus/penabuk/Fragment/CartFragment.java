@@ -78,9 +78,11 @@ public class CartFragment extends Fragment implements CartFragmentAdapter.Passin
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(b) {
                     cartFragmentAdapter.selectAll();
+                    //passTotalHarga(carts);
                 }
                 else if(!b){
                     cartFragmentAdapter.deselectAll();
+                    //passTotalHarga(carts);
                 }
             }
         });
@@ -123,15 +125,25 @@ public class CartFragment extends Fragment implements CartFragmentAdapter.Passin
     @Override
     public void passTotalHarga(List<Cart> cartChecked){
         Integer currentPrice = 0;
-        for(int i=0; i<cartChecked.size(); i++){
-            currentPrice += (cartChecked.get(i).getCount()*cartChecked.get(i).getBook().getPrice());
+        for(int i=0; i<carts.size(); i++){
+            if(cartChecked.get(i).isSelected()) {
+                currentPrice += (cartChecked.get(i).getCount() * cartChecked.get(i).getBook().getPrice());
+            }
         }
+
         DecimalFormat formatter = new DecimalFormat("#,###,###");
         DecimalFormatSymbols symbols = new DecimalFormatSymbols();
         symbols.setGroupingSeparator('.');
         formatter.setDecimalFormatSymbols(symbols);
         String priceformat = formatter.format(currentPrice);
         cartTotalPrice.setText("Rp. " + priceformat);
+        /*
+        if(cartChecked.size() == carts.size()){
+            checkAll.setChecked(true);
+        }
+        else{
+            checkAll.setChecked(false);
+        }*/
     }
 
 

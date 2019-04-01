@@ -15,6 +15,8 @@
     <com.miguelcatalan.materialsearchview.MaterialSearchView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:searchBackground="@color/colorPrimaryDark"
+        app:searchVoiceIcon="@drawable/ic_mic_black_24dp"
         android:id="@+id/materialSearchView"/>
 
 
@@ -26,17 +28,19 @@
         android:scrollbars="vertical">
     </android.support.v7.widget.RecyclerView>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:background="#aaaaaa"
         android:gravity="center">
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center|bottom"
             android:visibility="gone"
             android:id="@+id/loadingNext"/>
-    </LinearLayout>
+    </FrameLayout>
 
 </RelativeLayout>
 

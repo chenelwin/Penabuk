@@ -106,4 +106,7 @@ public interface UserService {
     @GET("/search")
     Call<ReqBook> getBookByVoice(@Query("voice") String voiceKey);
 
+    @GET("/bestdeals")
+    Call<ReqBook> getBookByBestDeal(@Query("token") Integer userId, @Query("balance") String balance);
+
 }

@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.asus.penabuk.Adapter.ViewAllAdapter;
+import com.example.asus.penabuk.Dialog.BestDealDialog;
 import com.example.asus.penabuk.Model.Book;
 import com.example.asus.penabuk.Model.Order;
 import com.example.asus.penabuk.Model.ReqBook;
@@ -41,7 +42,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter.PassingBtnAdd {
+public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter.PassingBtnAdd, BestDealDialog.BestDealDialogListener {
 
     UserService userService = ApiUtils.getUserService();
     SharedPrefManager sharedPrefManager;
@@ -94,6 +95,7 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         materialSearchView = (MaterialSearchView)findViewById(R.id.materialSearchView);
+        materialSearchView.setVoiceSearch(true);
 
         toolbarViewAll.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,6 +117,19 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
                 return false;
             }
         });
+
+        materialSearchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
+            @Override
+            public void onSearchViewShown() {
+
+            }
+
+            @Override
+            public void onSearchViewClosed() {
+
+            }
+        });
+
     }
 
 
@@ -131,7 +146,8 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.item_mic:
-                saySomething();
+                //saySomething();
+                openBestDealDialog();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -158,6 +174,38 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        if(materialSearchView.isSearchOpen()){
+            materialSearchView.closeSearch();
+        }
+        else {
+            super.onBackPressed();
+        }
+    }
+
+    private void openBestDealDialog(){
+        BestDealDialog bestDealDialog = new BestDealDialog();
+        bestDealDialog.show(getSupportFragmentManager(), "Best Deal Dialog");
+    }
+
+    @Override
+    public void sendInput(String bestDealInput) {
+        getSupportActionBar().setTitle(bestDealInput);
+        doGetBookByBestDeal(bestDealInput);
+    }
+
+    private void saySomething(){
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.ENGLISH);
+        try{
+            startActivityForResult(intent, 0);
+        }catch (ActivityNotFoundException a){
+            Toast.makeText(context, a.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private void doGetBook(Integer id, Integer page){
         Call<ReqBook> call = userService.getBookRequest(id, page);
         call.enqueue(new Callback<ReqBook>() {
@@ -181,19 +229,31 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
         });
     }
 
-    private void saySomething(){
-        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.ENGLISH);
-        try{
-            startActivityForResult(intent, 0);
-        }catch (ActivityNotFoundException a){
-            Toast.makeText(context, a.getMessage(), Toast.LENGTH_SHORT).show();
-        }
-    }
-
     private void doGetBookByVoice(String voiceKey){
         Call<ReqBook> call = userService.getBookByVoice(voiceKey);
+        call.enqueue(new Callback<ReqBook>() {
+            @Override
+            public void onResponse(Call<ReqBook> call, Response<ReqBook> response) {
+                ReqBook reqBook = response.body();
+                books = reqBook.getBooks();
+                viewAllAdapter = new ViewAllAdapter(books);
+                page=5;
+
+                rvManager = new LinearLayoutManager(context);
+                rvViewAllActivity.setLayoutManager(rvManager);
+                rvViewAllActivity.setItemAnimator(new DefaultItemAnimator());
+                rvViewAllActivity.setAdapter(viewAllAdapter);
+            }
+
+            @Override
+            public void onFailure(Call<ReqBook> call, Throwable t) {
+                Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void doGetBookByBestDeal(String balance){
+        Call<ReqBook> call = userService.getBookByBestDeal(userId, balance);
         call.enqueue(new Callback<ReqBook>() {
             @Override
             public void onResponse(Call<ReqBook> call, Response<ReqBook> response) {
