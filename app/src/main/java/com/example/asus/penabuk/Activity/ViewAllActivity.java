@@ -42,6 +42,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.miguelcatalan.materialsearchview.MaterialSearchView.REQUEST_VOICE;
+
 public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter.PassingBtnAdd, BestDealDialog.BestDealDialogListener {
 
     UserService userService = ApiUtils.getUserService();
@@ -66,6 +68,7 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
 
     Toolbar toolbarViewAll;
     MaterialSearchView materialSearchView;
+    String[] suggestionSearch = new String[]{ "one", "two", "abc", "bcd", "ones", "twose", "zzz"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +98,10 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         materialSearchView = (MaterialSearchView)findViewById(R.id.materialSearchView);
+
         materialSearchView.setVoiceSearch(true);
+        materialSearchView.showVoice(true);
+        materialSearchView.setSuggestions(suggestionSearch);
 
         toolbarViewAll.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -146,7 +152,6 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.item_mic:
-                //saySomething();
                 openBestDealDialog();
                 return true;
             default:
@@ -165,9 +170,10 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==0){
+        if(requestCode==REQUEST_VOICE){
             if(resultCode==RESULT_OK && data != null){
                 ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                materialSearchView.closeSearch();
                 doGetBookByVoice(result.get(0));
                 getSupportActionBar().setTitle(result.get(0));
             }

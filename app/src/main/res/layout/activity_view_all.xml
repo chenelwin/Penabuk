@@ -12,12 +12,7 @@
         android:background="@color/colorPrimaryDark"
         android:theme="@style/Theme.AppCompat.NoActionBar"
         android:id="@+id/toolbarViewAll"/>
-    <com.miguelcatalan.materialsearchview.MaterialSearchView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:searchBackground="@color/colorPrimaryDark"
-        app:searchVoiceIcon="@drawable/ic_mic_black_24dp"
-        android:id="@+id/materialSearchView"/>
+
 
 
     <android.support.v7.widget.RecyclerView
@@ -41,6 +36,11 @@
             android:visibility="gone"
             android:id="@+id/loadingNext"/>
     </FrameLayout>
+
+    <com.miguelcatalan.materialsearchview.MaterialSearchView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/materialSearchView"/>
 
 </RelativeLayout>
 
