@@ -42,6 +42,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.example.asus.penabuk.Activity.SplashActivity.searchTitles;
 import static com.miguelcatalan.materialsearchview.MaterialSearchView.REQUEST_VOICE;
 
 public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter.PassingBtnAdd, BestDealDialog.BestDealDialogListener {
@@ -101,7 +102,7 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
 
         materialSearchView.setVoiceSearch(true);
         materialSearchView.showVoice(true);
-        materialSearchView.setSuggestions(suggestionSearch);
+        materialSearchView.setSuggestions(searchTitles);
 
         toolbarViewAll.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

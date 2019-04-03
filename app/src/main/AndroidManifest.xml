@@ -3,8 +3,8 @@
     package="com.example.asus.penabuk">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -16,11 +16,7 @@
         <activity
             android:name=".Activity.LoginActivity"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".Activity.ForgotPasswordActivity"
@@ -52,10 +48,27 @@
         <activity
             android:name=".Activity.AddAddressActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".Activity.HistoryDetailActivity" />
-        <activity android:name=".Activity.ConfirmPaymentActivity" />
-        <activity android:name=".Activity.PaymentSuccessActivity" />
-        <activity android:name=".Activity.AddressActivity"></activity>
+        <activity
+            android:name=".Activity.HistoryDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Activity.ConfirmPaymentActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Activity.PaymentSuccessActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Activity.AddressActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Activity.SplashActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

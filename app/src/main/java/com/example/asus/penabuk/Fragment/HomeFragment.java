@@ -24,6 +24,7 @@ import com.example.asus.penabuk.Adapter.HomeFragmentAdapter;
 import com.example.asus.penabuk.Adapter.ViewAllAdapter;
 import com.example.asus.penabuk.Model.Book;
 import com.example.asus.penabuk.Model.ReqBook;
+import com.example.asus.penabuk.Model.ReqFilter;
 import com.example.asus.penabuk.Model.ResUser;
 import com.example.asus.penabuk.R;
 import com.example.asus.penabuk.Remote.ApiUtils;
@@ -35,6 +36,7 @@ import com.synnapps.carouselview.ImageListener;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -66,6 +68,8 @@ public class HomeFragment extends Fragment {
     int firstVisibleItem, visibleItemCount, totalItemCount;
     ProgressBar loadingNext;
     int page=1;
+
+
 
     @Nullable
     @Override
@@ -227,5 +231,7 @@ public class HomeFragment extends Fragment {
             }
         });
     }
+
+
 
 }

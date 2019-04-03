@@ -10,6 +10,7 @@ import com.example.asus.penabuk.Model.ReqCart;
 import com.example.asus.penabuk.Model.ReqChangePassword;
 import com.example.asus.penabuk.Model.ReqCity;
 import com.example.asus.penabuk.Model.ReqDistrict;
+import com.example.asus.penabuk.Model.ReqFilter;
 import com.example.asus.penabuk.Model.ReqHistory;
 import com.example.asus.penabuk.Model.ReqHistoryId;
 import com.example.asus.penabuk.Model.ReqProvince;
@@ -108,5 +109,8 @@ public interface UserService {
 
     @GET("/bestdeals")
     Call<ReqBook> getBookByBestDeal(@Query("token") Integer userId, @Query("balance") String balance);
+
+    @GET("/filters")
+    Call<ReqFilter> getSearchFilter();
 
 }
