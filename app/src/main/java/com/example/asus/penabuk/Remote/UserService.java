@@ -113,4 +113,7 @@ public interface UserService {
     @GET("/filters")
     Call<ReqFilter> getSearchFilter();
 
+    @GET("/search")
+    Call<ReqBook> getBookByFilter(@Query("type") Integer filterType, @Query("value") String text);
+
 }

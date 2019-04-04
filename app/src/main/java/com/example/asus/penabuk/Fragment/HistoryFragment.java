@@ -11,9 +11,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.asus.penabuk.Adapter.HistoryFragmentAdapter;
+import com.example.asus.penabuk.Model.Cart;
 import com.example.asus.penabuk.Model.History;
 import com.example.asus.penabuk.Model.ReqHistory;
 import com.example.asus.penabuk.R;
@@ -37,6 +39,8 @@ public class HistoryFragment extends Fragment {
     HistoryFragmentAdapter historyFragmentAdapter;
     List<History> histories;
 
+    LinearLayout layoutNoHistory;
+
     Toolbar toolbarHistory;
 
     @Nullable
@@ -51,6 +55,7 @@ public class HistoryFragment extends Fragment {
     public void initView(){
         sharedPrefManager = new SharedPrefManager(view.getContext());
         initToolbar();
+        layoutNoHistory = (LinearLayout)view.findViewById(R.id.layoutNoHistory);
         userId = Integer.parseInt(sharedPrefManager.getSPId());
         rvHistoryFragment = (RecyclerView)view.findViewById(R.id.RvHistoryFragment);
     }
@@ -74,6 +79,7 @@ public class HistoryFragment extends Fragment {
             public void onResponse(Call<ReqHistory> call, Response<ReqHistory> response) {
                 ReqHistory reqHistory = response.body();
                 histories = reqHistory.getHistories();
+                checkHistorySize(histories);
                 historyFragmentAdapter = new HistoryFragmentAdapter(histories);
 
                 rvHistoryFragment.setLayoutManager(new LinearLayoutManager(view.getContext()));
@@ -86,5 +92,14 @@ public class HistoryFragment extends Fragment {
                 Toast.makeText(view.getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void checkHistorySize(List<History> histories){
+        if(histories.size()==0){
+            layoutNoHistory.setVisibility(View.VISIBLE);
+        }
+        else if(histories.size()>0){
+            layoutNoHistory.setVisibility(View.GONE);
+        }
     }
 }

@@ -13,12 +13,33 @@
         android:theme="@style/Theme.AppCompat.NoActionBar"
         android:id="@+id/toolbarViewAll"/>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbarViewAll"
+        android:orientation="horizontal"
+        android:padding="15dp"
+        android:id="@+id/layoutSearchFilter">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Filter Search Suggestion By : "
+            android:textColor="#000"/>
+        <Spinner
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textAlignment="center"
+            android:spinnerMode="dialog"
+            android:id="@+id/spinnerSearch"/>
+    </LinearLayout>
+
 
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolbarViewAll"
+        android:layout_below="@id/layoutSearchFilter"
         android:id="@+id/RvViewAllActivity"
         android:scrollbars="vertical">
     </android.support.v7.widget.RecyclerView>

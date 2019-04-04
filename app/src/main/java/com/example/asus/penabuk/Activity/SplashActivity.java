@@ -13,7 +13,9 @@ import com.example.asus.penabuk.Remote.ApiUtils;
 import com.example.asus.penabuk.Remote.UserService;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -60,11 +62,16 @@ public class SplashActivity extends AppCompatActivity {
                 ReqFilter reqFilter = response.body();
                 searchBooks = reqFilter.getFilters();
                 searchTitles = new String[searchBooks.size()];
-                searchAuthors = new String[searchBooks.size()];
+                List<String> tempAuthor = new ArrayList<>();
                 for(int i=0; i<searchBooks.size(); i++){
                     searchTitles[i] = searchBooks.get(i).getOriginal_title();
-                    searchAuthors[i] = searchBooks.get(i).getAuthors();
+                    //searchAuthors[i] = searchBooks.get(i).getAuthors();
+                    tempAuthor.add(searchBooks.get(i).getAuthors());
                 }
+                Set<String> set = new HashSet<>(tempAuthor);
+                tempAuthor.clear();
+                tempAuthor.addAll(set);
+                searchAuthors = tempAuthor.toArray(new String[tempAuthor.size()]);
                 Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
                 progressDialog.dismiss();
                 startActivity(intent);

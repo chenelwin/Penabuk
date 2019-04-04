@@ -11,13 +11,17 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +39,7 @@ import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -42,6 +47,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.example.asus.penabuk.Activity.SplashActivity.searchAuthors;
+import static com.example.asus.penabuk.Activity.SplashActivity.searchBooks;
 import static com.example.asus.penabuk.Activity.SplashActivity.searchTitles;
 import static com.miguelcatalan.materialsearchview.MaterialSearchView.REQUEST_VOICE;
 
@@ -67,9 +74,15 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
     ProgressBar loadingNext;
     int page=1;
 
+    //toolbar
     Toolbar toolbarViewAll;
     MaterialSearchView materialSearchView;
-    String[] suggestionSearch = new String[]{ "one", "two", "abc", "bcd", "ones", "twose", "zzz"};
+
+    //filter dropdown
+    Spinner spinnerSearch;
+    ArrayAdapter<String> spinnerSearchAdapter;
+    String[] filterBy = new String[]{"Title", "Author"};
+    int filterType=1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +105,55 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
         loadingNext = (ProgressBar)findViewById(R.id.loadingNext);
     }
 
+    private void initDropdownFilter(final MaterialSearchView src){
+        spinnerSearch = (Spinner)findViewById(R.id.spinnerSearch);
+        spinnerSearchAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, filterBy);
+        spinnerSearchAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerSearch.setAdapter(spinnerSearchAdapter);
+
+        spinnerSearch.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                final String filtername = spinnerSearch.getSelectedItem().toString();
+                filterType = Arrays.asList(filterBy).indexOf(filtername) + 1;
+                if(filterType==1){
+                    src.setSuggestions(searchTitles);
+                }
+                else if(filterType==2){
+                    src.setSuggestions(searchAuthors);
+                }
+
+                src.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        if(filterType==1){
+                            String query = (String)adapterView.getItemAtPosition(i);
+                            Integer idx = Arrays.asList(searchTitles).indexOf(query);
+                            Integer bookid = searchBooks.get(idx).getId();
+                            materialSearchView.closeSearch();
+                            Intent intent = new Intent(ViewAllActivity.this, ViewDetailActivity.class);
+                            intent.putExtra("bookid", bookid);
+                            startActivity(intent);
+                        }
+                        else if(filterType==2){
+                            String query = (String)adapterView.getItemAtPosition(i);
+                            doGetBookByFilter(filterType, query);
+                            materialSearchView.closeSearch();
+                            getSupportActionBar().setTitle(query);
+                        }
+                    }
+                });
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+    }
+
     private void initToolbar(){
         toolbarViewAll = (Toolbar)findViewById(R.id.toolbarViewAll);
         setSupportActionBar(toolbarViewAll);
@@ -102,7 +164,24 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
 
         materialSearchView.setVoiceSearch(true);
         materialSearchView.showVoice(true);
-        materialSearchView.setSuggestions(searchTitles);
+        initDropdownFilter(materialSearchView);
+        /*
+        materialSearchView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if(filterType==1){
+                    String query = (String)adapterView.getItemAtPosition(i);
+                    doGetBookByFilter(filterType, query);
+                    materialSearchView.closeSearch();
+                }
+                else if(filterType==2){
+                    String query = (String)adapterView.getItemAtPosition(i);
+                    doGetBookByFilter(filterType, query);
+                    materialSearchView.closeSearch();
+                }
+            }
+        });*/
+
 
         toolbarViewAll.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,7 +193,7 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
         materialSearchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                doGetBookByVoice(query);
+                doGetBookByFilter(filterType, query);
                 getSupportActionBar().setTitle(query);
                 return false;
             }
@@ -238,6 +317,29 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
 
     private void doGetBookByVoice(String voiceKey){
         Call<ReqBook> call = userService.getBookByVoice(voiceKey);
+        call.enqueue(new Callback<ReqBook>() {
+            @Override
+            public void onResponse(Call<ReqBook> call, Response<ReqBook> response) {
+                ReqBook reqBook = response.body();
+                books = reqBook.getBooks();
+                viewAllAdapter = new ViewAllAdapter(books);
+                page=5;
+
+                rvManager = new LinearLayoutManager(context);
+                rvViewAllActivity.setLayoutManager(rvManager);
+                rvViewAllActivity.setItemAnimator(new DefaultItemAnimator());
+                rvViewAllActivity.setAdapter(viewAllAdapter);
+            }
+
+            @Override
+            public void onFailure(Call<ReqBook> call, Throwable t) {
+                Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void doGetBookByFilter(Integer filterType, String text){
+        Call<ReqBook> call = userService.getBookByFilter(filterType, text);
         call.enqueue(new Callback<ReqBook>() {
             @Override
             public void onResponse(Call<ReqBook> call, Response<ReqBook> response) {
