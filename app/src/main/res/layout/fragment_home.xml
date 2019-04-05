@@ -83,6 +83,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Lihat Semua"
+            android:textStyle="bold"
             android:layout_gravity="right"
             android:id="@+id/textLihatsemua"
             android:textColor="@color/colorPrimaryDark"/>
@@ -94,7 +95,7 @@
         android:layout_height="match_parent"
         android:background="#fff"
         android:scrollbars="vertical"
-        android:nestedScrollingEnabled="false"
+        android:nestedScrollingEnabled="true"
         android:id="@+id/RvHomeFragment">
     </android.support.v7.widget.RecyclerView>
 

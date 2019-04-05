@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/item_mic"
+    <item android:id="@+id/item_bestdeal"
         android:icon="@drawable/ic_local_atm_black_24dp"
         android:title="Mic"
         app:showAsAction="always"/>

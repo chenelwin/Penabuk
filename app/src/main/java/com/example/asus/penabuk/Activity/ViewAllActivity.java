@@ -137,6 +137,7 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
                         }
                         else if(filterType==2){
                             String query = (String)adapterView.getItemAtPosition(i);
+                            progressDialog = ProgressDialog.show(context, null, "Please Wait..", true);
                             doGetBookByFilter(filterType, query);
                             materialSearchView.closeSearch();
                             getSupportActionBar().setTitle(query);
@@ -231,7 +232,7 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.item_mic:
+            case R.id.item_bestdeal:
                 openBestDealDialog();
                 return true;
             default:
@@ -254,6 +255,7 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
             if(resultCode==RESULT_OK && data != null){
                 ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                 materialSearchView.closeSearch();
+                progressDialog = ProgressDialog.show(context, null, "Please Wait..", true);
                 doGetBookByVoice(result.get(0));
                 getSupportActionBar().setTitle(result.get(0));
             }
@@ -278,6 +280,7 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
     @Override
     public void sendInput(String bestDealInput) {
         getSupportActionBar().setTitle(bestDealInput);
+        progressDialog = ProgressDialog.show(context, null, "Please Wait..", true);
         doGetBookByBestDeal(bestDealInput);
     }
 
@@ -329,11 +332,13 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
                 rvViewAllActivity.setLayoutManager(rvManager);
                 rvViewAllActivity.setItemAnimator(new DefaultItemAnimator());
                 rvViewAllActivity.setAdapter(viewAllAdapter);
+                progressDialog.dismiss();
             }
 
             @Override
             public void onFailure(Call<ReqBook> call, Throwable t) {
                 Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
             }
         });
     }
@@ -352,11 +357,13 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
                 rvViewAllActivity.setLayoutManager(rvManager);
                 rvViewAllActivity.setItemAnimator(new DefaultItemAnimator());
                 rvViewAllActivity.setAdapter(viewAllAdapter);
+                progressDialog.dismiss();
             }
 
             @Override
             public void onFailure(Call<ReqBook> call, Throwable t) {
                 Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
             }
         });
     }
@@ -375,11 +382,13 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
                 rvViewAllActivity.setLayoutManager(rvManager);
                 rvViewAllActivity.setItemAnimator(new DefaultItemAnimator());
                 rvViewAllActivity.setAdapter(viewAllAdapter);
+                progressDialog.dismiss();
             }
 
             @Override
             public void onFailure(Call<ReqBook> call, Throwable t) {
                 Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
             }
         });
     }
