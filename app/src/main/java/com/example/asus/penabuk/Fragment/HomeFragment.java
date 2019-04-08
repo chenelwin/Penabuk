@@ -48,19 +48,13 @@ public class HomeFragment extends Fragment {
     UserService userService = ApiUtils.getUserService();
     SharedPrefManager sharedPrefManager;
     public View view;
-    CarouselView carousel;
     TextView balance;
-    TextView textLihatsemua;
     RecyclerView rvHomeFragment;
     HomeFragmentAdapter homeFragmentAdapter;
     GridLayoutManager rvManager;
     List<Book> books;
     Button btnTopup;
     Integer userId;
-
-    //Carousel
-    int[] images;
-    String[] imagetitle;
 
     //EndlessScroll
     private int previousTotal = 0;
@@ -76,16 +70,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_home, container, false);
         initView();
-        initCarouselItem();
         doGetBook(userId, page);
-
-        textLihatsemua.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), ViewAllActivity.class);
-                startActivity(intent);
-            }
-        });
 
         btnTopup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,31 +86,10 @@ public class HomeFragment extends Fragment {
     private void initView(){
         sharedPrefManager = new SharedPrefManager(view.getContext());
         userId = Integer.parseInt(sharedPrefManager.getSPId());
-        carousel = (CarouselView)view.findViewById(R.id.carousel);
         balance = (TextView)view.findViewById(R.id.balance);
-        textLihatsemua = (TextView)view.findViewById(R.id.textLihatsemua);
         rvHomeFragment = (RecyclerView)view.findViewById(R.id.RvHomeFragment);
         loadingNext = (ProgressBar)view.findViewById(R.id.loadingNext);
         btnTopup = (Button)view.findViewById(R.id.btnTopup);
-    }
-
-    private void initCarouselItem(){
-        images = new int[]{ R.drawable.slider1, R.drawable.slider2, R.drawable.slider3, R.drawable.slider4};
-        imagetitle = new String[] { "Pic1", "Pic2", "Pic3", "Pic4" };
-        carousel.setPageCount(images.length);
-        carousel.setImageListener(new ImageListener() {
-            @Override
-            public void setImageForPosition(int position, ImageView imageView) {
-                imageView.setImageResource(images[position]);
-            }
-        });
-
-        carousel.setImageClickListener(new ImageClickListener() {
-            @Override
-            public void onClick(int position) {
-                Toast.makeText(view.getContext(), imagetitle[position].toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     @Override
@@ -138,12 +102,25 @@ public class HomeFragment extends Fragment {
         Call<ReqBook> call = userService.getBookRequest(id, page);
         call.enqueue(new Callback<ReqBook>() {
             @Override
-            public void onResponse(Call<ReqBook> call, Response<ReqBook> response) {
-                ReqBook reqBook = response.body();
+            public void onResponse(final Call<ReqBook> call, Response<ReqBook> response) {
+                final ReqBook reqBook = response.body();
                 books = reqBook.getBooks();
                 homeFragmentAdapter = new HomeFragmentAdapter(books);
 
                 rvManager = new GridLayoutManager(view.getContext(), 2);
+                rvManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                    @Override
+                    public int getSpanSize(int position) {
+                        switch (homeFragmentAdapter.getItemViewType(position)){
+                            case HomeFragmentAdapter.LAYOUT_HEAD:
+                                return 2;
+                            case HomeFragmentAdapter.LAYOUT_LIST:
+                                return 1;
+                            default:
+                                return 2;
+                        }
+                    }
+                });
                 rvHomeFragment.setLayoutManager(rvManager);
                 rvHomeFragment.setItemAnimator(new DefaultItemAnimator());
                 rvHomeFragment.setAdapter(homeFragmentAdapter);

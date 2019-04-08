@@ -25,6 +25,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal"
+        android:elevation="10dp"
         android:padding="10dp">
         <LinearLayout
             android:layout_width="wrap_content"
@@ -54,39 +55,6 @@
                 android:background="@drawable/mybutton"
                 android:id="@+id/btnTopup"/>
         </LinearLayout>
-    </LinearLayout>
-
-    <com.synnapps.carouselview.CarouselView
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
-        app:pageColor="#fff"
-        app:fillColor="@color/colorPrimaryDark"
-        app:slideInterval="3000"
-        app:radius="4dp"
-        app:strokeColor="#ffe0e0e0"
-        app:strokeWidth="1dp"
-        android:id="@+id/carousel"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="10dp">
-        <TextView
-            android:layout_weight="1"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Rekomendasi Buku"
-            android:textColor="#000"
-            android:textStyle="bold"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Lihat Semua"
-            android:textStyle="bold"
-            android:layout_gravity="right"
-            android:id="@+id/textLihatsemua"
-            android:textColor="@color/colorPrimaryDark"/>
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
