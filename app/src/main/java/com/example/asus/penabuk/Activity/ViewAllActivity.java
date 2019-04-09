@@ -183,14 +183,6 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
             }
         });*/
 
-
-        toolbarViewAll.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-
         materialSearchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -234,6 +226,9 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
         switch (item.getItemId()){
             case R.id.item_bestdeal:
                 openBestDealDialog();
+                return true;
+            case android.R.id.home:
+                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -3,13 +3,20 @@ package com.example.asus.penabuk.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -18,6 +25,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.asus.penabuk.Activity.AddressActivity;
+import com.example.asus.penabuk.Activity.EditProfileActivity;
 import com.example.asus.penabuk.Activity.TopUpActivity;
 import com.example.asus.penabuk.Activity.ViewAllActivity;
 import com.example.asus.penabuk.Adapter.HomeFragmentAdapter;
@@ -63,6 +72,11 @@ public class HomeFragment extends Fragment {
     ProgressBar loadingNext;
     int page=1;
 
+    //ToolBar
+    DrawerLayout drawerHome;
+    Toolbar toolbarHome;
+    NavigationView navigation_drawer;
+
 
 
     @Nullable
@@ -85,11 +99,63 @@ public class HomeFragment extends Fragment {
 
     private void initView(){
         sharedPrefManager = new SharedPrefManager(view.getContext());
+        initToolbar();
         userId = Integer.parseInt(sharedPrefManager.getSPId());
         balance = (TextView)view.findViewById(R.id.balance);
         rvHomeFragment = (RecyclerView)view.findViewById(R.id.RvHomeFragment);
         loadingNext = (ProgressBar)view.findViewById(R.id.loadingNext);
         btnTopup = (Button)view.findViewById(R.id.btnTopup);
+    }
+
+    private void initToolbar(){
+        drawerHome = (DrawerLayout)view.findViewById(R.id.drawerHome);
+        navigation_drawer = (NavigationView)view.findViewById(R.id.navigation_drawer);
+        toolbarHome = (Toolbar)view.findViewById(R.id.toolbarHome);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbarHome);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Penabuk");
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
+
+
+        navigation_drawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Intent intent;
+                switch (item.getItemId())
+                {
+                    case R.id.nav_editprofile:
+                        item.setChecked(true);
+                        intent = new Intent(view.getContext(), EditProfileActivity.class);
+                        drawerHome.closeDrawers();
+                        view.getContext().startActivity(intent);
+                        return true;
+                    case R.id.nav_address:
+                        item.setChecked(true);
+                        intent = new Intent(view.getContext(), AddressActivity.class);
+                        drawerHome.closeDrawers();
+                        view.getContext().startActivity(intent);
+                        return true;
+                    case R.id.nav_logout:
+                        item.setChecked(true);
+                        Toast.makeText(view.getContext(), "edit profile", Toast.LENGTH_SHORT).show();
+                        drawerHome.closeDrawers();
+                        return true;
+                }
+
+                return false;
+            }
+        });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId())
+        {
+            case android.R.id.home:
+                drawerHome.openDrawer(GravityCompat.START);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
