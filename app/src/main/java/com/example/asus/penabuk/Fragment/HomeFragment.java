@@ -16,6 +16,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +29,7 @@ import android.widget.Toast;
 
 import com.example.asus.penabuk.Activity.AddressActivity;
 import com.example.asus.penabuk.Activity.EditProfileActivity;
+import com.example.asus.penabuk.Activity.NotificationActivity;
 import com.example.asus.penabuk.Activity.TopUpActivity;
 import com.example.asus.penabuk.Activity.ViewAllActivity;
 import com.example.asus.penabuk.Adapter.HomeFragmentAdapter;
@@ -83,6 +86,7 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_home, container, false);
+        setHasOptionsMenu(true);
         initView();
         doGetBook(userId, page);
 
@@ -116,6 +120,12 @@ public class HomeFragment extends Fragment {
         ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
 
+        toolbarHome.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawerHome.openDrawer(GravityCompat.START);
+            }
+        });
 
         navigation_drawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -148,11 +158,18 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_home, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId())
         {
-            case android.R.id.home:
-                drawerHome.openDrawer(GravityCompat.START);
+            case R.id.item_notification:
+                Intent intent = new Intent(view.getContext(), NotificationActivity.class);
+                startActivity(intent);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -163,6 +180,8 @@ public class HomeFragment extends Fragment {
         super.onResume();
         doGetUser(userId);
     }
+
+
 
     private void doGetBook(Integer id, Integer page){
         Call<ReqBook> call = userService.getBookRequest(id, page);

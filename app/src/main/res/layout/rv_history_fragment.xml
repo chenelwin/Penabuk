@@ -105,6 +105,7 @@
                     android:layout_height="wrap_content"
                     android:text="Status"
                     android:textColor="#000"
+                    android:textStyle="bold"
                     android:id="@+id/textStatus"/>
             </LinearLayout>
         </LinearLayout>
