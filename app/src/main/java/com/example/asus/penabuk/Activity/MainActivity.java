@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         if(status==3){
             selectedFragment = new HistoryFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
+            bottom_navigation.setSelectedItemId(R.id.nav_history);
         }
         else if(status==0) {
             selectedFragment = new HomeFragment();

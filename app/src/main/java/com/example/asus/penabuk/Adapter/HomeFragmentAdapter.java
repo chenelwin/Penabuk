@@ -2,8 +2,11 @@ package com.example.asus.penabuk.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.media.Image;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +19,13 @@ import android.widget.Toast;
 
 import com.example.asus.penabuk.Activity.ViewAllActivity;
 import com.example.asus.penabuk.Activity.ViewDetailActivity;
+import com.example.asus.penabuk.Fragment.HomeFragment;
 import com.example.asus.penabuk.Model.Book;
+import com.example.asus.penabuk.Model.ReqSlider;
+import com.example.asus.penabuk.Model.Slider;
 import com.example.asus.penabuk.R;
+import com.example.asus.penabuk.Remote.ApiUtils;
+import com.example.asus.penabuk.Remote.UserService;
 import com.squareup.picasso.Picasso;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageClickListener;
@@ -27,12 +35,20 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class HomeFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    UserService userService = ApiUtils.getUserService();
     List<Book> books;
     Context context;
     public static final int LAYOUT_HEAD = 1;
     public static final int LAYOUT_LIST = 0;
+
+    //carousel
+    List<Slider> sliders;
 
     public HomeFragmentAdapter(List<Book> bookList){ this.books = bookList;}
 
@@ -72,7 +88,7 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             });
 
             //carousel
-            initCarousel(holder.carousel);
+            doGetSlider(holder.carousel);
         }
 
         else {
@@ -192,10 +208,11 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             cv = (CardView)itemView.findViewById(R.id.cvHomeFragment);
         }
     }
-
+/*
     private void initCarousel(CarouselView carousel){
-        final int[] images = new int[]{ R.drawable.slider1, R.drawable.slider2, R.drawable.slider3, R.drawable.slider4};
-        final String[] imagetitle = new String[] { "Pic1", "Pic2", "Pic3", "Pic4" };
+        doGetSlider(carousel);
+        //final int[] images = new int[]{ R.drawable.slider1, R.drawable.slider2, R.drawable.slider3, R.drawable.slider4};
+        //final String[] imagetitle = new String[] { "Pic1", "Pic2", "Pic3", "Pic4" };
         carousel.setPageCount(images.length);
         carousel.setImageListener(new ImageListener() {
             @Override
@@ -208,6 +225,55 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             @Override
             public void onClick(int position) {
                 Toast.makeText(context, imagetitle[position], Toast.LENGTH_SHORT).show();
+            }
+        });
+    }*/
+
+    private void doGetSlider(final CarouselView carousel){
+        Call<ReqSlider> call = userService.getSlider();
+        call.enqueue(new Callback<ReqSlider>() {
+            @Override
+            public void onResponse(Call<ReqSlider> call, Response<ReqSlider> response) {
+                ReqSlider reqSlider = response.body();
+                sliders = reqSlider.getSliders();
+                //ImageView[] imageViews = new ImageView[sliders.size()];
+                doGetSliderId(sliders, carousel);
+            }
+
+            @Override
+            public void onFailure(Call<ReqSlider> call, Throwable t) {
+                Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void doGetSliderId(final List<Slider> sliderList, CarouselView carousel){
+        final Bitmap[] bitmaps = new Bitmap[sliderList.size()];
+        for(int i=0; i<sliderList.size(); i++){
+            ImageView iv = new ImageView(context);
+
+            Picasso.with(context)
+                    .load(ApiUtils.BASE_URL +"/image?id="+sliderList.get(i).getUrl())
+                    .centerCrop()
+                    .resize(100, 100)
+                    .into(iv);
+            //iv.setImageResource(R.drawable.ic_launcher_background);
+            iv.buildDrawingCache();
+            bitmaps[i] = iv.getDrawingCache();
+            iv.destroyDrawingCache();
+        }
+
+        carousel.setImageListener(new ImageListener() {
+            @Override
+            public void setImageForPosition(int position, ImageView imageView) {
+                imageView.setImageBitmap(bitmaps[position]);
+            }
+        });
+        carousel.setPageCount(sliderList.size());
+        carousel.setImageClickListener(new ImageClickListener() {
+            @Override
+            public void onClick(int position) {
+                Toast.makeText(context, sliderList.get(position).getName(), Toast.LENGTH_SHORT).show();
             }
         });
     }

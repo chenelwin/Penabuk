@@ -15,6 +15,7 @@ import com.example.asus.penabuk.Model.ReqHistory;
 import com.example.asus.penabuk.Model.ReqHistoryId;
 import com.example.asus.penabuk.Model.ReqProvince;
 import com.example.asus.penabuk.Model.ReqReview;
+import com.example.asus.penabuk.Model.ReqSlider;
 import com.example.asus.penabuk.Model.ReqUser;
 import com.example.asus.penabuk.Model.ResMessage;
 import com.example.asus.penabuk.Model.ResUser;
@@ -115,5 +116,8 @@ public interface UserService {
 
     @GET("/search")
     Call<ReqBook> getBookByFilter(@Query("type") Integer filterType, @Query("value") String text);
+
+    @GET("/admin/sliders")
+    Call<ReqSlider> getSlider();
 
 }
