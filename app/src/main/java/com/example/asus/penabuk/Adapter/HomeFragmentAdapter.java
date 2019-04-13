@@ -236,7 +236,6 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             public void onResponse(Call<ReqSlider> call, Response<ReqSlider> response) {
                 ReqSlider reqSlider = response.body();
                 sliders = reqSlider.getSliders();
-                //ImageView[] imageViews = new ImageView[sliders.size()];
                 doGetSliderId(sliders, carousel);
             }
 
@@ -247,26 +246,15 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         });
     }
 
-    private void doGetSliderId(final List<Slider> sliderList, CarouselView carousel){
-        final Bitmap[] bitmaps = new Bitmap[sliderList.size()];
-        for(int i=0; i<sliderList.size(); i++){
-            ImageView iv = new ImageView(context);
-
-            Picasso.with(context)
-                    .load(ApiUtils.BASE_URL +"/image?id="+sliderList.get(i).getUrl())
-                    .centerCrop()
-                    .resize(100, 100)
-                    .into(iv);
-            //iv.setImageResource(R.drawable.ic_launcher_background);
-            iv.buildDrawingCache();
-            bitmaps[i] = iv.getDrawingCache();
-            iv.destroyDrawingCache();
-        }
-
+    private void doGetSliderId(final List<Slider> sliderList, final CarouselView carousel){
         carousel.setImageListener(new ImageListener() {
             @Override
             public void setImageForPosition(int position, ImageView imageView) {
-                imageView.setImageBitmap(bitmaps[position]);
+                Picasso.with(context)
+                        .load(ApiUtils.BASE_URL +"/image?id="+sliderList.get(position).getUrl())
+                        .centerCrop()
+                        .resize(carousel.getWidth(), 120)
+                        .into(imageView);
             }
         });
         carousel.setPageCount(sliderList.size());

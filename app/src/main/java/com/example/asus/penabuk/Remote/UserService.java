@@ -75,6 +75,10 @@ public interface UserService {
     @POST("/topup/balance")
     Call<ResMessage> uploadRequest(@Part("balance") RequestBody balance, @Part MultipartBody.Part image, @Query("token") Integer userId);
 
+    @Multipart
+    @POST("/users/image")
+    Call<ResMessage> changeImageRequest(@Part MultipartBody.Part image, @Query("token") Integer userId);
+
     @GET("/books")
     Call<ReqBook> getBookRequest(@Query("token") Integer id, @Query("page") Integer page);
 

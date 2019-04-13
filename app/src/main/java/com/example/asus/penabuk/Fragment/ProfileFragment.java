@@ -17,7 +17,11 @@ import com.example.asus.penabuk.Activity.ChangePasswordActivity;
 import com.example.asus.penabuk.Activity.EditProfileActivity;
 import com.example.asus.penabuk.Activity.LoginActivity;
 import com.example.asus.penabuk.R;
+import com.example.asus.penabuk.Remote.ApiUtils;
 import com.example.asus.penabuk.SharedPreferences.SharedPrefManager;
+import com.squareup.picasso.Picasso;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileFragment extends Fragment {
 
@@ -28,6 +32,7 @@ public class ProfileFragment extends Fragment {
     LinearLayout btnLogout;
     SharedPrefManager sharedPrefManager;
     TextView profileNama;
+    CircleImageView profileImage;
 
     Toolbar toolbarProfile;
 
@@ -84,6 +89,8 @@ public class ProfileFragment extends Fragment {
         initToolbar();
         profileNama = (TextView)view.findViewById(R.id.profileNama);
         profileNama.setText(sharedPrefManager.getSPNama());
+        profileImage = (CircleImageView)view.findViewById(R.id.profileImage);
+        doGetProfileImage();
         btnEditProfile = (LinearLayout)view.findViewById(R.id.btnEditProfile);
         btnAddress = (LinearLayout)view.findViewById(R.id.btnAddress);
         btnChangePassword = (LinearLayout)view.findViewById(R.id.btnChangePassword);
@@ -100,5 +107,14 @@ public class ProfileFragment extends Fragment {
     public void onResume(){
         super.onResume();
         profileNama.setText(sharedPrefManager.getSPNama());
+        doGetProfileImage();
+    }
+
+    private void doGetProfileImage(){
+        Picasso.with(view.getContext())
+                .load(ApiUtils.BASE_URL+"/image?id="+sharedPrefManager.getSPImage())
+                .centerCrop()
+                .resize(60, 60)
+                .into(profileImage);
     }
 }

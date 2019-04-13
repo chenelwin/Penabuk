@@ -12,6 +12,7 @@ public class SharedPrefManager {
     public static final String SP_BALANCE = "spBalance";
     public static final String SP_ID = "spId";
     public static final String SP_NOHP = "spNohp";
+    public static final String SP_IMAGE = "spImage";
     public static final String SP_SUDAH_LOGIN = "spSudahLogin";
 
     SharedPreferences sp;
@@ -54,6 +55,8 @@ public class SharedPrefManager {
     }
 
     public String getSPNohp(){ return sp.getString(SP_NOHP, ""); }
+
+    public String getSPImage(){ return sp.getString(SP_IMAGE, ""); }
 
     public Boolean getSPSudahLogin(){
         return sp.getBoolean(SP_SUDAH_LOGIN, false);

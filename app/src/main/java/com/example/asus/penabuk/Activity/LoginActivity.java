@@ -122,12 +122,14 @@ public class LoginActivity extends AppCompatActivity {
                     String passingnama = resUser.getUser().getName();
                     String passingemail = resUser.getUser().getEmail();
                     String passingnohp = resUser.getUser().getPhone_number();
+                    String passingimage = resUser.getUser().getImage_url();
                     String passingbalance = resUser.getUser().getBalance().toString();
                     sharedPrefManager.saveSPString(SharedPrefManager.SP_EMAIL, passingemail);
                     sharedPrefManager.saveSPString(SharedPrefManager.SP_ID, passingid);
                     sharedPrefManager.saveSPString(SharedPrefManager.SP_NAMA, passingnama);
                     sharedPrefManager.saveSPString(SharedPrefManager.SP_BALANCE, passingbalance);
                     sharedPrefManager.saveSPString(SharedPrefManager.SP_NOHP, passingnohp);
+                    sharedPrefManager.saveSPString(SharedPrefManager.SP_IMAGE, passingimage);
                     sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_SUDAH_LOGIN, true);
 
                     progressDialog.dismiss();
