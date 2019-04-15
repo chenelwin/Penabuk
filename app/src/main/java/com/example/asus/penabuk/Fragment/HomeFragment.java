@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import com.example.asus.penabuk.Activity.AddressActivity;
 import com.example.asus.penabuk.Activity.EditProfileActivity;
+import com.example.asus.penabuk.Activity.LoginActivity;
 import com.example.asus.penabuk.Activity.NotificationActivity;
 import com.example.asus.penabuk.Activity.TopUpActivity;
 import com.example.asus.penabuk.Activity.ViewAllActivity;
@@ -42,6 +43,7 @@ import com.example.asus.penabuk.R;
 import com.example.asus.penabuk.Remote.ApiUtils;
 import com.example.asus.penabuk.Remote.UserService;
 import com.example.asus.penabuk.SharedPreferences.SharedPrefManager;
+import com.squareup.picasso.Picasso;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageClickListener;
 import com.synnapps.carouselview.ImageListener;
@@ -51,6 +53,7 @@ import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -114,6 +117,10 @@ public class HomeFragment extends Fragment {
     private void initToolbar(){
         drawerHome = (DrawerLayout)view.findViewById(R.id.drawerHome);
         navigation_drawer = (NavigationView)view.findViewById(R.id.navigation_drawer);
+        //header drawer
+        initDrawerHeaderData(navigation_drawer);
+
+
         toolbarHome = (Toolbar)view.findViewById(R.id.toolbarHome);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbarHome);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Penabuk");
@@ -147,14 +154,36 @@ public class HomeFragment extends Fragment {
                         return true;
                     case R.id.nav_logout:
                         item.setChecked(true);
-                        Toast.makeText(view.getContext(), "edit profile", Toast.LENGTH_SHORT).show();
-                        drawerHome.closeDrawers();
+                        intent = new Intent(view.getContext(), LoginActivity.class);
+                        sharedPrefManager.saveSPString(SharedPrefManager.SP_EMAIL, "");
+                        sharedPrefManager.saveSPString(SharedPrefManager.SP_ID, "");
+                        sharedPrefManager.saveSPString(SharedPrefManager.SP_NAMA, "");
+                        sharedPrefManager.saveSPString(SharedPrefManager.SP_BALANCE, "");
+                        sharedPrefManager.saveSPString(SharedPrefManager.SP_NOHP, "");
+                        sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_SUDAH_LOGIN, false);
+                        startActivity(intent);
+                        getActivity().finish();
                         return true;
                 }
 
                 return false;
             }
         });
+    }
+
+    private void initDrawerHeaderData(NavigationView navdrawer){
+        View headDrawer = navdrawer.getHeaderView(0);
+        CircleImageView headDrawerImage = (CircleImageView)headDrawer.findViewById(R.id.headDrawerImage);
+        TextView headDrawerName = (TextView)headDrawer.findViewById(R.id.headDrawerName);
+        TextView headDrawerEmail = (TextView)headDrawer.findViewById(R.id.headDrawerEmail);
+        Picasso.with(view.getContext())
+                .load(ApiUtils.BASE_URL+"/image?id="+sharedPrefManager.getSPImage())
+                .centerCrop()
+                .resize(60, 60)
+                .into(headDrawerImage);
+        headDrawerName.setText(sharedPrefManager.getSPNama());
+        headDrawerEmail.setText(sharedPrefManager.getSPEmail());
+
     }
 
     @Override

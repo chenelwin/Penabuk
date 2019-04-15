@@ -3,6 +3,7 @@ package com.example.asus.penabuk.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -11,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -51,7 +53,7 @@ public class ViewDetailActivity extends AppCompatActivity {
     ViewDetailAdapter viewDetailAdapter;
     ImageView bookImg;
     LinearLayout layoutReviewUser;
-    LinearLayout layoutReviewUserDone;
+    LinearLayout layoutFixBottom;
     TextView bookTitle;
     TextView bookAuthor;
     TextView bookPublish;
@@ -84,6 +86,21 @@ public class ViewDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_detail);
         initView();
         doGetBookById();
+
+        findViewById(android.R.id.content).getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                Rect r = new Rect();
+                findViewById(android.R.id.content).getWindowVisibleDisplayFrame(r);
+                int heightDiff = findViewById(android.R.id.content).getRootView().getHeight()-(r.bottom-r.top);
+                if(heightDiff>244){
+                    layoutFixBottom.setVisibility(View.GONE);
+                }
+                else{
+                    layoutFixBottom.setVisibility(View.VISIBLE);
+                }
+            }
+        });
 
         imgMinus.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,7 +160,7 @@ public class ViewDetailActivity extends AppCompatActivity {
         userId = Integer.parseInt(sharedPrefManager.getSPId());
         rvViewDetail = (RecyclerView)findViewById(R.id.RvViewDetail);
         layoutReviewUser = (LinearLayout)findViewById(R.id.layoutReviewUser);
-        layoutReviewUserDone = (LinearLayout)findViewById(R.id.layoutReviewUserDone);
+        layoutFixBottom = (LinearLayout)findViewById(R.id.layoutFixBottom);
         bookImg = (ImageView)findViewById(R.id.bookImg);
         bookTitle = (TextView)findViewById(R.id.bookTitle);
         bookAuthor = (TextView)findViewById(R.id.bookAuthor);
@@ -211,11 +228,9 @@ public class ViewDetailActivity extends AppCompatActivity {
 
                 if(book.getUser_rating()==0){
                     layoutReviewUser.setVisibility(View.VISIBLE);
-                    layoutReviewUserDone.setVisibility(View.GONE);
                 }
                 else if(book.getUser_rating()>0){
                     layoutReviewUser.setVisibility(View.GONE);
-                    layoutReviewUserDone.setVisibility(View.VISIBLE);
                 }
 
                 Picasso.with(context)

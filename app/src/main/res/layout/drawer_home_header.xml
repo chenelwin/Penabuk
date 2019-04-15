@@ -7,22 +7,22 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark"
     android:background="@color/colorPrimaryDark"
     android:orientation="vertical"
-    android:gravity="center">
+    android:gravity="center_vertical">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_gravity="center"
-        android:src="@drawable/ic_launcher_background"/>
+        android:src="@drawable/ic_launcher_background"
+        android:id="@+id/headDrawerImage"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="NAME"/>
+        android:text="NAME"
+        android:id="@+id/headDrawerName"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="EMAIL"/>
+        android:text="EMAIL"
+        android:id="@+id/headDrawerEmail"/>
 
 </LinearLayout>

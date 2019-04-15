@@ -13,6 +13,7 @@ import com.example.asus.penabuk.Model.ReqDistrict;
 import com.example.asus.penabuk.Model.ReqFilter;
 import com.example.asus.penabuk.Model.ReqHistory;
 import com.example.asus.penabuk.Model.ReqHistoryId;
+import com.example.asus.penabuk.Model.ReqOrderStatus;
 import com.example.asus.penabuk.Model.ReqProvince;
 import com.example.asus.penabuk.Model.ReqReview;
 import com.example.asus.penabuk.Model.ReqSlider;
@@ -101,7 +102,7 @@ public interface UserService {
     Call<ResUser> getUser(@Query("token") Integer id);
 
     @GET("/histories")
-    Call<ReqHistory> getHistory(@Query("token") Integer id);
+    Call<ReqHistory> getHistory(@Query("token") Integer id, @Query("orderType") Integer orderType);
 
     @GET("/histories/{order_id}")
     Call<ReqHistoryId> getHistoryById(@Path("order_id") String orderId, @Query("token") Integer userId);
@@ -123,5 +124,8 @@ public interface UserService {
 
     @GET("/admin/sliders")
     Call<ReqSlider> getSlider();
+
+    @GET("orderStatus")
+    Call<ReqOrderStatus> getOrderStatus();
 
 }

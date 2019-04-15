@@ -11,13 +11,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.asus.penabuk.Adapter.HistoryFragmentAdapter;
 import com.example.asus.penabuk.Model.Cart;
 import com.example.asus.penabuk.Model.History;
+import com.example.asus.penabuk.Model.OrderStatus;
 import com.example.asus.penabuk.Model.ReqHistory;
+import com.example.asus.penabuk.Model.ReqOrderStatus;
 import com.example.asus.penabuk.R;
 import com.example.asus.penabuk.Remote.ApiUtils;
 import com.example.asus.penabuk.Remote.UserService;
@@ -43,6 +48,12 @@ public class HistoryFragment extends Fragment {
 
     Toolbar toolbarHistory;
 
+    //dropdown
+    Spinner spinnerHistory;
+    ArrayAdapter<OrderStatus> spinnerHistoryAdapter;
+    List<OrderStatus> orderStatuses;
+    Integer orderType = 1;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -62,18 +73,24 @@ public class HistoryFragment extends Fragment {
 
     private void initToolbar(){
         toolbarHistory = (Toolbar)view.findViewById(R.id.toolbarHistory);
+        initDropdownFilter();
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbarHistory);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Riwayat");
+    }
+
+    private void initDropdownFilter(){
+        spinnerHistory = (Spinner)view.findViewById(R.id.spinnerHistory);
+        doGetOrderStatus();
     }
 
     @Override
     public void onResume(){
         super.onResume();
-        doGetHistory(userId);
+        doGetHistory(userId, orderType);
     }
 
-    public void doGetHistory(Integer id){
-        Call<ReqHistory> call = userService.getHistory(id);
+    public void doGetHistory(Integer id, Integer orderType){
+        Call<ReqHistory> call = userService.getHistory(id, orderType);
         call.enqueue(new Callback<ReqHistory>() {
             @Override
             public void onResponse(Call<ReqHistory> call, Response<ReqHistory> response) {
@@ -101,5 +118,38 @@ public class HistoryFragment extends Fragment {
         else if(histories.size()>0){
             layoutNoHistory.setVisibility(View.GONE);
         }
+    }
+
+    private void doGetOrderStatus(){
+        Call<ReqOrderStatus> call = userService.getOrderStatus();
+        call.enqueue(new Callback<ReqOrderStatus>() {
+            @Override
+            public void onResponse(Call<ReqOrderStatus> call, Response<ReqOrderStatus> response) {
+                ReqOrderStatus reqOrderStatus = response.body();
+                orderStatuses = reqOrderStatus.getOrderStatuses();
+                spinnerHistoryAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_item, orderStatuses);
+                spinnerHistoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinnerHistory.setAdapter(spinnerHistoryAdapter);
+
+                spinnerHistory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        OrderStatus orderStatus = (OrderStatus)spinnerHistory.getSelectedItem();
+                        doGetHistory(userId, orderStatus.getId());
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
+
+            }
+
+            @Override
+            public void onFailure(Call<ReqOrderStatus> call, Throwable t) {
+                Toast.makeText(view.getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

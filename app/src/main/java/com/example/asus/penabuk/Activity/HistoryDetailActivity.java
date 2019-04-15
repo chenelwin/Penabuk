@@ -1,5 +1,6 @@
 package com.example.asus.penabuk.Activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -43,6 +44,7 @@ public class HistoryDetailActivity extends AppCompatActivity {
     History historyDetail;
     Integer userId;
     String orderId;
+    ProgressDialog progressDialog;
 
     RecyclerView rvHistoryDetail;
     HistoryDetailAdapter historyDetailAdapter;
@@ -59,6 +61,7 @@ public class HistoryDetailActivity extends AppCompatActivity {
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progressDialog = ProgressDialog.show(context, null, "Please Wait..", true);
                 doCancelOrder(orderId, userId);
             }
         });
@@ -151,12 +154,14 @@ public class HistoryDetailActivity extends AppCompatActivity {
             public void onResponse(Call<ResMessage> call, Response<ResMessage> response) {
                 ResMessage resMessage = response.body();
                 Toast.makeText(context, resMessage.getMessage(), Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
                 finish();
             }
 
             @Override
             public void onFailure(Call<ResMessage> call, Throwable t) {
                 Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
             }
         });
     }

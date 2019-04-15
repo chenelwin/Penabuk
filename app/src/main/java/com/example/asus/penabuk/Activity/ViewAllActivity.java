@@ -166,22 +166,6 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
         materialSearchView.setVoiceSearch(true);
         materialSearchView.showVoice(true);
         initDropdownFilter(materialSearchView);
-        /*
-        materialSearchView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if(filterType==1){
-                    String query = (String)adapterView.getItemAtPosition(i);
-                    doGetBookByFilter(filterType, query);
-                    materialSearchView.closeSearch();
-                }
-                else if(filterType==2){
-                    String query = (String)adapterView.getItemAtPosition(i);
-                    doGetBookByFilter(filterType, query);
-                    materialSearchView.closeSearch();
-                }
-            }
-        });*/
 
         materialSearchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
