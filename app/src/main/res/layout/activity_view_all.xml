@@ -24,16 +24,25 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Filter Search Suggestion By : "
-            android:textColor="#000"/>
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textAlignment="center"
             android:layout_gravity="center_vertical"
-            android:spinnerMode="dialog"
-            android:background="@drawable/myborder"
-            android:id="@+id/spinnerSearch"/>
+            android:text="Filter Search By : "
+            android:textColor="#000"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textAlignment="center"
+                android:layout_gravity="center_vertical"
+                android:spinnerMode="dialog"
+                android:id="@+id/spinnerSearch"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@drawable/myborder"/>
+        </LinearLayout>
     </LinearLayout>
 
 

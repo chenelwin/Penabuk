@@ -239,7 +239,6 @@ public class EditProfileActivity extends AppCompatActivity {
                 if(response.isSuccessful()) {
                     ResMessage resMessage = response.body();
                     Toast.makeText(context, resMessage.getMessage(), Toast.LENGTH_SHORT).show();
-                    sharedPrefManager.saveSPString(SharedPrefManager.SP_IMAGE, file.getName());
                     finish();
                     progressDialog.dismiss();
                 }

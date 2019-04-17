@@ -63,12 +63,10 @@ public class HomeFragment extends Fragment {
     UserService userService = ApiUtils.getUserService();
     SharedPrefManager sharedPrefManager;
     public View view;
-    TextView balance;
     RecyclerView rvHomeFragment;
     HomeFragmentAdapter homeFragmentAdapter;
     GridLayoutManager rvManager;
     List<Book> books;
-    Button btnTopup;
     Integer userId;
 
     //EndlessScroll
@@ -93,14 +91,6 @@ public class HomeFragment extends Fragment {
         initView();
         doGetBook(userId, page);
 
-        btnTopup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), TopUpActivity.class);
-                startActivity(intent);
-            }
-        });
-
         return view;
     }
 
@@ -108,10 +98,8 @@ public class HomeFragment extends Fragment {
         sharedPrefManager = new SharedPrefManager(view.getContext());
         initToolbar();
         userId = Integer.parseInt(sharedPrefManager.getSPId());
-        balance = (TextView)view.findViewById(R.id.balance);
         rvHomeFragment = (RecyclerView)view.findViewById(R.id.RvHomeFragment);
         loadingNext = (ProgressBar)view.findViewById(R.id.loadingNext);
-        btnTopup = (Button)view.findViewById(R.id.btnTopup);
     }
 
     private void initToolbar(){
@@ -207,7 +195,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume(){
         super.onResume();
-        doGetUser(userId);
+        //doGetUser(userId);
     }
 
 
@@ -270,7 +258,7 @@ public class HomeFragment extends Fragment {
             }
         });
     }
-
+    /*
     private void doGetUser(Integer id){
         Call<ResUser> call = userService.getUser(id);
         call.enqueue(new Callback<ResUser>() {
@@ -294,7 +282,7 @@ public class HomeFragment extends Fragment {
                 Toast.makeText(view.getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-    }
+    }*/
 
     private void endlessScroll(){
         rvHomeFragment.addOnScrollListener(new RecyclerView.OnScrollListener() {

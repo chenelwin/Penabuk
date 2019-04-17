@@ -11,17 +11,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.asus.penabuk.Activity.AddressActivity;
 import com.example.asus.penabuk.Activity.ChangePasswordActivity;
 import com.example.asus.penabuk.Activity.EditProfileActivity;
 import com.example.asus.penabuk.Activity.LoginActivity;
+import com.example.asus.penabuk.Model.ResUser;
 import com.example.asus.penabuk.R;
 import com.example.asus.penabuk.Remote.ApiUtils;
+import com.example.asus.penabuk.Remote.UserService;
 import com.example.asus.penabuk.SharedPreferences.SharedPrefManager;
 import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ProfileFragment extends Fragment {
 
@@ -31,6 +37,8 @@ public class ProfileFragment extends Fragment {
     LinearLayout btnChangePassword;
     LinearLayout btnLogout;
     SharedPrefManager sharedPrefManager;
+    UserService userService = ApiUtils.getUserService();
+    Integer userId;
     TextView profileNama;
     CircleImageView profileImage;
 
@@ -90,7 +98,7 @@ public class ProfileFragment extends Fragment {
         profileNama = (TextView)view.findViewById(R.id.profileNama);
         profileNama.setText(sharedPrefManager.getSPNama());
         profileImage = (CircleImageView)view.findViewById(R.id.profileImage);
-        doGetProfileImage();
+        userId = Integer.parseInt(sharedPrefManager.getSPId());
         btnEditProfile = (LinearLayout)view.findViewById(R.id.btnEditProfile);
         btnAddress = (LinearLayout)view.findViewById(R.id.btnAddress);
         btnChangePassword = (LinearLayout)view.findViewById(R.id.btnChangePassword);
@@ -107,14 +115,27 @@ public class ProfileFragment extends Fragment {
     public void onResume(){
         super.onResume();
         profileNama.setText(sharedPrefManager.getSPNama());
-        doGetProfileImage();
+        doGetUser(userId);
     }
 
-    private void doGetProfileImage(){
-        Picasso.with(view.getContext())
-                .load(ApiUtils.BASE_URL+"/image?id="+sharedPrefManager.getSPImage())
-                .centerCrop()
-                .resize(60, 60)
-                .into(profileImage);
+    private void doGetUser(Integer userId){
+        Call<ResUser> call = userService.getUser(userId);
+        call.enqueue(new Callback<ResUser>() {
+            @Override
+            public void onResponse(Call<ResUser> call, Response<ResUser> response) {
+                ResUser resUser = response.body();
+                sharedPrefManager.saveSPString(SharedPrefManager.SP_IMAGE, resUser.getUser().getImage_url());
+                Picasso.with(view.getContext())
+                        .load(ApiUtils.BASE_URL+"/image?id="+sharedPrefManager.getSPImage())
+                        .centerCrop()
+                        .resize(60, 60)
+                        .into(profileImage);
+            }
+
+            @Override
+            public void onFailure(Call<ResUser> call, Throwable t) {
+                Toast.makeText(view.getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

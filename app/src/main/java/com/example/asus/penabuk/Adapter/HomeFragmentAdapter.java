@@ -17,15 +17,18 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.asus.penabuk.Activity.TopUpActivity;
 import com.example.asus.penabuk.Activity.ViewAllActivity;
 import com.example.asus.penabuk.Activity.ViewDetailActivity;
 import com.example.asus.penabuk.Fragment.HomeFragment;
 import com.example.asus.penabuk.Model.Book;
 import com.example.asus.penabuk.Model.ReqSlider;
+import com.example.asus.penabuk.Model.ResUser;
 import com.example.asus.penabuk.Model.Slider;
 import com.example.asus.penabuk.R;
 import com.example.asus.penabuk.Remote.ApiUtils;
 import com.example.asus.penabuk.Remote.UserService;
+import com.example.asus.penabuk.SharedPreferences.SharedPrefManager;
 import com.squareup.picasso.Picasso;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageClickListener;
@@ -42,6 +45,8 @@ import retrofit2.Response;
 public class HomeFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     UserService userService = ApiUtils.getUserService();
+    SharedPrefManager sharedPrefManager;
+    Integer userId;
     List<Book> books;
     Context context;
     public static final int LAYOUT_HEAD = 1;
@@ -71,6 +76,7 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             viewHolder = new ViewHolderList(view);
         }
         context = parent.getContext();
+        sharedPrefManager = new SharedPrefManager(context);
         return viewHolder;
     }
 
@@ -78,6 +84,15 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void onBindViewHolder(RecyclerView.ViewHolder mholder, int position) {
         if(mholder.getItemViewType()==LAYOUT_HEAD){
             ViewHolderHead holder = (ViewHolderHead)mholder;
+            userId = Integer.parseInt(sharedPrefManager.getSPId());
+            doGetUser(userId, holder.balance);
+            holder.btnTopup.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(view.getContext(), TopUpActivity.class);
+                    view.getContext().startActivity(intent);
+                }
+            });
 
             holder.textLihatSemua.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -125,70 +140,17 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public int getItemCount() {
         return books.size();
     }
-    /*
-    @Override
-    public HomeFragmentAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = null;
-        HomeFragmentAdapter.ViewHolder viewHolder = null;
-        //View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.rv_home_fragment, parent, false);
-        //HomeFragmentAdapter.ViewHolder viewHolder = new ViewHolder(view);
-        //context = parent.getContext();
-        if(viewType==LAYOUT_HEAD){
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.rv_home_header, parent, false);
-            viewHolder = new ViewHolderHead(view);
-        }
-        else{
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.rv_home_fragment, parent, false);
-            viewHolder = new ViewHolder(view);
-        }
-        return viewHolder;
-    }
-
-    @Override
-    public void onBindViewHolder(HomeFragmentAdapter.ViewHolder holder, int position) {
-        if(holder.getItemViewType()==LAYOUT_HEAD){
-
-        }
-        else {
-            ViewHolderList holderList = (ViewHolderList)holder;
-            final Book book = books.get(holder.getAdapterPosition());
-            holder.bookTitle.setText(book.getOriginal_title());
-            DecimalFormat formatter = new DecimalFormat("#,###,###");
-            DecimalFormatSymbols symbols = new DecimalFormatSymbols();
-            symbols.setGroupingSeparator('.');
-            formatter.setDecimalFormatSymbols(symbols);
-            String priceformat = formatter.format(book.getPrice());
-            holder.bookPrice.setText("Rp. " + priceformat);
-
-            Picasso.with(context)
-                    .load(book.getImage_url())
-                    .resize(80, 120)
-                    .centerCrop()
-                    .into(holder.bookImg);
-
-            holder.cv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(view.getContext(), ViewDetailActivity.class);
-                    intent.putExtra("bookid", book.getId());
-                    view.getContext().startActivity(intent);
-                }
-            });
-        }
-    }
-
-    @Override
-    public int getItemCount() {
-        return books.size();
-    }
-    */
 
     public class ViewHolderHead extends RecyclerView.ViewHolder{
+        TextView balance;
+        Button btnTopup;
         CarouselView carousel;
         TextView textLihatSemua;
 
         public ViewHolderHead(View itemView){
             super(itemView);
+            balance = (TextView)itemView.findViewById(R.id.balance);
+            btnTopup = (Button)itemView.findViewById(R.id.btnTopup);
             carousel = (CarouselView)itemView.findViewById(R.id.carousel);
             textLihatSemua = (TextView)itemView.findViewById(R.id.textLihatsemua);
         }
@@ -208,26 +170,6 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             cv = (CardView)itemView.findViewById(R.id.cvHomeFragment);
         }
     }
-/*
-    private void initCarousel(CarouselView carousel){
-        doGetSlider(carousel);
-        //final int[] images = new int[]{ R.drawable.slider1, R.drawable.slider2, R.drawable.slider3, R.drawable.slider4};
-        //final String[] imagetitle = new String[] { "Pic1", "Pic2", "Pic3", "Pic4" };
-        carousel.setPageCount(images.length);
-        carousel.setImageListener(new ImageListener() {
-            @Override
-            public void setImageForPosition(int position, ImageView imageView) {
-                imageView.setImageResource(images[position]);
-            }
-        });
-
-        carousel.setImageClickListener(new ImageClickListener() {
-            @Override
-            public void onClick(int position) {
-                Toast.makeText(context, imagetitle[position], Toast.LENGTH_SHORT).show();
-            }
-        });
-    }*/
 
     private void doGetSlider(final CarouselView carousel){
         Call<ReqSlider> call = userService.getSlider();
@@ -262,6 +204,31 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             @Override
             public void onClick(int position) {
                 Toast.makeText(context, sliderList.get(position).getName(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void doGetUser(Integer userId, final TextView balance){
+        Call<ResUser> call = userService.getUser(userId);
+        call.enqueue(new Callback<ResUser>() {
+            @Override
+            public void onResponse(Call<ResUser> call, Response<ResUser> response) {
+                ResUser resUser = response.body();
+                String updbalance = resUser.getUser().getBalance().toString();
+                sharedPrefManager.saveSPString(SharedPrefManager.SP_BALANCE, updbalance);
+
+                Integer tmpbalance = Integer.parseInt(sharedPrefManager.getSPBalance());
+                DecimalFormat formatter = new DecimalFormat("#,###,###");
+                DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+                symbols.setGroupingSeparator('.');
+                formatter.setDecimalFormatSymbols(symbols);
+                String priceformat = formatter.format(tmpbalance);
+                balance.setText("Rp. " + priceformat);
+            }
+
+            @Override
+            public void onFailure(Call<ResUser> call, Throwable t) {
+                Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
