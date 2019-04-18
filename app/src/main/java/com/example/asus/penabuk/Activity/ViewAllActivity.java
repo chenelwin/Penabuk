@@ -170,6 +170,7 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
         materialSearchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                progressDialog = ProgressDialog.show(context, null, "Please Wait..", true);
                 doGetBookByFilter(filterType, query);
                 getSupportActionBar().setTitle(query);
                 return false;

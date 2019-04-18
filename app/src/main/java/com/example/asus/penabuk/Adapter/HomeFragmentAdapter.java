@@ -119,7 +119,7 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             Picasso.with(context)
                     .load(book.getImage_url())
-                    .resize(130, 180)
+                    .resize(150, 200)
                     .centerCrop()
                     .into(holder.bookImg);
 
