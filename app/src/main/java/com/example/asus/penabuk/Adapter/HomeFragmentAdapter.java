@@ -117,11 +117,18 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             String priceformat = formatter.format(book.getPrice());
             holder.bookPrice.setText("Rp. " + priceformat);
 
-            Picasso.with(context)
-                    .load(book.getImage_url())
-                    .resize(150, 200)
-                    .centerCrop()
-                    .into(holder.bookImg);
+            if(book.getImage_url().length()>0) {
+                Picasso.with(context)
+                        .load(book.getImage_url())
+                        //.resize(150, 200)
+                        //.centerCrop()
+                        .into(holder.bookImg);
+            }
+            else{
+                Picasso.with(context)
+                        .load(ApiUtils.BASE_URL +"/image?id="+books.get(position).getImage_local())
+                        .into(holder.bookImg);
+            }
 
             holder.cv.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -194,8 +201,8 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             public void setImageForPosition(int position, ImageView imageView) {
                 Picasso.with(context)
                         .load(ApiUtils.BASE_URL +"/image?id="+sliderList.get(position).getUrl())
-                        .centerCrop()
-                        .resize(carousel.getWidth(), 120)
+                        //.centerCrop()
+                        //.resize(carousel.getWidth(), 300)
                         .into(imageView);
             }
         });

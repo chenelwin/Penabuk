@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.example.asus.penabuk.Model.Book;
 import com.example.asus.penabuk.Model.Cart;
 import com.example.asus.penabuk.R;
+import com.example.asus.penabuk.Remote.ApiUtils;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
@@ -63,11 +64,20 @@ public class CartFragmentAdapter extends RecyclerView.Adapter<CartFragmentAdapte
         String priceformat = formatter.format(cart.getBook().getPrice());
         holder.cartPrice.setText("Rp. " + priceformat);
 
-        Picasso.with(context)
-                .load(cart.getBook().getImage_url())
-                .resize(80, 120)
-                .centerCrop()
-                .into(holder.cartImg);
+        if(cart.getBook().getImage_url().length()>0) {
+            Picasso.with(context)
+                    .load(cart.getBook().getImage_url())
+                    .resize(80, 120)
+                    .centerCrop()
+                    .into(holder.cartImg);
+        }
+        else {
+            Picasso.with(context)
+                    .load(ApiUtils.BASE_URL +"/image?id="+carts.get(position).getBook().getImage_local())
+                    .resize(80, 120)
+                    .centerCrop()
+                    .into(holder.cartImg);
+        }
 
         holder.bookQty.setText(String.valueOf(cart.getCount()));
 

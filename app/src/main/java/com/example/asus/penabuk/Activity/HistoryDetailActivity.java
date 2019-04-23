@@ -133,15 +133,15 @@ public class HistoryDetailActivity extends AppCompatActivity {
     }
 
     private void showButton(String statusorder){
-        if(statusorder.equals("Pending")){
+        if(statusorder.equals("Pending") || statusorder.equals("Barang Sedang Dikemas")){
             btnCancel.setVisibility(View.VISIBLE);
             btnConfirm.setVisibility(View.GONE);
         }
-        if(statusorder.equals("Sedang dikirim") || statusorder.equals("Telah sampai tujuan")){
+        if(statusorder.equals("Barang Telah Sampai") || statusorder.equals("Barang Sedang Dikirim")){
             btnCancel.setVisibility(View.GONE);
             btnConfirm.setVisibility(View.VISIBLE);
         }
-        if(statusorder.equals("Batal")){
+        if(statusorder.equals("Batal") || statusorder.equals("Barang Telah Diterima") || statusorder.equals("Ditolak")){
             btnCancel.setVisibility(View.GONE);
             btnConfirm.setVisibility(View.GONE);
         }

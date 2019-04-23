@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.asus.penabuk.Model.BookHistory;
 import com.example.asus.penabuk.R;
+import com.example.asus.penabuk.Remote.ApiUtils;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
@@ -47,11 +48,20 @@ public class HistoryDetailAdapter extends RecyclerView.Adapter<HistoryDetailAdap
 
         holder.textQty.setText("Qty : " + bookHistory.getCount());
 
-        Picasso.with(context)
-                .load(bookHistory.getImage_url())
-                .resize(80, 120)
-                .centerCrop()
-                .into(holder.bookImg);
+        if(bookHistory.getImage_url().length()>0) {
+            Picasso.with(context)
+                    .load(bookHistory.getImage_url())
+                    .resize(80, 120)
+                    .centerCrop()
+                    .into(holder.bookImg);
+        }
+        else {
+            Picasso.with(context)
+                    .load(ApiUtils.BASE_URL +"/image?id="+bookHistories.get(position).getImage_local())
+                    .resize(80, 120)
+                    .centerCrop()
+                    .into(holder.bookImg);
+        }
     }
 
     @Override

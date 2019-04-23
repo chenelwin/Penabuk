@@ -233,11 +233,20 @@ public class ViewDetailActivity extends AppCompatActivity {
                     layoutReviewUser.setVisibility(View.GONE);
                 }
 
-                Picasso.with(context)
-                        .load(book.getImage_url())
-                        .resize(100, 140)
-                        .centerCrop()
-                        .into(bookImg);
+                if(book.getImage_url().length()>0) {
+                    Picasso.with(context)
+                            .load(book.getImage_url())
+                            .resize(100, 140)
+                            .centerCrop()
+                            .into(bookImg);
+                }
+                else {
+                    Picasso.with(context)
+                            .load(ApiUtils.BASE_URL +"/image?id="+book.getImage_local())
+                            .resize(100, 140)
+                            .centerCrop()
+                            .into(bookImg);
+                }
 
                 reviews = book.getReviews();
                 viewDetailAdapter = new ViewDetailAdapter(reviews);

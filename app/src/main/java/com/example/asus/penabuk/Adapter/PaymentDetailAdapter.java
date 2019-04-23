@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.example.asus.penabuk.Model.Book;
 import com.example.asus.penabuk.Model.BookPayment;
 import com.example.asus.penabuk.R;
+import com.example.asus.penabuk.Remote.ApiUtils;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
@@ -45,12 +46,20 @@ public class PaymentDetailAdapter extends RecyclerView.Adapter<PaymentDetailAdap
         String priceformat = formatter.format(bookPayment.getBook().getPrice());
         holder.bookPrice.setText("Rp. " + priceformat);
 
-        Picasso.with(context)
-                .load(bookPayment.getBook().getImage_url())
-                .resize(80, 120)
-                .centerCrop()
-                .into(holder.bookImg);
-
+        if(bookPayment.getBook().getImage_url().length()>0) {
+            Picasso.with(context)
+                    .load(bookPayment.getBook().getImage_url())
+                    .resize(80, 120)
+                    .centerCrop()
+                    .into(holder.bookImg);
+        }
+        else {
+            Picasso.with(context)
+                    .load(ApiUtils.BASE_URL +"/image?id="+bookPayments.get(position).getBook().getImage_local())
+                    .resize(80, 120)
+                    .centerCrop()
+                    .into(holder.bookImg);
+        }
 
         holder.bookQty.setText("Qty : " + bookPayment.getCount());
 

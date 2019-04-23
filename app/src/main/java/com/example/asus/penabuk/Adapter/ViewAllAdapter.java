@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.example.asus.penabuk.Activity.ViewDetailActivity;
 import com.example.asus.penabuk.Model.Book;
 import com.example.asus.penabuk.R;
+import com.example.asus.penabuk.Remote.ApiUtils;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
@@ -59,11 +60,20 @@ public class ViewAllAdapter extends RecyclerView.Adapter<ViewAllAdapter.ViewHold
 
         holder.bookRating.setRating(book.getAverage_rating());
 
-        Picasso.with(context)
-                .load(book.getImage_url())
-                .resize(80, 120)
-                .centerCrop()
-                .into(holder.bookImg);
+        if(book.getImage_url().length()>0) {
+            Picasso.with(context)
+                    .load(book.getImage_url())
+                    .resize(80, 120)
+                    .centerCrop()
+                    .into(holder.bookImg);
+        }
+        else{
+            Picasso.with(context)
+                    .load(ApiUtils.BASE_URL +"/image?id="+books.get(position).getImage_local())
+                    .resize(80, 120)
+                    .centerCrop()
+                    .into(holder.bookImg);
+        }
 
         holder.btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override

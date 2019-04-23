@@ -11,15 +11,37 @@
         android:id="@+id/toolbarAddress"
         layout="@layout/toolbar"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:layout_weight="1"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="vertical"
-        android:background="#fff"
-        android:id="@+id/RvAddress">
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:id="@+id/layoutNoAddress">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:text="Alamat kosong, silahkan tambah alamat terlebih dahulu."
+            android:textSize="18sp"
+            android:textColor="#000"
+            android:textAlignment="center"/>
+    </LinearLayout>
 
-    </android.support.v7.widget.RecyclerView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:id="@+id/layoutAddress">
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"
+            android:background="#fff"
+            android:id="@+id/RvAddress">
+
+        </android.support.v7.widget.RecyclerView>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

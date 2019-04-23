@@ -13,6 +13,7 @@ public class Book implements Serializable {
     private Float average_rating;
     private String image_url;
     private String small_image_url;
+    private String image_local;
     private Integer price;
     private Integer user_rating;
     private List<Review> reviews;
@@ -79,6 +80,14 @@ public class Book implements Serializable {
 
     public void setSmall_image_url(String small_image_url) {
         this.small_image_url = small_image_url;
+    }
+
+    public String getImage_local() {
+        return image_local;
+    }
+
+    public void setImage_local(String image_local) {
+        this.image_local = image_local;
     }
 
     public Integer getPrice() {
