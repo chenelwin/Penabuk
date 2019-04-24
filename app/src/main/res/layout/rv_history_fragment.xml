@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:cardUseCompatPadding="true"
         android:id="@+id/cvHistoryFragment">
 
         <LinearLayout
@@ -109,13 +110,36 @@
                     android:textStyle="bold"
                     android:id="@+id/textStatus"/>
             </LinearLayout>
-        </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:visibility="gone"
+                android:id="@+id/layoutAlasanBatal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Deskripsi"
+                    android:textColor="#000"/>
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Alasan"
+                    android:textColor="#000"
+                    android:id="@+id/textAlasan"/>
+            </LinearLayout>
+        </LinearLayout>
+<!--
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:background="@drawable/myborder"/>
-
+-->
 
 
     </android.support.v7.widget.CardView>

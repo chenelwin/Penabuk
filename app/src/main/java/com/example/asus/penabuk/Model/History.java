@@ -8,6 +8,7 @@ public class History {
     private Integer total_price;
     private String order_id;
     private String status;
+    private String description;
     private Address address;
     private String createdAt;
     private List<BookHistory> details;
@@ -34,6 +35,14 @@ public class History {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Address getAddress() {

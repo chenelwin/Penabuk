@@ -4,11 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.asus.penabuk.Activity.HistoryDetailActivity;
@@ -68,6 +70,8 @@ public class HistoryFragmentAdapter extends RecyclerView.Adapter<HistoryFragment
         TextView textDate;
         TextView textPrice;
         TextView textStatus;
+        LinearLayout layoutAlasanBatal;
+        TextView textAlasan;
         CardView cv;
 
         public ViewHolder(View itemView){
@@ -77,6 +81,8 @@ public class HistoryFragmentAdapter extends RecyclerView.Adapter<HistoryFragment
             textDate = (TextView)itemView.findViewById(R.id.textDate);
             textPrice = (TextView)itemView.findViewById(R.id.textPrice);
             textStatus = (TextView)itemView.findViewById(R.id.textStatus);
+            layoutAlasanBatal = (LinearLayout)itemView.findViewById(R.id.layoutAlasanBatal);
+            textAlasan = (TextView)itemView.findViewById(R.id.textAlasan);
             cv = (CardView)itemView.findViewById(R.id.cvHistoryFragment);
         }
     }

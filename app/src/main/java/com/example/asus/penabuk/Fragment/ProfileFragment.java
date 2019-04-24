@@ -16,6 +16,8 @@ import android.widget.Toast;
 import com.example.asus.penabuk.Activity.AddressActivity;
 import com.example.asus.penabuk.Activity.ChangePasswordActivity;
 import com.example.asus.penabuk.Activity.EditProfileActivity;
+import com.example.asus.penabuk.Activity.HistoryBalanceActivity;
+import com.example.asus.penabuk.Activity.HistoryTopupActivity;
 import com.example.asus.penabuk.Activity.LoginActivity;
 import com.example.asus.penabuk.Model.ResUser;
 import com.example.asus.penabuk.R;
@@ -34,6 +36,8 @@ public class ProfileFragment extends Fragment {
     public View view;
     LinearLayout btnEditProfile;
     LinearLayout btnAddress;
+    LinearLayout btnHistoryBalance;
+    LinearLayout btnHistoryTopup;
     LinearLayout btnChangePassword;
     LinearLayout btnLogout;
     SharedPrefManager sharedPrefManager;
@@ -62,6 +66,22 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), AddressActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnHistoryBalance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), HistoryBalanceActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnHistoryTopup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), HistoryTopupActivity.class);
                 startActivity(intent);
             }
         });
@@ -101,6 +121,8 @@ public class ProfileFragment extends Fragment {
         userId = Integer.parseInt(sharedPrefManager.getSPId());
         btnEditProfile = (LinearLayout)view.findViewById(R.id.btnEditProfile);
         btnAddress = (LinearLayout)view.findViewById(R.id.btnAddress);
+        btnHistoryBalance = (LinearLayout)view.findViewById(R.id.btnHistoryBalance);
+        btnHistoryTopup = (LinearLayout)view.findViewById(R.id.btnHistoryTopup);
         btnChangePassword = (LinearLayout)view.findViewById(R.id.btnChangePassword);
         btnLogout = (LinearLayout)view.findViewById(R.id.btnLogout);
     }

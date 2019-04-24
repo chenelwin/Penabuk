@@ -86,6 +86,7 @@ public class HistoryFragment extends Fragment {
     @Override
     public void onResume(){
         super.onResume();
+        doGetOrderStatus();
         doGetHistory(userId, orderType);
     }
 

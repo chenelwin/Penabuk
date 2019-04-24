@@ -6,6 +6,7 @@ import com.example.asus.penabuk.Model.Payment;
 import com.example.asus.penabuk.Model.ReqAddress;
 import com.example.asus.penabuk.Model.ReqBook;
 import com.example.asus.penabuk.Model.ReqBookId;
+import com.example.asus.penabuk.Model.ReqCancelOrder;
 import com.example.asus.penabuk.Model.ReqCart;
 import com.example.asus.penabuk.Model.ReqChangePassword;
 import com.example.asus.penabuk.Model.ReqCity;
@@ -61,7 +62,10 @@ public interface UserService {
     Call<ResMessage> addCartRequest(@Body Order order, @Query("token") Integer id);
 
     @POST("/histories/{id}/cancel")
-    Call<ResMessage> cancelOrderRequest(@Path("id") String orderId, @Query("token") Integer userId);
+    Call<ResMessage> cancelOrderRequest(@Path("id") String orderId, @Query("token") Integer userId, @Body ReqCancelOrder description);
+
+    @POST("/histories/{id}/confirm")
+    Call<ResMessage> confirmOrderRequest(@Path("id") String orderId, @Query("token") Integer userId);
 
     @POST("/remove/cart/{id}")
     Call<ResMessage> removeCartRequest(@Path("id") Integer cartId, @Query("token") Integer userId);

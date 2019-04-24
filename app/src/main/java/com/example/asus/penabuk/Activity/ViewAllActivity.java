@@ -57,13 +57,10 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
     UserService userService = ApiUtils.getUserService();
     SharedPrefManager sharedPrefManager;
     Context context;
-    ImageView btnMic;
-    TextView searchKey;
     RecyclerView rvViewAllActivity;
     LinearLayoutManager rvManager;
     ViewAllAdapter viewAllAdapter;
     List<Book> books;
-    ImageView imgBack;
     Integer userId;
     ProgressDialog progressDialog;
 

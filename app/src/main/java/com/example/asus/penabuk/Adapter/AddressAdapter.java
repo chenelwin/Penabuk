@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.example.asus.penabuk.Model.Address;
@@ -41,7 +42,8 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHold
         final Address address = addresses.get(holder.getAdapterPosition());
 
         String tmpaddress = address.getAddress_line()+", "+address.getCity()+", "+address.getDistrict()+", "+address.getProvince()+" "+address.getZip_code();
-        holder.textAddress.setText(tmpaddress);
+        //holder.textAddress.setText(tmpaddress);
+        holder.primaryAddress.setText(tmpaddress);
 
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,12 +63,14 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHold
 
         TextView textAddress;
         ImageView btnDelete;
+        RadioButton primaryAddress;
         CardView cv;
 
         public ViewHolder(View itemView){
             super(itemView);
             textAddress = (TextView)itemView.findViewById(R.id.textAddress);
             btnDelete = (ImageView)itemView.findViewById(R.id.btnDelete);
+            primaryAddress = (RadioButton)itemView.findViewById(R.id.primaryAddress);
             cv = (CardView)itemView.findViewById(R.id.cvAddress);
         }
     }
