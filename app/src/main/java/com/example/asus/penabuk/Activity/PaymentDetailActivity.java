@@ -167,6 +167,12 @@ public class PaymentDetailActivity extends AppCompatActivity {
                 spinnerAlamatAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, addresses);
                 spinnerAlamatAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinnerAlamat.setAdapter(spinnerAlamatAdapter);
+                for(int i=0; i<addresses.size(); i++){
+                    if(addresses.get(i).isIs_primary()){
+                        spinnerAlamat.setSelection(i);
+                        break;
+                    }
+                }
 
                 spinnerAlamat.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override

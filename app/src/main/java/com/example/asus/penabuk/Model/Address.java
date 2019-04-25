@@ -8,6 +8,7 @@ public class Address {
     private String district;
     private String city;
     private String province;
+    private boolean is_primary;
 
     public Integer getId() {
         return id;
@@ -63,6 +64,14 @@ public class Address {
 
     public void setProvince(String province) {
         this.province = province;
+    }
+
+    public boolean isIs_primary() {
+        return is_primary;
+    }
+
+    public void setIs_primary(boolean is_primary) {
+        this.is_primary = is_primary;
     }
 
     @Override

@@ -122,11 +122,9 @@ public class CartFragmentAdapter extends RecyclerView.Adapter<CartFragmentAdapte
                 if (b) {
                     cart.setSelected(true);
                     totalHarga.passTotalHarga(carts);
-                    Log.e("kenak cek", "" + cart.getBook().getTitle());
                 } else if (!b) {
                     cart.setSelected(false);
                     totalHarga.passTotalHarga(carts);
-                    Log.e("kenak hapus", "" + cart.getBook().getTitle());
                 }
             }
         });

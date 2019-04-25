@@ -2,6 +2,7 @@ package com.example.asus.penabuk.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -65,7 +66,7 @@ public class HistoryFragmentAdapter extends RecyclerView.Adapter<HistoryFragment
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        Button btnView;
+        TextView btnView;
         TextView textOrderid;
         TextView textDate;
         TextView textPrice;
@@ -76,7 +77,8 @@ public class HistoryFragmentAdapter extends RecyclerView.Adapter<HistoryFragment
 
         public ViewHolder(View itemView){
             super(itemView);
-            btnView = (Button)itemView.findViewById(R.id.btnView);
+            btnView = (TextView) itemView.findViewById(R.id.btnView);
+            btnView.setPaintFlags(btnView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
             textOrderid = (TextView)itemView.findViewById(R.id.textOrderid);
             textDate = (TextView)itemView.findViewById(R.id.textDate);
             textPrice = (TextView)itemView.findViewById(R.id.textPrice);

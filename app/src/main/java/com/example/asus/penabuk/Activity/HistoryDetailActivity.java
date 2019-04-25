@@ -134,7 +134,8 @@ public class HistoryDetailActivity extends AppCompatActivity implements CancelOr
 
                 textOrderid.setText(historyDetail.getOrder_id());
                 textDate.setText(historyDetail.getCreatedAt());
-                textAddress.setText(historyDetail.getAddress().getAddress_line());
+                String tmpaddress = historyDetail.getAddress().getAddress_line()+", "+historyDetail.getAddress().getCity()+", "+historyDetail.getAddress().getDistrict()+", "+historyDetail.getAddress().getProvince()+" "+historyDetail.getAddress().getZip_code();
+                textAddress.setText(tmpaddress);
                 textStatus.setText(historyDetail.getStatus());
                 if(historyDetail.getDescription().length()>0){
                     textAlasan.setText(historyDetail.getDescription());

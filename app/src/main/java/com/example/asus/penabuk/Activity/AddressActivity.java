@@ -29,7 +29,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AddressActivity extends AppCompatActivity implements AddressAdapter.PassingBtnRemove {
+public class AddressActivity extends AppCompatActivity implements AddressAdapter.PassingBtnRemove, AddressAdapter.PassingPrimaryAddress {
 
     Context context;
     SharedPrefManager sharedPrefManager;
@@ -72,12 +72,19 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
         doRemoveAddress(address_id, userId, position);
     }
 
+    @Override
+    public void passingPrimary(Integer address_id, int position) {
+        progressDialog = ProgressDialog.show(context, null, "Please Wait..", true);
+        doSetPrimaryAddress(address_id);
+    }
+
     private void initView(){
         context = this;
         sharedPrefManager = new SharedPrefManager(context);
         initToolbar();
         userId = Integer.parseInt(sharedPrefManager.getSPId());
         AddressAdapter.passingBtnRemove = this;
+        AddressAdapter.passingPrimaryAddress = this;
         btnAddAddress = (Button)findViewById(R.id.btnAddAddress);
         rvAddress = (RecyclerView)findViewById(R.id.RvAddress);
     }
@@ -126,6 +133,24 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
                 Toast.makeText(context, resMessage.getMessage(), Toast.LENGTH_SHORT).show();
                 addressAdapter.notifyItemRemoved(position);
                 addressAdapter.notifyItemRangeChanged(position, addresses.size());
+                progressDialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<ResMessage> call, Throwable t) {
+                Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
+            }
+        });
+    }
+
+    private void doSetPrimaryAddress(Integer addressId){
+        Call<ResMessage> call = userService.primaryAddressRequest(addressId, userId);
+        call.enqueue(new Callback<ResMessage>() {
+            @Override
+            public void onResponse(Call<ResMessage> call, Response<ResMessage> response) {
+                ResMessage resMessage = response.body();
+                Toast.makeText(context, resMessage.getMessage(), Toast.LENGTH_SHORT).show();
                 progressDialog.dismiss();
             }
 

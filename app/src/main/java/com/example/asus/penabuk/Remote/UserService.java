@@ -13,7 +13,9 @@ import com.example.asus.penabuk.Model.ReqCity;
 import com.example.asus.penabuk.Model.ReqDistrict;
 import com.example.asus.penabuk.Model.ReqFilter;
 import com.example.asus.penabuk.Model.ReqHistory;
+import com.example.asus.penabuk.Model.ReqHistoryBalance;
 import com.example.asus.penabuk.Model.ReqHistoryId;
+import com.example.asus.penabuk.Model.ReqHistoryTopup;
 import com.example.asus.penabuk.Model.ReqOrderStatus;
 import com.example.asus.penabuk.Model.ReqProvince;
 import com.example.asus.penabuk.Model.ReqReview;
@@ -76,6 +78,9 @@ public interface UserService {
     @POST("/books/rate")
     Call<ResMessage> reviewRequest(@Body ReqReview reqReview, @Query("token") Integer userId);
 
+    @POST("/primary/address/{id}")
+    Call<ResMessage> primaryAddressRequest(@Path("id") Integer addressId, @Query("token") Integer userId);
+
     @Multipart
     @POST("/topup/balance")
     Call<ResMessage> uploadRequest(@Part("balance") RequestBody balance, @Part MultipartBody.Part image, @Query("token") Integer userId);
@@ -129,7 +134,13 @@ public interface UserService {
     @GET("/admin/sliders")
     Call<ReqSlider> getSlider();
 
-    @GET("orderStatus")
+    @GET("/orderStatus")
     Call<ReqOrderStatus> getOrderStatus();
+
+    @GET("/users/balance")
+    Call<ReqHistoryBalance> getHistoryBalance(@Query("token") Integer userId);
+
+    @GET("/users/topup")
+    Call<ReqHistoryTopup> getHistoryTopup(@Query("token") Integer userId);
 
 }
