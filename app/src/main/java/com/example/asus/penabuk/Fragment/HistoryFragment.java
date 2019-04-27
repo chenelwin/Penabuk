@@ -52,7 +52,7 @@ public class HistoryFragment extends Fragment {
     Spinner spinnerHistory;
     ArrayAdapter<OrderStatus> spinnerHistoryAdapter;
     List<OrderStatus> orderStatuses;
-    Integer orderType = 1;
+    Integer orderType = 0;
 
     @Nullable
     @Override
@@ -128,6 +128,9 @@ public class HistoryFragment extends Fragment {
             public void onResponse(Call<ReqOrderStatus> call, Response<ReqOrderStatus> response) {
                 ReqOrderStatus reqOrderStatus = response.body();
                 orderStatuses = reqOrderStatus.getOrderStatuses();
+                OrderStatus semua = new OrderStatus();
+                semua.setId(0);semua.setName("Semua");
+                orderStatuses.add(0, semua);
                 spinnerHistoryAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_item, orderStatuses);
                 spinnerHistoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinnerHistory.setAdapter(spinnerHistoryAdapter);
@@ -135,8 +138,9 @@ public class HistoryFragment extends Fragment {
                 spinnerHistory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                        OrderStatus orderStatus = (OrderStatus)spinnerHistory.getSelectedItem();
+                        OrderStatus orderStatus = (OrderStatus) spinnerHistory.getSelectedItem();
                         doGetHistory(userId, orderStatus.getId());
+
                     }
 
                     @Override

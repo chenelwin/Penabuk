@@ -52,41 +52,24 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHold
 
         String tmpaddress = address.getAddress_line()+", "+address.getCity()+", "+address.getDistrict()+", "+address.getProvince()+" "+address.getZip_code();
         holder.primaryAddress.setText(tmpaddress);
-        /*
-        holder.primaryAddress.setOnCheckedChangeListener(null);
         holder.primaryAddress.setChecked(address.isIs_primary());
-        if(address.isIs_primary()){
-            lastChecked = position;
+        if(address.isIs_primary()) {
+            lastChecked = holder.getAdapterPosition();
         }
-
-        holder.primaryAddress.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(b){
-
-                }
-                else{
-
-                }
-            }
-        });*/
-        if(address.isIs_primary()){
-            Toast.makeText(context, ""+holder.primaryAddress.getText(),Toast.LENGTH_LONG).show();
+        if(lastChecked==holder.getAdapterPosition()){
+            holder.primaryAddress.setChecked(true);
         }
-        holder.primaryAddress.setChecked(lastChecked==position);
-
         holder.primaryAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.e("awal", ""+lastChecked);
+                if(lastChecked!=-1) {
+                    addresses.get(lastChecked).setIs_primary(false);
+                }
                 lastChecked = holder.getAdapterPosition();
-                Log.e("akhir", ""+lastChecked);
                 notifyDataSetChanged();
                 passingPrimaryAddress.passingPrimary(address.getId(), position);
-                Toast.makeText(view.getContext(), ""+holder.primaryAddress.getText(),Toast.LENGTH_LONG).show();
             }
         });
-
 
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
