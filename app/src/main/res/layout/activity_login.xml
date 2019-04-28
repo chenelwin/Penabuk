@@ -52,6 +52,7 @@
             android:layout_height="wrap_content"
             android:text="Forgot Password?"
             android:textAlignment="textEnd"
+            android:visibility="gone"
             android:textColor="@color/colorPrimaryDark"
             android:id="@+id/textForgotPassword"/>
         <LinearLayout

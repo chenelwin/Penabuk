@@ -14,6 +14,8 @@ import android.widget.TextView;
 import com.example.asus.penabuk.Model.HistoryBalance;
 import com.example.asus.penabuk.R;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.List;
 
 public class HistoryBalanceAdapter extends RecyclerView.Adapter<HistoryBalanceAdapter.ViewHolder> {
@@ -36,12 +38,21 @@ public class HistoryBalanceAdapter extends RecyclerView.Adapter<HistoryBalanceAd
         final HistoryBalance historyBalance = historyBalances.get(holder.getAdapterPosition());
         holder.textOrderId.setText(historyBalance.getOrder_id());
         holder.textTransaction.setText(historyBalance.getTransactionType());
+        DecimalFormat formatter = new DecimalFormat("#,###,###");
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+        symbols.setGroupingSeparator('.');
+        formatter.setDecimalFormatSymbols(symbols);
         if(historyBalance.getBalance()<0){
-            holder.textBalance.setText(historyBalance.getBalance().toString());
+            Integer tmpbalance = historyBalance.getBalance();
+            tmpbalance*=-1;
+            String priceformat = formatter.format(tmpbalance);
+            holder.textBalance.setText("-Rp"+priceformat);
             holder.textBalance.setTextColor(ContextCompat.getColor(context, android.R.color.holo_red_dark));
         }
         else{
-            holder.textBalance.setText("+"+historyBalance.getBalance().toString());
+            Integer tmpbalance = historyBalance.getBalance();
+            String priceformat = formatter.format(tmpbalance);
+            holder.textBalance.setText("+Rp"+priceformat);
             holder.textBalance.setTextColor(ContextCompat.getColor(context, R.color.colorPrimaryDark));
         }
         holder.textDate.setText(historyBalance.getCreatedAt());
