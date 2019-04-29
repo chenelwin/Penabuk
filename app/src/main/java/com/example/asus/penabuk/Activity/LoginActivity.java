@@ -94,11 +94,11 @@ public class LoginActivity extends AppCompatActivity {
 
     private boolean validateLogin(String email, String password){
         if(email == null || email.trim().length() == 0){
-            Toast.makeText(this, "Email is required", Toast.LENGTH_SHORT).show();
+            loginEmail.setError("Kolom harus diisi");
             return false;
         }
         if(password == null || password.trim().length() == 0){
-            Toast.makeText(this, "Password is required", Toast.LENGTH_SHORT).show();
+            loginPassword.setError("Kolom harus diisi");
             return false;
         }
         return true;
@@ -135,7 +135,6 @@ public class LoginActivity extends AppCompatActivity {
                     progressDialog.dismiss();
                     startActivity(intent);
                     finish();
-
                 }
 
                 else{

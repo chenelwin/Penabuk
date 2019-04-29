@@ -27,6 +27,9 @@ import com.example.asus.penabuk.Remote.ApiUtils;
 import com.example.asus.penabuk.Remote.UserService;
 import com.example.asus.penabuk.SharedPreferences.SharedPrefManager;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -142,7 +145,12 @@ public class HistoryDetailActivity extends AppCompatActivity implements CancelOr
                     layoutAlasanBatal.setVisibility(View.VISIBLE);
                 }
                 showButton(historyDetail.getStatus());
-                textTotalprice.setText("Rp. "+historyDetail.getTotal_price());
+                DecimalFormat formatter = new DecimalFormat("#,###,###");
+                DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+                symbols.setGroupingSeparator('.');
+                formatter.setDecimalFormatSymbols(symbols);
+                String priceformat = formatter.format(historyDetail.getTotal_price());
+                textTotalprice.setText("Rp "+priceformat);
                 Integer totalQty = 0;
                 for(int i=0; i<historyDetail.getDetails().size(); i++){
                     totalQty += historyDetail.getDetails().get(i).getCount();

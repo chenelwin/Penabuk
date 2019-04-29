@@ -124,11 +124,17 @@ public class CartFragment extends Fragment implements CartFragmentAdapter.Passin
 
     @Override
     public void passTotalHarga(List<Cart> cartChecked){
+        Integer count=0;
         Integer currentPrice = 0;
         for(int i=0; i<carts.size(); i++){
             if(cartChecked.get(i).isSelected()) {
                 currentPrice += (cartChecked.get(i).getCount() * cartChecked.get(i).getBook().getPrice());
+                count++;
             }
+        }
+
+        if(count==carts.size()){
+            checkAll.setChecked(true);
         }
 
         DecimalFormat formatter = new DecimalFormat("#,###,###");

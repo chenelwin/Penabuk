@@ -85,27 +85,27 @@ public class RegisterActivity extends AppCompatActivity {
 
     private boolean validateRegister(String email, String name, String nohp, String password, String repassword){
         if(email == null || email.trim().length() == 0){
-            Toast.makeText(this, "Email is required", Toast.LENGTH_SHORT).show();
+            regisEmail.setError("Kolom harus diisi");
             return false;
         }
         if(name == null || name.trim().length() == 0){
-            Toast.makeText(this, "Name is required", Toast.LENGTH_SHORT).show();
+            regisNama.setError("Kolom harus diisi");
             return false;
         }
         if(nohp == null || nohp.trim().length() == 0){
-            Toast.makeText(this, "Nomor HP is required", Toast.LENGTH_SHORT).show();
+            regisNohp.setError("Kolom harus diisi");
             return false;
         }
         if(password == null || password.trim().length() == 0){
-            Toast.makeText(this, "Password is required", Toast.LENGTH_SHORT).show();
+            regisPassword.setError("Kolom harus diisi");
             return false;
         }
         if(repassword == null || repassword.trim().length() == 0){
-            Toast.makeText(this, "Repeat Password is required", Toast.LENGTH_SHORT).show();
+            regisRepassword.setError("Kolom harus diisi");
             return false;
         }
         if(!password.equals(repassword)){
-            Toast.makeText(this, "Repeat Password must be the same as Password", Toast.LENGTH_SHORT).show();
+            regisRepassword.setError("Password tidak sama");
             return false;
         }
         return true;

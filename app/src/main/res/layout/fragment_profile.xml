@@ -46,6 +46,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
             android:text="Edit Profile"
             android:layout_gravity="center_vertical"
             android:textSize="16sp"
@@ -70,6 +71,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
             android:layout_gravity="center_vertical"
             android:text="Alamat"
             android:textSize="16sp"
@@ -90,10 +92,11 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_margin="5dp"
-            android:src="@drawable/ikonaddress"/>
+            android:src="@drawable/ikonhistorybalance"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
             android:layout_gravity="center_vertical"
             android:text="Riwayat Saldo"
             android:textSize="16sp"
@@ -114,10 +117,11 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_margin="5dp"
-            android:src="@drawable/ikonaddress"/>
+            android:src="@drawable/ikonhistorytopup"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
             android:layout_gravity="center_vertical"
             android:text="Riwayat Top Up"
             android:textSize="16sp"
@@ -142,6 +146,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
             android:layout_gravity="center_vertical"
             android:text="Ubah Password"
             android:textSize="16sp"
@@ -166,6 +171,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
             android:layout_gravity="center_vertical"
             android:text="Keluar"
             android:textSize="16sp"

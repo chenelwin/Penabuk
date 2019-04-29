@@ -37,6 +37,8 @@ import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -224,7 +226,12 @@ public class ViewDetailActivity extends AppCompatActivity {
                 bookPublish.setText(book.getOriginal_publication_year());
                 bookRating.setText(book.getAverage_rating().toString());
                 bookRatingBar.setRating(book.getAverage_rating());
-                bookPrice.setText("Rp. " + book.getPrice());
+                DecimalFormat formatter = new DecimalFormat("#,###,###");
+                DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+                symbols.setGroupingSeparator('.');
+                formatter.setDecimalFormatSymbols(symbols);
+                String priceformat = formatter.format(book.getPrice());
+                bookPrice.setText("Rp. " + priceformat);
 
                 if(book.getUser_rating()==0){
                     layoutReviewUser.setVisibility(View.VISIBLE);
