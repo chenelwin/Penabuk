@@ -115,7 +115,7 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             symbols.setGroupingSeparator('.');
             formatter.setDecimalFormatSymbols(symbols);
             String priceformat = formatter.format(book.getPrice());
-            holder.bookPrice.setText("Rp. " + priceformat);
+            holder.bookPrice.setText("Rp " + priceformat);
 
             if(book.getImage_url().length()>0) {
                 Picasso.with(context)

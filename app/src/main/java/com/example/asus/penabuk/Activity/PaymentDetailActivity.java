@@ -62,6 +62,11 @@ public class PaymentDetailActivity extends AppCompatActivity {
     List<BookPayment> bookPayments;
     ProgressDialog progressDialog;
     TextView paymentPrice;
+    TextView paymentCount;
+    TextView ongkir;
+    TextView balance;
+    TextView paymentTotal;
+    TextView leftbalance;
 
     Toolbar toolbarPaymentDetail;
 
@@ -98,6 +103,11 @@ public class PaymentDetailActivity extends AppCompatActivity {
         btnPay = (Button)findViewById(R.id.btnPay);
         btnAddAddress = (Button)findViewById(R.id.btnAddAddress);
         paymentPrice = (TextView)findViewById(R.id.paymentPrice);
+        paymentCount = (TextView)findViewById(R.id.paymentCount);
+        ongkir = (TextView)findViewById(R.id.ongkir);
+        balance = (TextView)findViewById(R.id.balance);
+        paymentTotal = (TextView)findViewById(R.id.paymentTotal);
+        leftbalance = (TextView)findViewById(R.id.leftbalance);
         userId = Integer.parseInt(sharedPrefManager.getSPId());
         rvPaymentDetailActivity = (RecyclerView)findViewById(R.id.RvPaymentDetail);
         bookPayments = new ArrayList<>();
@@ -128,15 +138,30 @@ public class PaymentDetailActivity extends AppCompatActivity {
 
     private void initPaymentPrice(List<BookPayment> bookPayments){
         Integer total = 0;
+        Integer count = 0;
         for(int i=0; i<bookPayments.size(); i++){
             total += (bookPayments.get(i).getBook().getPrice() * bookPayments.get(i).getCount());
+            count += bookPayments.get(i).getCount();
         }
+        Integer tmpongkir = 50000;
+        Integer tmpbalance = Integer.parseInt(sharedPrefManager.getSPBalance());
+        Integer totalpayment = total+tmpongkir;
+        Integer tmpleftbalance = tmpbalance-totalpayment;
         DecimalFormat formatter = new DecimalFormat("#,###,###");
         DecimalFormatSymbols symbols = new DecimalFormatSymbols();
         symbols.setGroupingSeparator('.');
         formatter.setDecimalFormatSymbols(symbols);
         String priceformat = formatter.format(total);
-        paymentPrice.setText("Rp. " + priceformat);
+        String tmpongkirformat = formatter.format(tmpongkir);
+        String tmpbalanceformat = formatter.format(tmpbalance);
+        String totalpaymentformat = formatter.format(totalpayment);
+        String tmpleftbalanceformat = formatter.format(tmpleftbalance);
+        paymentPrice.setText("Rp " + priceformat);
+        paymentCount.setText(count.toString());
+        ongkir.setText("Rp " + tmpongkirformat);
+        balance.setText("Rp " + tmpbalanceformat);
+        paymentTotal.setText("Rp " + totalpaymentformat);
+        leftbalance.setText("Rp " + tmpleftbalanceformat);
     }
 
     private void initBook(List<Book> books, List<Integer> passingcartid, List<Integer> passingcount){
