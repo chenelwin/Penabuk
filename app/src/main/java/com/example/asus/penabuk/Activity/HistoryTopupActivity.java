@@ -71,6 +71,12 @@ public class HistoryTopupActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        doGetHistoryTopup();
+        super.onResume();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_historytopup, menu);

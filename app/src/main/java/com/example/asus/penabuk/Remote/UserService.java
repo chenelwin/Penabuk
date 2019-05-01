@@ -20,12 +20,11 @@ import com.example.asus.penabuk.Model.ReqOrderStatus;
 import com.example.asus.penabuk.Model.ReqProvince;
 import com.example.asus.penabuk.Model.ReqReview;
 import com.example.asus.penabuk.Model.ReqSlider;
+import com.example.asus.penabuk.Model.ReqHistoryTopupId;
 import com.example.asus.penabuk.Model.ReqUser;
 import com.example.asus.penabuk.Model.ResMessage;
 import com.example.asus.penabuk.Model.ResUser;
 import com.example.asus.penabuk.Model.User;
-
-import java.util.List;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -142,5 +141,8 @@ public interface UserService {
 
     @GET("/users/topup")
     Call<ReqHistoryTopup> getHistoryTopup(@Query("token") Integer userId);
+
+    @GET("/users/topup/{id}")
+    Call<ReqHistoryTopupId> getHistoryTopupById(@Path("id") Integer topupId, @Query("token") Integer userId);
 
 }

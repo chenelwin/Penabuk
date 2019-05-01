@@ -3,6 +3,7 @@ package com.example.asus.penabuk.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -54,6 +55,7 @@ public class PaymentDetailActivity extends AppCompatActivity {
     ArrayAdapter<Address> spinnerAlamatAdapter;
     List<Address> addresses;
     Button btnPay;
+    Button btnTopup;
     Button btnAddAddress;
     Integer userId;
     Integer addressId;
@@ -101,6 +103,7 @@ public class PaymentDetailActivity extends AppCompatActivity {
         initToolbar();
         spinnerAlamat = (Spinner)findViewById(R.id.spinnerAlamat);
         btnPay = (Button)findViewById(R.id.btnPay);
+        btnTopup = (Button)findViewById(R.id.btnTopup);
         btnAddAddress = (Button)findViewById(R.id.btnAddAddress);
         paymentPrice = (TextView)findViewById(R.id.paymentPrice);
         paymentCount = (TextView)findViewById(R.id.paymentCount);
@@ -120,6 +123,7 @@ public class PaymentDetailActivity extends AppCompatActivity {
         rvPaymentDetailActivity.setLayoutManager(new LinearLayoutManager(context));
         rvPaymentDetailActivity.setItemAnimator(new DefaultItemAnimator());
         rvPaymentDetailActivity.setAdapter(paymentDetailAdapter);
+        rvPaymentDetailActivity.setFocusable(false);
     }
 
     private void initToolbar(){
@@ -147,6 +151,7 @@ public class PaymentDetailActivity extends AppCompatActivity {
         Integer tmpbalance = Integer.parseInt(sharedPrefManager.getSPBalance());
         Integer totalpayment = total+tmpongkir;
         Integer tmpleftbalance = tmpbalance-totalpayment;
+
         DecimalFormat formatter = new DecimalFormat("#,###,###");
         DecimalFormatSymbols symbols = new DecimalFormatSymbols();
         symbols.setGroupingSeparator('.');
@@ -160,8 +165,22 @@ public class PaymentDetailActivity extends AppCompatActivity {
         paymentCount.setText(count.toString());
         ongkir.setText("Rp " + tmpongkirformat);
         balance.setText("Rp " + tmpbalanceformat);
-        paymentTotal.setText("Rp " + totalpaymentformat);
-        leftbalance.setText("Rp " + tmpleftbalanceformat);
+        paymentTotal.setText("-Rp " + totalpaymentformat);
+        paymentTotal.setTextColor(ContextCompat.getColor(context, android.R.color.holo_red_dark));
+        if(tmpleftbalance>=0){
+            btnPay.setVisibility(View.VISIBLE); btnTopup.setVisibility(View.GONE);
+            leftbalance.setText("Rp " + tmpleftbalanceformat);
+            leftbalance.setTextColor(ContextCompat.getColor(context, R.color.colorPrimaryDark));
+        }
+        else {
+            btnPay.setVisibility(View.GONE); btnTopup.setVisibility(View.VISIBLE);
+            tmpleftbalance*=-1;
+            tmpleftbalanceformat = formatter.format(tmpleftbalance);
+            leftbalance.setText("-Rp " + tmpleftbalanceformat);
+            leftbalance.setTextColor(ContextCompat.getColor(context, android.R.color.holo_red_dark));
+
+        }
+
     }
 
     private void initBook(List<Book> books, List<Integer> passingcartid, List<Integer> passingcount){
@@ -236,35 +255,5 @@ public class PaymentDetailActivity extends AppCompatActivity {
         intent.putExtra("passingaddress", addressId);
         startActivity(intent);
         progressDialog.dismiss();
-        /*
-        Call<ResMessage> call = userService.paymentRequest(orders, id);
-        call.enqueue(new Callback<ResMessage>() {
-            @Override
-            public void onResponse(Call<ResMessage> call, Response<ResMessage> response) {
-                if(response.isSuccessful()) {
-                    ResMessage resMessage = response.body();
-                    Toast.makeText(context, resMessage.getMessage(), Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(PaymentDetailActivity.this, MainActivity.class)
-                            .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                    progressDialog.dismiss();
-                    finish();
-                }
-                else {
-                    try {
-                        Toast.makeText(context, response.errorBody().string(), Toast.LENGTH_SHORT).show();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    progressDialog.dismiss();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResMessage> call, Throwable t) {
-                Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
-                progressDialog.dismiss();
-            }
-        });*/
     }
 }

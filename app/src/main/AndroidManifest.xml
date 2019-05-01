@@ -69,7 +69,8 @@
         </activity>
         <activity android:name=".Activity.NotificationActivity" />
         <activity android:name=".Activity.HistoryBalanceActivity" />
-        <activity android:name=".Activity.HistoryTopupActivity"></activity>
+        <activity android:name=".Activity.HistoryTopupActivity" />
+        <activity android:name=".Activity.HistoryTopupDetailActivity"></activity>
     </application>
 
 </manifest>

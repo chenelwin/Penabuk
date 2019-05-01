@@ -1,6 +1,7 @@
 package com.example.asus.penabuk.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Paint;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.asus.penabuk.Activity.HistoryTopupDetailActivity;
 import com.example.asus.penabuk.Model.Topup;
 import com.example.asus.penabuk.R;
 
@@ -43,6 +45,15 @@ public class HistoryTopupAdapter extends RecyclerView.Adapter<HistoryTopupAdapte
         String priceformat = formatter.format(topup.getBalance());
         holder.textBalance.setText("Rp "+priceformat);
         holder.textStatus.setText(topup.getStatus());
+
+        holder.textDetail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), HistoryTopupDetailActivity.class);
+                intent.putExtra("passingtopupid", topup.getId());
+                view.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override
