@@ -16,6 +16,7 @@ import com.example.asus.penabuk.Model.ReqHistory;
 import com.example.asus.penabuk.Model.ReqHistoryBalance;
 import com.example.asus.penabuk.Model.ReqHistoryId;
 import com.example.asus.penabuk.Model.ReqHistoryTopup;
+import com.example.asus.penabuk.Model.ReqNotification;
 import com.example.asus.penabuk.Model.ReqOrderStatus;
 import com.example.asus.penabuk.Model.ReqProvince;
 import com.example.asus.penabuk.Model.ReqReview;
@@ -79,6 +80,9 @@ public interface UserService {
 
     @POST("/primary/address/{id}")
     Call<ResMessage> primaryAddressRequest(@Path("id") Integer addressId, @Query("token") Integer userId);
+
+    @POST("/notifications/read")
+    Call<ResMessage> readNotificationRequest(@Query("token") Integer userId);
 
     @Multipart
     @POST("/topup/balance")
@@ -144,5 +148,8 @@ public interface UserService {
 
     @GET("/users/topup/{id}")
     Call<ReqHistoryTopupId> getHistoryTopupById(@Path("id") Integer topupId, @Query("token") Integer userId);
+
+    @GET("/notifications")
+    Call<ReqNotification> getNotification(@Query("token") Integer userId);
 
 }

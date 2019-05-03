@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -38,6 +39,7 @@ import com.example.asus.penabuk.Adapter.ViewAllAdapter;
 import com.example.asus.penabuk.Model.Book;
 import com.example.asus.penabuk.Model.ReqBook;
 import com.example.asus.penabuk.Model.ReqFilter;
+import com.example.asus.penabuk.Model.ReqNotification;
 import com.example.asus.penabuk.Model.ResUser;
 import com.example.asus.penabuk.R;
 import com.example.asus.penabuk.Remote.ApiUtils;
@@ -80,7 +82,8 @@ public class HomeFragment extends Fragment {
     DrawerLayout drawerHome;
     Toolbar toolbarHome;
     NavigationView navigation_drawer;
-
+    TextView textBadge;
+    Integer notifcount = 0;
 
 
     @Nullable
@@ -89,6 +92,7 @@ public class HomeFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_home, container, false);
         setHasOptionsMenu(true);
         initView();
+        doGetNotification();
         doGetBook(userId, page);
 
         return view;
@@ -177,6 +181,15 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_home, menu);
+        final MenuItem menuItem = menu.findItem(R.id.item_notification);
+        View notifview = menuItem.getActionView();
+        textBadge = (TextView)notifview.findViewById(R.id.textBadge);
+        notifview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onOptionsItemSelected(menuItem);
+            }
+        });
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -195,10 +208,43 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume(){
         super.onResume();
+        doGetNotification();
         //doGetUser(userId);
     }
 
+    private void doGetNotification(){
+        Call<ReqNotification> call = userService.getNotification(userId);
+        call.enqueue(new Callback<ReqNotification>() {
+            @Override
+            public void onResponse(Call<ReqNotification> call, Response<ReqNotification> response) {
+                ReqNotification reqNotification = response.body();
+                notifcount = reqNotification.getCount();
+                setNotificationBadge(notifcount);
+            }
 
+            @Override
+            public void onFailure(Call<ReqNotification> call, Throwable t) {
+                Toast.makeText(view.getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void setNotificationBadge(Integer notifcount){
+        if(textBadge!=null){
+            if(notifcount==0){
+                if(textBadge.getVisibility()!=View.GONE){
+                    textBadge.setVisibility(View.GONE);
+                }
+            }
+            else {
+                textBadge.setText(notifcount.toString());
+                if(textBadge.getVisibility()!=View.VISIBLE){
+                    textBadge.setVisibility(View.VISIBLE);
+                }
+            }
+        }
+
+    }
 
     private void doGetBook(Integer id, Integer page){
         Call<ReqBook> call = userService.getBookRequest(id, page);
