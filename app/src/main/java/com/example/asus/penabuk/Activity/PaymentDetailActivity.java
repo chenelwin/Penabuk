@@ -117,7 +117,8 @@ public class PaymentDetailActivity extends AppCompatActivity {
         List<Book> books = (List<Book>)getIntent().getSerializableExtra("passingbook");
         List<Integer> passingcartid = (List<Integer>)getIntent().getSerializableExtra("passingcartid");
         List<Integer> passingcount = (List<Integer>)getIntent().getSerializableExtra("passingcount");
-        initBook(books, passingcartid, passingcount);
+        List<Integer> passingmerchantid = (List<Integer>)getIntent().getSerializableExtra("passingmerchantid");
+        initBook(books, passingcartid, passingcount, passingmerchantid);
         paymentDetailAdapter = new PaymentDetailAdapter(bookPayments);
         paymentDetailAdapter.notifyDataSetChanged();
         rvPaymentDetailActivity.setLayoutManager(new LinearLayoutManager(context));
@@ -140,14 +141,14 @@ public class PaymentDetailActivity extends AppCompatActivity {
         });
     }
 
-    private void initPaymentPrice(List<BookPayment> bookPayments){
+    private void initPaymentPrice(List<BookPayment> bookPayments, List<Integer> merchantids){
         Integer total = 0;
         Integer count = 0;
         for(int i=0; i<bookPayments.size(); i++){
             total += (bookPayments.get(i).getBook().getPrice() * bookPayments.get(i).getCount());
             count += bookPayments.get(i).getCount();
         }
-        Integer tmpongkir = 50000;
+        Integer tmpongkir = 50000*merchantids.size();
         Integer tmpbalance = Integer.parseInt(sharedPrefManager.getSPBalance());
         Integer totalpayment = total+tmpongkir;
         Integer tmpleftbalance = tmpbalance-totalpayment;
@@ -183,7 +184,7 @@ public class PaymentDetailActivity extends AppCompatActivity {
 
     }
 
-    private void initBook(List<Book> books, List<Integer> passingcartid, List<Integer> passingcount){
+    private void initBook(List<Book> books, List<Integer> passingcartid, List<Integer> passingcount, List<Integer> merchantids){
         for(int i=0; i<books.size(); i++){
             BookPayment bookPayment = new BookPayment();
             bookPayment.setBook(books.get(i));
@@ -191,7 +192,7 @@ public class PaymentDetailActivity extends AppCompatActivity {
             bookPayment.setCart_id(passingcartid.get(i));
             bookPayments.add(bookPayment);
         }
-        initPaymentPrice(bookPayments);
+        initPaymentPrice(bookPayments, merchantids);
     }
 
     @Override

@@ -87,19 +87,19 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
     private boolean validateChangePassword(String oldpassword, String newpassword, String repassword){
         if(oldpassword == null || oldpassword.trim().length() == 0){
-            Toast.makeText(this, "Old Password is required", Toast.LENGTH_SHORT).show();
+            oldpass.setError("Password Lama harus diisi.");
             return false;
         }
         if(newpassword == null || newpassword.trim().length() == 0){
-            Toast.makeText(this, "New Password is required", Toast.LENGTH_SHORT).show();
+            newpass.setError("Password Baru harus diisi.");
             return false;
         }
         if(repassword == null || repassword.trim().length() == 0){
-            Toast.makeText(this, "Repeat Password is required", Toast.LENGTH_SHORT).show();
+            repass.setError("Repeat Password harus diisi.");
             return false;
         }
         if(!newpassword.equals(repassword)){
-            Toast.makeText(this, "Repeat Password must be the same as Password", Toast.LENGTH_SHORT).show();
+            repass.setError("Password tidak sama");
             return false;
         }
         return true;

@@ -85,23 +85,23 @@ public class RegisterActivity extends AppCompatActivity {
 
     private boolean validateRegister(String email, String name, String nohp, String password, String repassword){
         if(email == null || email.trim().length() == 0){
-            regisEmail.setError("Kolom harus diisi");
+            regisEmail.setError("Email harus diisi");
             return false;
         }
         if(name == null || name.trim().length() == 0){
-            regisNama.setError("Kolom harus diisi");
+            regisNama.setError("Nama harus diisi");
             return false;
         }
         if(nohp == null || nohp.trim().length() == 0){
-            regisNohp.setError("Kolom harus diisi");
+            regisNohp.setError("Nomor HP harus diisi");
             return false;
         }
         if(password == null || password.trim().length() == 0){
-            regisPassword.setError("Kolom harus diisi");
+            regisPassword.setError("Password harus diisi");
             return false;
         }
         if(repassword == null || repassword.trim().length() == 0){
-            regisRepassword.setError("Kolom harus diisi");
+            regisRepassword.setError("Repeat Password harus diisi");
             return false;
         }
         if(!password.equals(repassword)){

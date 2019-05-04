@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.asus.penabuk.Adapter.HistoryBalanceAdapter;
@@ -33,6 +34,7 @@ public class HistoryBalanceActivity extends AppCompatActivity {
     RecyclerView rvHistoryBalance;
     HistoryBalanceAdapter historyBalanceAdapter;
     List<HistoryBalance> historyBalances;
+    LinearLayout layoutNoHistoryBalance;
 
     Toolbar toolbarHistoryBalance;
 
@@ -50,6 +52,7 @@ public class HistoryBalanceActivity extends AppCompatActivity {
         userId = Integer.parseInt(sharedPrefManager.getSPId());
         initToolbar();
         rvHistoryBalance = (RecyclerView)findViewById(R.id.rvHistoryBalance);
+        layoutNoHistoryBalance = (LinearLayout)findViewById(R.id.layoutNoHistoryBalance);
     }
 
     private void initToolbar(){
@@ -73,7 +76,7 @@ public class HistoryBalanceActivity extends AppCompatActivity {
             public void onResponse(Call<ReqHistoryBalance> call, Response<ReqHistoryBalance> response) {
                 ReqHistoryBalance reqHistoryBalance = response.body();
                 historyBalances = reqHistoryBalance.getHistoryBalance();
-
+                checkHistoryBalanceSize(historyBalances);
                 historyBalanceAdapter = new HistoryBalanceAdapter(historyBalances);
                 rvHistoryBalance.setLayoutManager(new LinearLayoutManager(context));
                 rvHistoryBalance.setItemAnimator(new DefaultItemAnimator());
@@ -85,6 +88,15 @@ public class HistoryBalanceActivity extends AppCompatActivity {
                 Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void checkHistoryBalanceSize(List<HistoryBalance> historyBalances){
+        if(historyBalances.size()==0){
+            layoutNoHistoryBalance.setVisibility(View.VISIBLE);
+        }
+        else {
+            layoutNoHistoryBalance.setVisibility(View.GONE);
+        }
     }
 
 }

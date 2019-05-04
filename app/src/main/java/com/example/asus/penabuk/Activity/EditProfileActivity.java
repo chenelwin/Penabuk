@@ -179,11 +179,11 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private boolean validateChangeProfile(String name, String phone_number){
         if(name == null || name.trim().length() == 0){
-            Toast.makeText(this, "Name cannot empty", Toast.LENGTH_SHORT).show();
+            editName.setError("Nama harus diisi.");
             return false;
         }
         if(phone_number == null || phone_number.trim().length() == 0){
-            Toast.makeText(this, "Phone Number cannot empty", Toast.LENGTH_SHORT).show();
+            editPhonenumber.setError("Nomor HP harus diisi.");
             return false;
         }
         return true;

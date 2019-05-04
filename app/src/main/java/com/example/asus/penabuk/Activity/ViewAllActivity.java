@@ -20,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -63,6 +64,7 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
     List<Book> books;
     Integer userId;
     ProgressDialog progressDialog;
+    LinearLayout layoutNoSearch;
 
     //EndlessScroll
     private int previousTotal = 0;
@@ -98,6 +100,7 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
         initToolbar();
         ViewAllAdapter.passingBtnAdd = this;
         rvViewAllActivity = (RecyclerView)findViewById(R.id.RvViewAllActivity);
+        layoutNoSearch = (LinearLayout)findViewById(R.id.layoutNoSearch);
         userId = Integer.parseInt(sharedPrefManager.getSPId());
         loadingNext = (ProgressBar)findViewById(R.id.loadingNext);
     }
@@ -279,6 +282,7 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
             public void onResponse(Call<ReqBook> call, Response<ReqBook> response) {
                 ReqBook reqBook = response.body();
                 books = reqBook.getBooks();
+                checkSearchSize(books);
                 viewAllAdapter = new ViewAllAdapter(books);
 
                 rvManager = new LinearLayoutManager(context);
@@ -302,8 +306,9 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
             public void onResponse(Call<ReqBook> call, Response<ReqBook> response) {
                 ReqBook reqBook = response.body();
                 books = reqBook.getBooks();
+                checkSearchSize(books);
                 viewAllAdapter = new ViewAllAdapter(books);
-                page=5;
+                page=6;
 
                 rvManager = new LinearLayoutManager(context);
                 rvViewAllActivity.setLayoutManager(rvManager);
@@ -327,8 +332,9 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
             public void onResponse(Call<ReqBook> call, Response<ReqBook> response) {
                 ReqBook reqBook = response.body();
                 books = reqBook.getBooks();
+                checkSearchSize(books);
                 viewAllAdapter = new ViewAllAdapter(books);
-                page=5;
+                page=6;
 
                 rvManager = new LinearLayoutManager(context);
                 rvViewAllActivity.setLayoutManager(rvManager);
@@ -352,8 +358,9 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
             public void onResponse(Call<ReqBook> call, Response<ReqBook> response) {
                 ReqBook reqBook = response.body();
                 books = reqBook.getBooks();
+                checkSearchSize(books);
                 viewAllAdapter = new ViewAllAdapter(books);
-                page=5;
+                page=6;
 
                 rvManager = new LinearLayoutManager(context);
                 rvViewAllActivity.setLayoutManager(rvManager);
@@ -368,6 +375,15 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
                 progressDialog.dismiss();
             }
         });
+    }
+
+    private void checkSearchSize(List<Book> books){
+        if(books.size()==0){
+            layoutNoSearch.setVisibility(View.VISIBLE);
+        }
+        else {
+            layoutNoSearch.setVisibility(View.GONE);
+        }
     }
 
     private void doAddCart(Integer book_id, Integer userId){

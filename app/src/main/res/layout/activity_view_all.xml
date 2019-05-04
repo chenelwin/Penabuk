@@ -45,7 +45,23 @@
         </LinearLayout>
     </LinearLayout>
 
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_below="@id/layoutSearchFilter"
+        android:visibility="gone"
+        android:id="@+id/layoutNoSearch">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:text="Tidak ada hasil."
+            android:textSize="18sp"
+            android:textColor="#000"
+            android:textAlignment="center"/>
+    </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"

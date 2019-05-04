@@ -70,6 +70,7 @@ public class ViewDetailActivity extends AppCompatActivity {
     List<Book> passingbook;
     List<Integer> passingcartid;
     List<Integer> passingcount;
+    List<Integer> passingmerchantid;
     Button btnAdd;
     Button btnBuy;
     ProgressDialog progressDialog;
@@ -150,6 +151,7 @@ public class ViewDetailActivity extends AppCompatActivity {
                 intent.putExtra("passingbook", (Serializable)passingbook);
                 intent.putExtra("passingcartid", (Serializable)passingcartid);
                 intent.putExtra("passingcount", (Serializable)passingcount);
+                intent.putExtra("passingmerchantid", (Serializable)passingmerchantid);
                 startActivity(intent);
             }
         });
@@ -174,8 +176,9 @@ public class ViewDetailActivity extends AppCompatActivity {
         bookQty = (TextView)findViewById(R.id.bookQty);
         bookQty.setText(String.valueOf(count));
         imgPlus = (ImageView)findViewById(R.id.imgPlus);
-        passingbook = new ArrayList<>();
-        passingcartid = new ArrayList<>();
+        //passingbook = new ArrayList<>();
+        //passingcartid = new ArrayList<>();
+        //passingmerchantid = new ArrayList<>();
         btnAdd = (Button)findViewById(R.id.btnAdd);
         btnBuy = (Button)findViewById(R.id.btnBuy);
 
@@ -205,7 +208,7 @@ public class ViewDetailActivity extends AppCompatActivity {
             return false;
         }
         if(review == null || review.trim().length() == 0){
-            Toast.makeText(this, "Comment is required", Toast.LENGTH_SHORT).show();
+            userComment.setError("Komentar harus diisi.");
             return false;
         }
         return true;
@@ -219,8 +222,12 @@ public class ViewDetailActivity extends AppCompatActivity {
             public void onResponse(Call<ReqBookId> call, Response<ReqBookId> response) {
                 ReqBookId reqBookId = response.body();
                 Book book = reqBookId.getBook();
+                passingbook = new ArrayList<>();
+                passingcartid = new ArrayList<>();
+                passingmerchantid = new ArrayList<>();
                 passingbook.add(book);
                 passingcartid.add(null);
+                passingmerchantid.add(book.getMerchant_id());
                 bookTitle.setText(book.getOriginal_title());
                 bookAuthor.setText(book.getAuthors());
                 bookPublish.setText(book.getOriginal_publication_year());

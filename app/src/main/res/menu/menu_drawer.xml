@@ -14,6 +14,16 @@
             android:title="Alamat"/>
 
         <item
+            android:id="@+id/nav_historybalance"
+            android:icon="@drawable/ikonhistorybalance"
+            android:title="Riwayat Saldo"/>
+
+        <item
+            android:id="@+id/nav_historytopup"
+            android:icon="@drawable/ikonhistorytopup"
+            android:title="Riwayat Top Up"/>
+
+        <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/ic_exit_to_app_black_24dp"
             android:title="Keluar"/>

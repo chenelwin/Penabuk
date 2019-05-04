@@ -37,7 +37,9 @@ import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -57,6 +59,7 @@ public class CartFragment extends Fragment implements CartFragmentAdapter.Passin
     List<Book> passingbuku;
     List<Integer> passingcartid;
     List<Integer> passingcount;
+    List<Integer> passingmerchantid;
     LinearLayout layoutCart;
     LinearLayout layoutNoCart;
     Button btnNoCart;
@@ -105,6 +108,7 @@ public class CartFragment extends Fragment implements CartFragmentAdapter.Passin
                     intent.putExtra("passingbook", (Serializable) passingbuku);
                     intent.putExtra("passingcartid", (Serializable) passingcartid);
                     intent.putExtra("passingcount", (Serializable) passingcount);
+                    intent.putExtra("passingmerchantid", (Serializable) passingmerchantid);
                     startActivity(intent);
                 }
                 else if(passingcount.size()==0){
@@ -157,13 +161,18 @@ public class CartFragment extends Fragment implements CartFragmentAdapter.Passin
         passingcount = new ArrayList<>();
         passingbuku = new ArrayList<>();
         passingcartid = new ArrayList<>();
+        passingmerchantid = new ArrayList<>();
         for(int i=0; i<carts.size(); i++){
             if(carts.get(i).isSelected()) {
                 passingcount.add(carts.get(i).getCount());
                 passingbuku.add(carts.get(i).getBook());
                 passingcartid.add(carts.get(i).getCart_id());
+                passingmerchantid.add(carts.get(i).getBook().getMerchant_id());
             }
         }
+        Set<Integer> set = new HashSet<>(passingmerchantid);
+        passingmerchantid.clear();
+        passingmerchantid.addAll(set);
     }
 
     public void initView(){

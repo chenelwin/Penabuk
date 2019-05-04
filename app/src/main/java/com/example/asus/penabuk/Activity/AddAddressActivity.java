@@ -106,11 +106,11 @@ public class AddAddressActivity extends AppCompatActivity {
 
     private boolean validateAddAddress(String kodepos, String alamat){
         if(kodepos == null || kodepos.trim().length() == 0){
-            Toast.makeText(this, "Kode Pos is required", Toast.LENGTH_SHORT).show();
+            editKodepos.setError("Kode Pos harus diisi.");
             return false;
         }
         if(alamat == null || alamat.trim().length() == 0){
-            Toast.makeText(this, "Alamat is required", Toast.LENGTH_SHORT).show();
+            editAlamat.setError("Alamat harus diisi.");
             return false;
         }
         return true;

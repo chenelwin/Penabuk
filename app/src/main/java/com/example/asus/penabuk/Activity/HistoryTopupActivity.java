@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.asus.penabuk.Adapter.HistoryTopupAdapter;
@@ -37,6 +38,7 @@ public class HistoryTopupActivity extends AppCompatActivity {
     RecyclerView rvHistoryTopup;
     HistoryTopupAdapter historyTopupAdapter;
     List<Topup> topups;
+    LinearLayout layoutNoHistoryTopup;
 
     Toolbar toolbarHistoryTopup;
 
@@ -53,6 +55,7 @@ public class HistoryTopupActivity extends AppCompatActivity {
         sharedPrefManager = new SharedPrefManager(context);
         userId = Integer.parseInt(sharedPrefManager.getSPId());
         rvHistoryTopup = (RecyclerView)findViewById(R.id.RvHistoryTopup);
+        layoutNoHistoryTopup = (LinearLayout)findViewById(R.id.layoutNoHistoryTopup);
         initToolbar();
     }
 
@@ -102,7 +105,7 @@ public class HistoryTopupActivity extends AppCompatActivity {
             public void onResponse(Call<ReqHistoryTopup> call, Response<ReqHistoryTopup> response) {
                 ReqHistoryTopup reqHistoryTopup = response.body();
                 topups = reqHistoryTopup.getTopUp();
-
+                checkHistoryTopupSize(topups);
                 historyTopupAdapter = new HistoryTopupAdapter(topups);
                 rvHistoryTopup.setLayoutManager(new LinearLayoutManager(context));
                 rvHistoryTopup.setItemAnimator(new DefaultItemAnimator());
@@ -114,5 +117,14 @@ public class HistoryTopupActivity extends AppCompatActivity {
                 Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void checkHistoryTopupSize(List<Topup> topups){
+        if(topups.size()==0){
+            layoutNoHistoryTopup.setVisibility(View.VISIBLE);
+        }
+        else {
+            layoutNoHistoryTopup.setVisibility(View.GONE);
+        }
     }
 }

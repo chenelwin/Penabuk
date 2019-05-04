@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.asus.penabuk.Adapter.AddressAdapter;
@@ -40,6 +41,8 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
     AddressAdapter addressAdapter;
     List<Address> addresses;
     Integer userId;
+    LinearLayout layoutNoAddress;
+    LinearLayout layoutAddress;
 
     Toolbar toolbarAddress;
 
@@ -85,6 +88,8 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
         userId = Integer.parseInt(sharedPrefManager.getSPId());
         AddressAdapter.passingBtnRemove = this;
         AddressAdapter.passingPrimaryAddress = this;
+        layoutNoAddress = (LinearLayout)findViewById(R.id.layoutNoAddress);
+        layoutAddress = (LinearLayout)findViewById(R.id.layoutAddress);
         btnAddAddress = (Button)findViewById(R.id.btnAddAddress);
         rvAddress = (RecyclerView)findViewById(R.id.RvAddress);
     }
@@ -110,7 +115,7 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
             public void onResponse(Call<ReqAddress> call, Response<ReqAddress> response) {
                 ReqAddress reqAddress = response.body();
                 addresses = reqAddress.getAddresses();
-
+                checkAddressSize(addresses);
                 addressAdapter = new AddressAdapter(addresses);
                 rvAddress.setLayoutManager(new LinearLayoutManager(context));
                 rvAddress.setItemAnimator(new DefaultItemAnimator());
@@ -124,6 +129,17 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
         });
     }
 
+    private void checkAddressSize(List<Address> addresses){
+        if(addresses.size()==0){
+            layoutNoAddress.setVisibility(View.VISIBLE);
+            layoutAddress.setVisibility(View.GONE);
+        }
+        else if(addresses.size()>0){
+            layoutNoAddress.setVisibility(View.GONE);
+            layoutAddress.setVisibility(View.VISIBLE);
+        }
+    }
+
     private void doRemoveAddress(Integer addressId, Integer userId, final int position){
         Call<ResMessage> call = userService.removeAddressRequest(addressId, userId);
         call.enqueue(new Callback<ResMessage>() {
@@ -133,6 +149,7 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
                 Toast.makeText(context, resMessage.getMessage(), Toast.LENGTH_SHORT).show();
                 addressAdapter.notifyItemRemoved(position);
                 addressAdapter.notifyItemRangeChanged(position, addresses.size());
+                checkAddressSize(addresses);
                 progressDialog.dismiss();
             }
 

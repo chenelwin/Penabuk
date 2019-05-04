@@ -94,11 +94,11 @@ public class LoginActivity extends AppCompatActivity {
 
     private boolean validateLogin(String email, String password){
         if(email == null || email.trim().length() == 0){
-            loginEmail.setError("Kolom harus diisi");
+            loginEmail.setError("Email harus diisi");
             return false;
         }
         if(password == null || password.trim().length() == 0){
-            loginPassword.setError("Kolom harus diisi");
+            loginPassword.setError("Password harus diisi");
             return false;
         }
         return true;

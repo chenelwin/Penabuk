@@ -30,6 +30,8 @@ import android.widget.Toast;
 
 import com.example.asus.penabuk.Activity.AddressActivity;
 import com.example.asus.penabuk.Activity.EditProfileActivity;
+import com.example.asus.penabuk.Activity.HistoryBalanceActivity;
+import com.example.asus.penabuk.Activity.HistoryTopupActivity;
 import com.example.asus.penabuk.Activity.LoginActivity;
 import com.example.asus.penabuk.Activity.NotificationActivity;
 import com.example.asus.penabuk.Activity.TopUpActivity;
@@ -37,6 +39,7 @@ import com.example.asus.penabuk.Activity.ViewAllActivity;
 import com.example.asus.penabuk.Adapter.HomeFragmentAdapter;
 import com.example.asus.penabuk.Adapter.ViewAllAdapter;
 import com.example.asus.penabuk.Model.Book;
+import com.example.asus.penabuk.Model.HistoryBalance;
 import com.example.asus.penabuk.Model.ReqBook;
 import com.example.asus.penabuk.Model.ReqFilter;
 import com.example.asus.penabuk.Model.ReqNotification;
@@ -141,6 +144,18 @@ public class HomeFragment extends Fragment {
                     case R.id.nav_address:
                         item.setChecked(true);
                         intent = new Intent(view.getContext(), AddressActivity.class);
+                        drawerHome.closeDrawers();
+                        view.getContext().startActivity(intent);
+                        return true;
+                    case R.id.nav_historybalance:
+                        item.setChecked(true);
+                        intent = new Intent(view.getContext(), HistoryBalanceActivity.class);
+                        drawerHome.closeDrawers();
+                        view.getContext().startActivity(intent);
+                        return true;
+                    case R.id.nav_historytopup:
+                        item.setChecked(true);
+                        intent = new Intent(view.getContext(), HistoryTopupActivity.class);
                         drawerHome.closeDrawers();
                         view.getContext().startActivity(intent);
                         return true;

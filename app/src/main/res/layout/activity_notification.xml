@@ -11,6 +11,23 @@
         android:id="@+id/toolbarNotification"
         layout="@layout/toolbar"/>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:id="@+id/layoutNoNotification">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:text="Notifikasi kosong."
+            android:textSize="18sp"
+            android:textColor="#000"
+            android:textAlignment="center"/>
+    </LinearLayout>
+
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

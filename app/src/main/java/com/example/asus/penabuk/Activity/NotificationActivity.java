@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.asus.penabuk.Adapter.NotificationAdapter;
@@ -34,6 +35,7 @@ public class NotificationActivity extends AppCompatActivity {
     RecyclerView rvNotification;
     NotificationAdapter notificationAdapter;
     List<Notification> notifications;
+    LinearLayout layoutNoNotification;
     Toolbar toolbarNotification;
 
     @Override
@@ -52,6 +54,7 @@ public class NotificationActivity extends AppCompatActivity {
         userId = Integer.parseInt(sharedPrefManager.getSPId());
         initToolbar();
         rvNotification = (RecyclerView)findViewById(R.id.rvNotification);
+        layoutNoNotification = (LinearLayout)findViewById(R.id.layoutNoNotification);
 
     }
 
@@ -77,7 +80,7 @@ public class NotificationActivity extends AppCompatActivity {
             public void onResponse(Call<ReqNotification> call, Response<ReqNotification> response) {
                 ReqNotification reqNotification = response.body();
                 notifications = reqNotification.getNotifications();
-
+                checkNotificationSize(notifications);
                 notificationAdapter = new NotificationAdapter(notifications);
                 rvNotification.setLayoutManager(new LinearLayoutManager(context));
                 rvNotification.setItemAnimator(new DefaultItemAnimator());
@@ -89,6 +92,15 @@ public class NotificationActivity extends AppCompatActivity {
                 Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void checkNotificationSize(List<Notification> notifications){
+        if(notifications.size()==0){
+            layoutNoNotification.setVisibility(View.VISIBLE);
+        }
+        else{
+            layoutNoNotification.setVisibility(View.GONE);
+        }
     }
 
     private void doReadNotification(){

@@ -15,6 +15,7 @@ public class Book implements Serializable {
     private String small_image_url;
     private String image_local;
     private Integer price;
+    private Integer merchant_id;
     private Integer user_rating;
     private List<Review> reviews;
 
@@ -96,6 +97,14 @@ public class Book implements Serializable {
 
     public void setPrice(Integer price) {
         this.price = price;
+    }
+
+    public Integer getMerchant_id() {
+        return merchant_id;
+    }
+
+    public void setMerchant_id(Integer merchant_id) {
+        this.merchant_id = merchant_id;
     }
 
     public Integer getUser_rating() {
