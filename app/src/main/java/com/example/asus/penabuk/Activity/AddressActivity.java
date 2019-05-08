@@ -140,7 +140,7 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
         }
     }
 
-    private void doRemoveAddress(Integer addressId, Integer userId, final int position){
+    private void doRemoveAddress(Integer addressId, final Integer userId, final int position){
         Call<ResMessage> call = userService.removeAddressRequest(addressId, userId);
         call.enqueue(new Callback<ResMessage>() {
             @Override
@@ -149,7 +149,7 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
                 Toast.makeText(context, resMessage.getMessage(), Toast.LENGTH_SHORT).show();
                 addressAdapter.notifyItemRemoved(position);
                 addressAdapter.notifyItemRangeChanged(position, addresses.size());
-                checkAddressSize(addresses);
+                doGetAddress(userId);
                 progressDialog.dismiss();
             }
 
