@@ -65,6 +65,8 @@ public class ViewAllAdapter extends RecyclerView.Adapter<ViewAllAdapter.ViewHold
                     .load(book.getImage_url())
                     .resize(80, 120)
                     .centerCrop()
+                    .placeholder(R.drawable.emptyimage)
+                    .error(R.drawable.emptyimage)
                     .into(holder.bookImg);
         }
         else{
@@ -72,6 +74,8 @@ public class ViewAllAdapter extends RecyclerView.Adapter<ViewAllAdapter.ViewHold
                     .load(ApiUtils.BASE_URL +"/image?id="+books.get(position).getImage_local())
                     .resize(80, 120)
                     .centerCrop()
+                    .placeholder(R.drawable.emptyimage)
+                    .error(R.drawable.emptyimage)
                     .into(holder.bookImg);
         }
 

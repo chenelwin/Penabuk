@@ -120,6 +120,8 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             if(book.getImage_url().length()>0) {
                 Picasso.with(context)
                         .load(book.getImage_url())
+                        .placeholder(R.drawable.emptyimage)
+                        .error(R.drawable.emptyimage)
                         //.resize(150, 200)
                         //.centerCrop()
                         .into(holder.bookImg);
@@ -127,6 +129,8 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             else{
                 Picasso.with(context)
                         .load(ApiUtils.BASE_URL +"/image?id="+books.get(position).getImage_local())
+                        .placeholder(R.drawable.emptyimage)
+                        .error(R.drawable.emptyimage)
                         .into(holder.bookImg);
             }
 
@@ -201,6 +205,8 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             public void setImageForPosition(int position, ImageView imageView) {
                 Picasso.with(context)
                         .load(ApiUtils.BASE_URL +"/image?id="+sliderList.get(position).getUrl())
+                        .placeholder(R.drawable.emptyimage)
+                        .error(R.drawable.emptyimage)
                         //.centerCrop()
                         //.resize(carousel.getWidth(), 300)
                         .into(imageView);

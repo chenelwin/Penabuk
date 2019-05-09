@@ -151,6 +151,8 @@ public class ProfileFragment extends Fragment {
                         .load(ApiUtils.BASE_URL+"/image?id="+sharedPrefManager.getSPImage())
                         .centerCrop()
                         .resize(60, 60)
+                        .placeholder(R.drawable.emptyimage)
+                        .error(R.drawable.emptyimage)
                         .into(profileImage);
             }
 

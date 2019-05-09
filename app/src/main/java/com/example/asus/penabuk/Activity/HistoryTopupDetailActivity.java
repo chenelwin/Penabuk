@@ -92,6 +92,8 @@ public class HistoryTopupDetailActivity extends AppCompatActivity {
 
                 Picasso.with(context)
                         .load(ApiUtils.BASE_URL +"/image?id="+topup.getImage_url())
+                        .placeholder(R.drawable.emptyimage)
+                        .error(R.drawable.emptyimage)
                         .into(imageTopup);
             }
 

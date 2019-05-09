@@ -194,6 +194,8 @@ public class EditProfileActivity extends AppCompatActivity {
                 .load(ApiUtils.BASE_URL+"/image?id="+sharedPrefManager.getSPImage())
                 .centerCrop()
                 .resize(200, 200)
+                .placeholder(R.drawable.emptyimage)
+                .error(R.drawable.emptyimage)
                 .into(userProfile);
     }
 

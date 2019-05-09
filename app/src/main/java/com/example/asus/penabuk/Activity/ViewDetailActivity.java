@@ -252,6 +252,8 @@ public class ViewDetailActivity extends AppCompatActivity {
                             .load(book.getImage_url())
                             .resize(100, 140)
                             .centerCrop()
+                            .placeholder(R.drawable.emptyimage)
+                            .error(R.drawable.emptyimage)
                             .into(bookImg);
                 }
                 else {
@@ -259,6 +261,8 @@ public class ViewDetailActivity extends AppCompatActivity {
                             .load(ApiUtils.BASE_URL +"/image?id="+book.getImage_local())
                             .resize(100, 140)
                             .centerCrop()
+                            .placeholder(R.drawable.emptyimage)
+                            .error(R.drawable.emptyimage)
                             .into(bookImg);
                 }
 

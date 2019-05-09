@@ -69,6 +69,8 @@ public class CartFragmentAdapter extends RecyclerView.Adapter<CartFragmentAdapte
                     .load(cart.getBook().getImage_url())
                     .resize(80, 120)
                     .centerCrop()
+                    .placeholder(R.drawable.emptyimage)
+                    .error(R.drawable.emptyimage)
                     .into(holder.cartImg);
         }
         else {
@@ -76,6 +78,8 @@ public class CartFragmentAdapter extends RecyclerView.Adapter<CartFragmentAdapte
                     .load(ApiUtils.BASE_URL +"/image?id="+carts.get(position).getBook().getImage_local())
                     .resize(80, 120)
                     .centerCrop()
+                    .placeholder(R.drawable.emptyimage)
+                    .error(R.drawable.emptyimage)
                     .into(holder.cartImg);
         }
 

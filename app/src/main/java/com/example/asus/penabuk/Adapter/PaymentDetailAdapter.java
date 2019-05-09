@@ -51,6 +51,8 @@ public class PaymentDetailAdapter extends RecyclerView.Adapter<PaymentDetailAdap
                     .load(bookPayment.getBook().getImage_url())
                     .resize(80, 120)
                     .centerCrop()
+                    .placeholder(R.drawable.emptyimage)
+                    .error(R.drawable.emptyimage)
                     .into(holder.bookImg);
         }
         else {
@@ -58,6 +60,8 @@ public class PaymentDetailAdapter extends RecyclerView.Adapter<PaymentDetailAdap
                     .load(ApiUtils.BASE_URL +"/image?id="+bookPayments.get(position).getBook().getImage_local())
                     .resize(80, 120)
                     .centerCrop()
+                    .placeholder(R.drawable.emptyimage)
+                    .error(R.drawable.emptyimage)
                     .into(holder.bookImg);
         }
 
