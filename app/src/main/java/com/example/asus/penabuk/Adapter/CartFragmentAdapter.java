@@ -33,11 +33,11 @@ public class CartFragmentAdapter extends RecyclerView.Adapter<CartFragmentAdapte
     public static TotalHarga totalHarga;
 
     //passing data utk dihapus
-    public interface PassingBtnRemove{
+    public interface PassingBtnRemoveCart{
         void passData(Integer cart_id, int position);
     }
 
-    public static PassingBtnRemove passingBtnRemove;
+    public static PassingBtnRemoveCart passingBtnRemoveCart;
 
     List<Cart> carts;
     Context context;
@@ -112,7 +112,7 @@ public class CartFragmentAdapter extends RecyclerView.Adapter<CartFragmentAdapte
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                passingBtnRemove.passData(cart.getCart_id(), position);
+                passingBtnRemoveCart.passData(cart.getCart_id(), position);
                 carts.remove(position);
                 totalHarga.passTotalHarga(carts);
             }

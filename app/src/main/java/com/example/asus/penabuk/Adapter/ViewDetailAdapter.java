@@ -10,15 +10,24 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.example.asus.penabuk.Model.Book;
 import com.example.asus.penabuk.Model.Review;
 import com.example.asus.penabuk.R;
+import com.example.asus.penabuk.SharedPreferences.SharedPrefManager;
 
 import java.util.List;
 
 public class ViewDetailAdapter extends RecyclerView.Adapter<ViewDetailAdapter.ViewHolder> {
 
+    public interface PassingBtnRemoveReview{
+        void passData(int position);
+    }
+
+    public static PassingBtnRemoveReview passingBtnRemoveReview;
+
     Context context;
     List<Review> reviews;
+    SharedPrefManager sharedPrefManager;
 
     public ViewDetailAdapter(List<Review> reviewList){ this.reviews = reviewList; }
 
@@ -32,13 +41,25 @@ public class ViewDetailAdapter extends RecyclerView.Adapter<ViewDetailAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(ViewDetailAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewDetailAdapter.ViewHolder holder, final int position) {
         final Review review = reviews.get(holder.getAdapterPosition());
-
+        sharedPrefManager = new SharedPrefManager(context);
         holder.reviewName.setText(review.getReview_author());
         holder.reviewComment.setText(review.getReview());
         holder.reviewRate.setRating(review.getRating());
         holder.reviewDate.setText(review.getCreatedAt());
+
+        if(position==0 && sharedPrefManager.getSPNama().equals(review.getReview_author())){
+            holder.btnDelete.setVisibility(View.VISIBLE);
+        }
+
+        holder.btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                passingBtnRemoveReview.passData(position);
+                reviews.remove(position);
+            }
+        });
 
     }
 
@@ -52,6 +73,7 @@ public class ViewDetailAdapter extends RecyclerView.Adapter<ViewDetailAdapter.Vi
         TextView reviewComment;
         TextView reviewDate;
         RatingBar reviewRate;
+        ImageView btnDelete;
         CardView cv;
 
         public ViewHolder(View itemView){
@@ -60,6 +82,7 @@ public class ViewDetailAdapter extends RecyclerView.Adapter<ViewDetailAdapter.Vi
             reviewComment = (TextView)itemView.findViewById(R.id.reviewComment);
             reviewDate = (TextView)itemView.findViewById(R.id.reviewDate);
             reviewRate = (RatingBar) itemView.findViewById(R.id.reviewRate);
+            btnDelete = (ImageView)itemView.findViewById(R.id.btnDelete);
             cv = (CardView)itemView.findViewById(R.id.cvBookDetail);
         }
     }

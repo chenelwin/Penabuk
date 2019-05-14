@@ -30,7 +30,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AddressActivity extends AppCompatActivity implements AddressAdapter.PassingBtnRemove, AddressAdapter.PassingPrimaryAddress {
+public class AddressActivity extends AppCompatActivity implements AddressAdapter.PassingBtnRemoveAddress, AddressAdapter.PassingPrimaryAddress {
 
     Context context;
     SharedPrefManager sharedPrefManager;
@@ -86,7 +86,7 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
         sharedPrefManager = new SharedPrefManager(context);
         initToolbar();
         userId = Integer.parseInt(sharedPrefManager.getSPId());
-        AddressAdapter.passingBtnRemove = this;
+        AddressAdapter.passingBtnRemoveAddress = this;
         AddressAdapter.passingPrimaryAddress = this;
         layoutNoAddress = (LinearLayout)findViewById(R.id.layoutNoAddress);
         layoutAddress = (LinearLayout)findViewById(R.id.layoutAddress);

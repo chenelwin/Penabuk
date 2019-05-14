@@ -20,7 +20,7 @@ import java.util.List;
 
 public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHolder> {
 
-    public interface PassingBtnRemove{
+    public interface PassingBtnRemoveAddress{
         void passData(Integer address_id, int position);
     }
 
@@ -28,7 +28,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHold
         void passingPrimary(Integer address_id, int position);
     }
 
-    public static PassingBtnRemove passingBtnRemove;
+    public static PassingBtnRemoveAddress passingBtnRemoveAddress;
     public static PassingPrimaryAddress passingPrimaryAddress;
 
     Context context;
@@ -74,7 +74,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHold
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                passingBtnRemove.passData(address.getId(), position);
+                passingBtnRemoveAddress.passData(address.getId(), position);
                 addresses.remove(position);
             }
         });

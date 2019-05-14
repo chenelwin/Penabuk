@@ -84,6 +84,9 @@ public interface UserService {
     @POST("/notifications/read")
     Call<ResMessage> readNotificationRequest(@Query("token") Integer userId);
 
+    @POST("/remove/rate/{id}")
+    Call<ResMessage> removeReviewRequest(@Path("id") Integer bookId, @Query("token") Integer userId);
+
     @Multipart
     @POST("/topup/balance")
     Call<ResMessage> uploadRequest(@Part("balance") RequestBody balance, @Part MultipartBody.Part image, @Query("token") Integer userId);

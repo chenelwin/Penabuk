@@ -46,7 +46,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ViewDetailActivity extends AppCompatActivity {
+public class ViewDetailActivity extends AppCompatActivity implements ViewDetailAdapter.PassingBtnRemoveReview {
 
     UserService userService = ApiUtils.getUserService();
     SharedPrefManager sharedPrefManager;
@@ -183,6 +183,7 @@ public class ViewDetailActivity extends AppCompatActivity {
         btnBuy = (Button)findViewById(R.id.btnBuy);
 
         //Review User
+        ViewDetailAdapter.passingBtnRemoveReview = this;
         userRate = (RatingBar)findViewById(R.id.userRate);
         userComment = (EditText) findViewById(R.id.userComment);
         btnReview = (Button)findViewById(R.id.btnReview);
@@ -202,6 +203,12 @@ public class ViewDetailActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void passData(int position) {
+        progressDialog = ProgressDialog.show(context, null, "Please Wait..", true);
+        doRemoveReview(position);
+    }
+
     private boolean validateReview(Integer rating, String review){
         if(rating<1){
             Toast.makeText(this, "Rating is required", Toast.LENGTH_SHORT).show();
@@ -215,7 +222,7 @@ public class ViewDetailActivity extends AppCompatActivity {
     }
 
     private void doGetBookById(){
-        Integer bookId = getIntent().getIntExtra("bookid", 0);
+        final Integer bookId = getIntent().getIntExtra("bookid", 0);
         Call<ReqBookId> call = userService.getBookById(bookId, userId);
         call.enqueue(new Callback<ReqBookId>() {
             @Override
@@ -240,12 +247,7 @@ public class ViewDetailActivity extends AppCompatActivity {
                 String priceformat = formatter.format(book.getPrice());
                 bookPrice.setText("Rp. " + priceformat);
 
-                if(book.getUser_rating()==0){
-                    layoutReviewUser.setVisibility(View.VISIBLE);
-                }
-                else if(book.getUser_rating()>0){
-                    layoutReviewUser.setVisibility(View.GONE);
-                }
+                checkReview(book.getUser_rating());
 
                 if(book.getImage_url().length()>0) {
                     Picasso.with(context)
@@ -311,6 +313,30 @@ public class ViewDetailActivity extends AppCompatActivity {
         });
     }
 
+    private void doRemoveReview(final int position){
+        Integer bookId = getIntent().getIntExtra("bookid", 0);
+        Call<ResMessage> call = userService.removeReviewRequest(bookId, userId);
+        call.enqueue(new Callback<ResMessage>() {
+            @Override
+            public void onResponse(Call<ResMessage> call, Response<ResMessage> response) {
+                ResMessage resMessage = response.body();
+                Toast.makeText(ViewDetailActivity.this, resMessage.getMessage(), Toast.LENGTH_LONG).show();
+                viewDetailAdapter.notifyItemRemoved(position);
+                viewDetailAdapter.notifyItemRangeChanged(position, reviews.size());
+                userRate.setRating(0);
+                userComment.setText("");
+                doGetBookById();
+                progressDialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<ResMessage> call, Throwable t) {
+                Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
+            }
+        });
+    }
+
     private void qtyMinus(){
         if(count>1) {
             count--;
@@ -348,5 +374,14 @@ public class ViewDetailActivity extends AppCompatActivity {
                 progressDialog.dismiss();
             }
         });
+    }
+
+    private void checkReview(Integer rate){
+        if(rate==0){
+            layoutReviewUser.setVisibility(View.VISIBLE);
+        }
+        else if(rate>0){
+            layoutReviewUser.setVisibility(View.GONE);
+        }
     }
 }

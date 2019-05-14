@@ -45,7 +45,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CartFragment extends Fragment implements CartFragmentAdapter.PassingBtnRemove, CartFragmentAdapter.TotalHarga {
+public class CartFragment extends Fragment implements CartFragmentAdapter.PassingBtnRemoveCart, CartFragmentAdapter.TotalHarga {
 
     UserService userService = ApiUtils.getUserService();
     SharedPrefManager sharedPrefManager;
@@ -179,7 +179,7 @@ public class CartFragment extends Fragment implements CartFragmentAdapter.Passin
         sharedPrefManager = new SharedPrefManager(view.getContext());
         initToolbar();
         userId = Integer.parseInt(sharedPrefManager.getSPId());
-        CartFragmentAdapter.passingBtnRemove = this;
+        CartFragmentAdapter.passingBtnRemoveCart = this;
         CartFragmentAdapter.totalHarga = this;
         rvCartFragment = (RecyclerView)view.findViewById(R.id.RvCartFragment);
         checkAll = (CheckBox)view.findViewById(R.id.checkAll);
