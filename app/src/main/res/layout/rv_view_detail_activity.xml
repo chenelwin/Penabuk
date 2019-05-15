@@ -56,6 +56,13 @@
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:visibility="gone"
+                    android:src="@drawable/ikonedit2"
+                    android:id="@+id/btnEditReview"/>
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="30dp"
                     android:visibility="gone"
                     android:src="@drawable/ikondelete"
                     android:id="@+id/btnDelete"/>

@@ -46,7 +46,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ViewDetailActivity extends AppCompatActivity implements ViewDetailAdapter.PassingBtnRemoveReview {
+public class ViewDetailActivity extends AppCompatActivity implements ViewDetailAdapter.PassingBtnRemoveReview, ViewDetailAdapter.PassingBtnEditReview {
 
     UserService userService = ApiUtils.getUserService();
     SharedPrefManager sharedPrefManager;
@@ -183,6 +183,7 @@ public class ViewDetailActivity extends AppCompatActivity implements ViewDetailA
         btnBuy = (Button)findViewById(R.id.btnBuy);
 
         //Review User
+        ViewDetailAdapter.passingBtnEditReview = this;
         ViewDetailAdapter.passingBtnRemoveReview = this;
         userRate = (RatingBar)findViewById(R.id.userRate);
         userComment = (EditText) findViewById(R.id.userComment);
@@ -201,6 +202,13 @@ public class ViewDetailActivity extends AppCompatActivity implements ViewDetailA
                 finish();
             }
         });
+    }
+
+    @Override
+    public void passEditData(Integer rating, String comment, int position) {
+        layoutReviewUser.setVisibility(View.VISIBLE);
+        userRate.setRating(rating);
+        userComment.setText(comment);
     }
 
     @Override

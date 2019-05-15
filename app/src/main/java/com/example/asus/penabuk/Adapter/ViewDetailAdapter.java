@@ -19,10 +19,15 @@ import java.util.List;
 
 public class ViewDetailAdapter extends RecyclerView.Adapter<ViewDetailAdapter.ViewHolder> {
 
+    public interface PassingBtnEditReview{
+        void passEditData(Integer rating, String comment, int position);
+    }
+
     public interface PassingBtnRemoveReview{
         void passData(int position);
     }
 
+    public static PassingBtnEditReview passingBtnEditReview;
     public static PassingBtnRemoveReview passingBtnRemoveReview;
 
     Context context;
@@ -50,8 +55,16 @@ public class ViewDetailAdapter extends RecyclerView.Adapter<ViewDetailAdapter.Vi
         holder.reviewDate.setText(review.getCreatedAt());
 
         if(position==0 && sharedPrefManager.getSPNama().equals(review.getReview_author())){
+            holder.btnEditReview.setVisibility(View.VISIBLE);
             holder.btnDelete.setVisibility(View.VISIBLE);
         }
+
+        holder.btnEditReview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                passingBtnEditReview.passEditData(review.getRating(), review.getReview(), position);
+            }
+        });
 
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,6 +86,7 @@ public class ViewDetailAdapter extends RecyclerView.Adapter<ViewDetailAdapter.Vi
         TextView reviewComment;
         TextView reviewDate;
         RatingBar reviewRate;
+        ImageView btnEditReview;
         ImageView btnDelete;
         CardView cv;
 
@@ -82,6 +96,7 @@ public class ViewDetailAdapter extends RecyclerView.Adapter<ViewDetailAdapter.Vi
             reviewComment = (TextView)itemView.findViewById(R.id.reviewComment);
             reviewDate = (TextView)itemView.findViewById(R.id.reviewDate);
             reviewRate = (RatingBar) itemView.findViewById(R.id.reviewRate);
+            btnEditReview = (ImageView)itemView.findViewById(R.id.btnEditReview);
             btnDelete = (ImageView)itemView.findViewById(R.id.btnDelete);
             cv = (CardView)itemView.findViewById(R.id.cvBookDetail);
         }
