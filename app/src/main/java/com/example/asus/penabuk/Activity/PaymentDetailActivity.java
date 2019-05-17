@@ -92,7 +92,21 @@ public class PaymentDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 progressDialog = ProgressDialog.show(context, null, "Please Wait..", true);
-                doPayment(bookPayments);
+                if(addresses.size()==0){
+                    Toast.makeText(context, "Pilih alamat terlebih dahulu.", Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+                }
+                else {
+                    doPayment(bookPayments);
+                }
+            }
+        });
+
+        btnTopup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(PaymentDetailActivity.this, TopUpActivity.class);
+                startActivity(intent);
             }
         });
     }

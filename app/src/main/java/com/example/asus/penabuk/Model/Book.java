@@ -16,6 +16,11 @@ public class Book implements Serializable {
     private String image_local;
     private Integer price;
     private Integer merchant_id;
+    private String isbn_number;
+    private String synopsis;
+    private String publisher;
+    private Integer book_weight;
+    private Integer page_total;
     private Integer user_rating;
     private List<Review> reviews;
 
@@ -105,6 +110,46 @@ public class Book implements Serializable {
 
     public void setMerchant_id(Integer merchant_id) {
         this.merchant_id = merchant_id;
+    }
+
+    public String getIsbn_number() {
+        return isbn_number;
+    }
+
+    public void setIsbn_number(String isbn_number) {
+        this.isbn_number = isbn_number;
+    }
+
+    public String getSynopsis() {
+        return synopsis;
+    }
+
+    public void setSynopsis(String synopsis) {
+        this.synopsis = synopsis;
+    }
+
+    public String getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
+    }
+
+    public Integer getBook_weight() {
+        return book_weight;
+    }
+
+    public void setBook_weight(Integer book_weight) {
+        this.book_weight = book_weight;
+    }
+
+    public Integer getPage_total() {
+        return page_total;
+    }
+
+    public void setPage_total(Integer page_total) {
+        this.page_total = page_total;
     }
 
     public Integer getUser_rating() {
