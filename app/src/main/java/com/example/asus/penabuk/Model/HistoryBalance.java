@@ -6,6 +6,7 @@ public class HistoryBalance {
     private String order_id;
     private String createdAt;
     private String transactionType;
+    private Integer top_up_id;
 
     public Integer getId() {
         return id;
@@ -45,5 +46,13 @@ public class HistoryBalance {
 
     public void setTransactionType(String transactionType) {
         this.transactionType = transactionType;
+    }
+
+    public Integer getTop_up_id() {
+        return top_up_id;
+    }
+
+    public void setTop_up_id(Integer top_up_id) {
+        this.top_up_id = top_up_id;
     }
 }

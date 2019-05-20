@@ -1,6 +1,7 @@
 package com.example.asus.penabuk.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.example.asus.penabuk.Activity.HistoryDetailActivity;
+import com.example.asus.penabuk.Activity.HistoryTopupDetailActivity;
 import com.example.asus.penabuk.Model.HistoryBalance;
 import com.example.asus.penabuk.R;
 
@@ -56,6 +59,22 @@ public class HistoryBalanceAdapter extends RecyclerView.Adapter<HistoryBalanceAd
             holder.textBalance.setTextColor(ContextCompat.getColor(context, R.color.colorPrimaryDark));
         }
         holder.textDate.setText(historyBalance.getCreatedAt());
+
+        holder.cv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(historyBalance.getOrder_id()!=null){
+                    Intent intent = new Intent(view.getContext(), HistoryDetailActivity.class);
+                    intent.putExtra("passingorderid", historyBalance.getOrder_id());
+                    view.getContext().startActivity(intent);
+                }
+                else if(historyBalance.getTop_up_id()!=null) {
+                        Intent intent = new Intent(view.getContext(), HistoryTopupDetailActivity.class);
+                        intent.putExtra("passingtopupid", historyBalance.getTop_up_id());
+                        view.getContext().startActivity(intent);
+                    }
+                }
+        });
     }
 
     @Override
