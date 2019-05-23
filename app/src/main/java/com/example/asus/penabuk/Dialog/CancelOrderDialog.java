@@ -38,7 +38,12 @@ public class CancelOrderDialog extends AppCompatDialogFragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String input = cancelOrderInput.getText().toString();
-                        cancelOrderDialogListener.sendInput(input);
+                        if(input.trim().length()==0){
+                            cancelOrderInput.setError("Alasan harus diisi");
+                        }
+                        else {
+                            cancelOrderDialogListener.sendInput(input);
+                        }
                     }
                 });
 

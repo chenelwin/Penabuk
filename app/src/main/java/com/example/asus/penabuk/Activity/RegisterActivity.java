@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -88,12 +89,19 @@ public class RegisterActivity extends AppCompatActivity {
             regisEmail.setError("Email harus diisi");
             return false;
         }
+        if(!isEmailValid(email)){
+            regisEmail.setError("Email tidak valid");
+        }
         if(name == null || name.trim().length() == 0){
             regisNama.setError("Nama harus diisi");
             return false;
         }
         if(nohp == null || nohp.trim().length() == 0){
             regisNohp.setError("Nomor HP harus diisi");
+            return false;
+        }
+        if(nohp.trim().length()<10 || nohp.trim().length()>12){
+            regisNohp.setError("Nomor HP harus 10-12 digit");
             return false;
         }
         if(password == null || password.trim().length() == 0){
@@ -109,6 +117,10 @@ public class RegisterActivity extends AppCompatActivity {
             return false;
         }
         return true;
+    }
+
+    private boolean isEmailValid(CharSequence email){
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
     private void doRegister(String email, String name, String nomor_handphone, String password){

@@ -133,11 +133,15 @@ public class TopUpActivity extends AppCompatActivity {
 
     private boolean validateImage(Boolean imgAttached, String mbalance){
         if(mbalance == null || mbalance.trim().length() == 0){
-            Toast.makeText(this, "Balance is required", Toast.LENGTH_SHORT).show();
+            balanceUpload.setError("Saldo harus diisi");
+            return false;
+        }
+        if(Integer.parseInt(mbalance)>10000000){
+            balanceUpload.setError("Saldo maksimum 10.000.000");
             return false;
         }
         if(!imgAttached){
-            Toast.makeText(this, "Image is required", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Gambar harus diisi", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;

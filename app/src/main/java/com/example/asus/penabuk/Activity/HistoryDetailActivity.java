@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.example.asus.penabuk.Adapter.HistoryDetailAdapter;
 import com.example.asus.penabuk.Dialog.CancelOrderDialog;
+import com.example.asus.penabuk.ErrorUtils.ErrorUtils;
 import com.example.asus.penabuk.Model.History;
 import com.example.asus.penabuk.Model.ReqCancelOrder;
 import com.example.asus.penabuk.Model.ReqHistoryId;
@@ -193,10 +194,17 @@ public class HistoryDetailActivity extends AppCompatActivity implements CancelOr
         call.enqueue(new Callback<ResMessage>() {
             @Override
             public void onResponse(Call<ResMessage> call, Response<ResMessage> response) {
-                ResMessage resMessage = response.body();
-                Toast.makeText(context, resMessage.getMessage(), Toast.LENGTH_SHORT).show();
-                progressDialog.dismiss();
-                finish();
+                if(response.isSuccessful()) {
+                    ResMessage resMessage = response.body();
+                    Toast.makeText(context, resMessage.getMessage(), Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+                    finish();
+                }
+                else {
+                    ResMessage resMessage = ErrorUtils.parseError(response);
+                    Toast.makeText(HistoryDetailActivity.this, resMessage.getMessage(), Toast.LENGTH_LONG).show();
+                    progressDialog.dismiss();
+                }
             }
 
             @Override
