@@ -26,6 +26,7 @@ import com.example.asus.penabuk.Activity.ViewAllActivity;
 import com.example.asus.penabuk.Adapter.CartFragmentAdapter;
 import com.example.asus.penabuk.Model.Book;
 import com.example.asus.penabuk.Model.Cart;
+import com.example.asus.penabuk.Model.Order;
 import com.example.asus.penabuk.Model.ReqCart;
 import com.example.asus.penabuk.Model.ResMessage;
 import com.example.asus.penabuk.R;
@@ -45,7 +46,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CartFragment extends Fragment implements CartFragmentAdapter.PassingBtnRemoveCart, CartFragmentAdapter.TotalHarga {
+public class CartFragment extends Fragment implements CartFragmentAdapter.PassingBtnRemoveCart, CartFragmentAdapter.TotalHarga, CartFragmentAdapter.PassingCountCart
+{
 
     UserService userService = ApiUtils.getUserService();
     SharedPrefManager sharedPrefManager;
@@ -127,6 +129,11 @@ public class CartFragment extends Fragment implements CartFragmentAdapter.Passin
     }
 
     @Override
+    public void passCount(Integer book_id, Integer count, int position){
+        doSaveQty(book_id, count);
+    }
+
+    @Override
     public void passTotalHarga(List<Cart> cartChecked){
         Integer count=0;
         Integer currentPrice = 0;
@@ -181,6 +188,7 @@ public class CartFragment extends Fragment implements CartFragmentAdapter.Passin
         userId = Integer.parseInt(sharedPrefManager.getSPId());
         CartFragmentAdapter.passingBtnRemoveCart = this;
         CartFragmentAdapter.totalHarga = this;
+        CartFragmentAdapter.passingCountCart = this;
         rvCartFragment = (RecyclerView)view.findViewById(R.id.RvCartFragment);
         checkAll = (CheckBox)view.findViewById(R.id.checkAll);
         btnBuy = (Button)view.findViewById(R.id.btnBuy);
@@ -194,6 +202,24 @@ public class CartFragment extends Fragment implements CartFragmentAdapter.Passin
         toolbarCart = (Toolbar)view.findViewById(R.id.toolbarCart);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbarCart);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Keranjang");
+    }
+
+    private void doSaveQty(Integer book_id, Integer count){
+        Order order = new Order();
+        order.setBook_id(book_id);
+        order.setCount(count);
+        Call<ResMessage> call = userService.addCartRequest(order, userId);
+        call.enqueue(new Callback<ResMessage>() {
+            @Override
+            public void onResponse(Call<ResMessage> call, Response<ResMessage> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<ResMessage> call, Throwable t) {
+                Toast.makeText(view.getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public void doGetCart(Integer id){

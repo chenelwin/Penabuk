@@ -89,19 +89,12 @@ public class RegisterActivity extends AppCompatActivity {
             regisEmail.setError("Email harus diisi");
             return false;
         }
-        if(!isEmailValid(email)){
-            regisEmail.setError("Email tidak valid");
-        }
         if(name == null || name.trim().length() == 0){
             regisNama.setError("Nama harus diisi");
             return false;
         }
         if(nohp == null || nohp.trim().length() == 0){
             regisNohp.setError("Nomor HP harus diisi");
-            return false;
-        }
-        if(nohp.trim().length()<10 || nohp.trim().length()>12){
-            regisNohp.setError("Nomor HP harus 10-12 digit");
             return false;
         }
         if(password == null || password.trim().length() == 0){
@@ -114,6 +107,14 @@ public class RegisterActivity extends AppCompatActivity {
         }
         if(!password.equals(repassword)){
             regisRepassword.setError("Password tidak sama");
+            return false;
+        }
+        if(!isEmailValid(email)){
+            regisEmail.setError("Email tidak valid");
+            return false;
+        }
+        if(nohp.trim().length()<10 || nohp.trim().length()>12){
+            regisNohp.setError("Panjang No. Hp harus diantara 10-12");
             return false;
         }
         return true;

@@ -39,6 +39,13 @@ public class CartFragmentAdapter extends RecyclerView.Adapter<CartFragmentAdapte
 
     public static PassingBtnRemoveCart passingBtnRemoveCart;
 
+    //passing data utk save qty
+    public interface PassingCountCart{
+        void passCount(Integer book_id, Integer count, int position);
+    }
+
+    public static PassingCountCart passingCountCart;
+
     List<Cart> carts;
     Context context;
 
@@ -93,6 +100,7 @@ public class CartFragmentAdapter extends RecyclerView.Adapter<CartFragmentAdapte
                 holder.bookQty.setText(String.valueOf(count));
                 cart.setCount(count);
                 totalHarga.passTotalHarga(carts);
+                passingCountCart.passCount(cart.getBook().getId(), count, position);
             }
         });
 
@@ -105,6 +113,7 @@ public class CartFragmentAdapter extends RecyclerView.Adapter<CartFragmentAdapte
                     holder.bookQty.setText(String.valueOf(count));
                     cart.setCount(count);
                     totalHarga.passTotalHarga(carts);
+                    passingCountCart.passCount(cart.getBook().getId(), count, position);
                 }
             }
         });
