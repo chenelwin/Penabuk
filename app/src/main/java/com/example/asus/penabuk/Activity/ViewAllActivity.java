@@ -117,10 +117,10 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
                 final String filtername = spinnerSearch.getSelectedItem().toString();
                 filterType = Arrays.asList(filterBy).indexOf(filtername) + 1;
                 if(filterType==1){
-                    src.setSuggestions(searchTitles);
+                    src.setSuggestions(searchTitles,true);
                 }
                 else if(filterType==2){
-                    src.setSuggestions(searchAuthors);
+                    src.setSuggestions(searchAuthors,true);
                 }
 
                 src.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -165,6 +165,7 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
 
         materialSearchView.setVoiceSearch(true);
         materialSearchView.showVoice(true);
+        materialSearchView.setEllipsize(true);
         initDropdownFilter(materialSearchView);
 
         materialSearchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
