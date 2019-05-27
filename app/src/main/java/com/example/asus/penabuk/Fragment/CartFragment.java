@@ -67,6 +67,7 @@ public class CartFragment extends Fragment implements CartFragmentAdapter.Passin
     Button btnNoCart;
     Integer userId;
     ProgressDialog progressDialog;
+    boolean triggerUncheckAll=true;
 
     Toolbar toolbarCart;
 
@@ -83,10 +84,13 @@ public class CartFragment extends Fragment implements CartFragmentAdapter.Passin
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(b) {
                     cartFragmentAdapter.selectAll();
+                    triggerUncheckAll = true;
                     //passTotalHarga(carts);
                 }
                 else if(!b){
-                    cartFragmentAdapter.deselectAll();
+                    if(triggerUncheckAll) {
+                        cartFragmentAdapter.deselectAll();
+                    }
                     //passTotalHarga(carts);
                 }
             }
@@ -147,6 +151,10 @@ public class CartFragment extends Fragment implements CartFragmentAdapter.Passin
         if(count==carts.size()){
             checkAll.setChecked(true);
         }
+        else{
+            triggerUncheckAll = false;
+            checkAll.setChecked(false);
+        }
 
         DecimalFormat formatter = new DecimalFormat("#,###,###");
         DecimalFormatSymbols symbols = new DecimalFormatSymbols();
@@ -154,13 +162,7 @@ public class CartFragment extends Fragment implements CartFragmentAdapter.Passin
         formatter.setDecimalFormatSymbols(symbols);
         String priceformat = formatter.format(currentPrice);
         cartTotalPrice.setText("Rp. " + priceformat);
-        /*
-        if(cartChecked.size() == carts.size()){
-            checkAll.setChecked(true);
-        }
-        else{
-            checkAll.setChecked(false);
-        }*/
+
     }
 
 

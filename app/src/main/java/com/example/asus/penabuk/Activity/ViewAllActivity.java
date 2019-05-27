@@ -80,7 +80,7 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
     //filter dropdown
     Spinner spinnerSearch;
     ArrayAdapter<String> spinnerSearchAdapter;
-    String[] filterBy = new String[]{"Title", "Author"};
+    String[] filterBy = new String[]{"Judul", "Pengarang"};
     int filterType=1;
 
     @Override

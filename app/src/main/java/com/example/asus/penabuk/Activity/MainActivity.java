@@ -1,6 +1,7 @@
 package com.example.asus.penabuk.Activity;
 
 import android.annotation.SuppressLint;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;
@@ -10,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.asus.penabuk.Fragment.HistoryFragment;
 import com.example.asus.penabuk.Fragment.HomeFragment;
@@ -23,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     Fragment selectedFragment;
     Integer status=0;
+    boolean exitPressedOnce = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +73,23 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
     };
+
+    @Override
+    public void onBackPressed() {
+        if(exitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+        this.exitPressedOnce = true;
+        Toast.makeText(this, "Tekan sekali lagi untuk keluar", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                exitPressedOnce = false;
+            }
+        }, 2000);
+    }
 
     @SuppressLint("RestrictedAPI")
     public static void disableShiftMode(BottomNavigationView view) {
