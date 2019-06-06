@@ -136,10 +136,6 @@ public class TopUpActivity extends AppCompatActivity {
             balanceUpload.setError("Saldo harus diisi");
             return false;
         }
-        if(Integer.parseInt(mbalance)>10000000){
-            balanceUpload.setError("Saldo maksimum 10.000.000");
-            return false;
-        }
         if(!imgAttached){
             Toast.makeText(this, "Gambar harus diisi", Toast.LENGTH_SHORT).show();
             return false;

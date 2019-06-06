@@ -163,6 +163,24 @@
                         android:textStyle="italic"/>
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:src="@drawable/mybullet"
+                        android:layout_margin="5dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Maksimum saldo Rp.10.000.000"
+                        android:textColor="#000"
+                        android:textStyle="italic"/>
+                </LinearLayout>
+
             </LinearLayout>
 
             <TextView
