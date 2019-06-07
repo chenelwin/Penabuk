@@ -63,6 +63,8 @@ public class ViewDetailActivity extends AppCompatActivity implements ViewDetailA
     TextView bookYear;
     TextView bookWeight;
     TextView bookPage;
+    TextView bookMerchant;
+    TextView bookUploadDate;
     TextView bookRating;
     TextView bookSinopsis;
     ImageView imgMinus;
@@ -178,6 +180,8 @@ public class ViewDetailActivity extends AppCompatActivity implements ViewDetailA
         bookYear = (TextView)findViewById(R.id.bookYear);
         bookWeight = (TextView)findViewById(R.id.bookWeight);
         bookPage = (TextView)findViewById(R.id.bookPage);
+        bookMerchant = (TextView)findViewById(R.id.bookMerchant);
+        bookUploadDate = (TextView)findViewById(R.id.bookUploadDate);
         bookRating = (TextView)findViewById(R.id.bookRating);
         bookRatingBar = (RatingBar)findViewById(R.id.bookRatingBar);
         bookSinopsis = (TextView)findViewById(R.id.bookSinopsis);
@@ -260,6 +264,8 @@ public class ViewDetailActivity extends AppCompatActivity implements ViewDetailA
                 bookYear.setText(book.getOriginal_publication_year());
                 bookWeight.setText(book.getBook_weight().toString()+"gr");
                 bookPage.setText(book.getPage_total().toString());
+                bookMerchant.setText(book.getMerchant());
+                bookUploadDate.setText(book.getCreatedAt());
                 bookRating.setText(book.getAverage_rating().toString());
                 bookSinopsis.setText(book.getSynopsis());
                 bookRatingBar.setRating(book.getAverage_rating());
@@ -275,7 +281,7 @@ public class ViewDetailActivity extends AppCompatActivity implements ViewDetailA
                 if(book.getImage_url().length()>0) {
                     Picasso.with(context)
                             .load(book.getImage_url())
-                            .resize(100, 140)
+                            .resize(110, 170)
                             .centerCrop()
                             .placeholder(R.drawable.emptyimage)
                             .error(R.drawable.emptyimage)
@@ -284,7 +290,7 @@ public class ViewDetailActivity extends AppCompatActivity implements ViewDetailA
                 else {
                     Picasso.with(context)
                             .load(ApiUtils.BASE_URL +"/image?id="+book.getImage_local())
-                            .resize(100, 140)
+                            .resize(110, 170)
                             .centerCrop()
                             .placeholder(R.drawable.emptyimage)
                             .error(R.drawable.emptyimage)

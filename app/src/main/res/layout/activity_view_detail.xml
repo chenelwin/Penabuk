@@ -54,8 +54,8 @@
                 android:padding="5dp">
 
                 <ImageView
-                    android:layout_width="100dp"
-                    android:layout_height="140dp"
+                    android:layout_width="110dp"
+                    android:layout_height="170dp"
                     android:layout_marginRight="5dp"
                     android:id="@+id/bookImg"/>
                 <LinearLayout
@@ -140,6 +140,38 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/bookPage"
+                            android:textColor="#000"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="2dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Nama Merchant : "
+                            android:textColor="#000"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/bookMerchant"
+                            android:textColor="#000"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="2dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tanggal Masuk : "
+                            android:textColor="#000"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/bookUploadDate"
                             android:textColor="#000"/>
                     </LinearLayout>
 

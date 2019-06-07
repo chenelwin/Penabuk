@@ -3,8 +3,10 @@ package com.example.asus.penabuk.Fragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -52,6 +54,7 @@ public class CartFragment extends Fragment implements CartFragmentAdapter.Passin
     UserService userService = ApiUtils.getUserService();
     SharedPrefManager sharedPrefManager;
     public View view;
+    SwipeRefreshLayout refreshCart;
     CheckBox checkAll;
     TextView cartTotalPrice;
     Button btnBuy;
@@ -187,6 +190,7 @@ public class CartFragment extends Fragment implements CartFragmentAdapter.Passin
     public void initView(){
         sharedPrefManager = new SharedPrefManager(view.getContext());
         initToolbar();
+        initRefreshCart();
         userId = Integer.parseInt(sharedPrefManager.getSPId());
         CartFragmentAdapter.passingBtnRemoveCart = this;
         CartFragmentAdapter.totalHarga = this;
@@ -204,6 +208,24 @@ public class CartFragment extends Fragment implements CartFragmentAdapter.Passin
         toolbarCart = (Toolbar)view.findViewById(R.id.toolbarCart);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbarCart);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Keranjang");
+    }
+
+    private void initRefreshCart(){
+        refreshCart = (SwipeRefreshLayout)view.findViewById(R.id.refreshCart);
+
+        refreshCart.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                doGetCart(userId);
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        refreshCart.setRefreshing(false);
+                    }
+                }, 1000);
+            }
+        });
     }
 
     private void doSaveQty(Integer book_id, Integer count){

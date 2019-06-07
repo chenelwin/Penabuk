@@ -9,95 +9,109 @@
         android:id="@+id/toolbarCart"
         layout="@layout/toolbar"/>
 
-    <LinearLayout
+    <android.support.v4.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone"
-        android:id="@+id/layoutNoCart">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:text="Keranjang kosong, silahkan belanja terlebih dahulu"
-            android:textSize="18sp"
-            android:textColor="#000"
-            android:textAlignment="center"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:visibility="gone"
-            android:text="Belanja"
-            android:textColor="#fff"
-            android:background="@drawable/mybutton"
-            android:id="@+id/btnNoCart"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:visibility="gone"
-        android:id="@+id/layoutCart">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:elevation="4dp"
-            android:padding="20dp">
-            <CheckBox
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:checked="false"
-                android:id="@+id/checkAll"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Pilih Semua"/>
-        </LinearLayout>
+        android:id="@+id/refreshCart">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@drawable/myborder"/>
-
-        <android.support.v7.widget.RecyclerView
-            android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="vertical"
-            android:id="@+id/RvCartFragment">
+            android:orientation="vertical">
 
-        </android.support.v7.widget.RecyclerView>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="#fff"
-            android:elevation="20dp"
-            android:padding="10dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Rp. 0"
-                android:textColor="@color/colorPrice"
-                android:textStyle="bold"
-                android:id="@+id/cartTotalPrice"/>
             <LinearLayout
-                android:layout_weight="1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Beli"
-                android:background="@drawable/mybutton"
-                android:textColor="#fff"
-                android:id="@+id/btnBuy"/>
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:id="@+id/layoutNoCart">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:text="Keranjang kosong, silahkan belanja terlebih dahulu"
+                    android:textSize="18sp"
+                    android:textColor="#000"
+                    android:textAlignment="center"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:visibility="gone"
+                    android:text="Belanja"
+                    android:textColor="#fff"
+                    android:background="@drawable/mybutton"
+                    android:id="@+id/btnNoCart"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:id="@+id/layoutCart">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:elevation="4dp"
+                    android:padding="20dp">
+                    <CheckBox
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:checked="false"
+                        android:id="@+id/checkAll"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Pilih Semua"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@drawable/myborder"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbars="vertical"
+                    android:id="@+id/RvCartFragment">
+
+                </android.support.v7.widget.RecyclerView>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="#fff"
+                    android:elevation="20dp"
+                    android:padding="10dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Rp. 0"
+                        android:textColor="@color/colorPrice"
+                        android:textStyle="bold"
+                        android:id="@+id/cartTotalPrice"/>
+                    <LinearLayout
+                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Beli"
+                        android:background="@drawable/mybutton"
+                        android:textColor="#fff"
+                        android:id="@+id/btnBuy"/>
+                </LinearLayout>
+            </LinearLayout>
+
         </LinearLayout>
-    </LinearLayout>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 
 </LinearLayout>

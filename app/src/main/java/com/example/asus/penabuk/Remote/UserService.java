@@ -1,6 +1,7 @@
 package com.example.asus.penabuk.Remote;
 
 import com.example.asus.penabuk.Model.Address;
+import com.example.asus.penabuk.Model.BestDealPrice;
 import com.example.asus.penabuk.Model.Order;
 import com.example.asus.penabuk.Model.Payment;
 import com.example.asus.penabuk.Model.ReqAddress;
@@ -130,6 +131,9 @@ public interface UserService {
 
     @GET("/bestdeals")
     Call<ReqBook> getBookByBestDeal(@Query("token") Integer userId, @Query("balance") String balance);
+
+    @GET("/bestdeals/price")
+    Call<BestDealPrice> getMinimalPrice();
 
     @GET("/filters")
     Call<ReqFilter> getSearchFilter();

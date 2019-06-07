@@ -11,10 +11,16 @@
         android:textColor="#000"
         android:id="@+id/textBestDeal"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textBestDeal"
+        android:id="@+id/textMinimalBestDeal"/>
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/textBestDeal"
+        android:layout_below="@id/textMinimalBestDeal"
         android:inputType="number"
         android:id="@+id/bestDealInput"/>
 

@@ -21,6 +21,8 @@ public class Book implements Serializable {
     private String publisher;
     private Integer book_weight;
     private Integer page_total;
+    private String merchant;
+    private String createdAt;
     private Integer user_rating;
     private List<Review> reviews;
 
@@ -150,6 +152,22 @@ public class Book implements Serializable {
 
     public void setPage_total(Integer page_total) {
         this.page_total = page_total;
+    }
+
+    public String getMerchant() {
+        return merchant;
+    }
+
+    public void setMerchant(String merchant) {
+        this.merchant = merchant;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
 
     public Integer getUser_rating() {
