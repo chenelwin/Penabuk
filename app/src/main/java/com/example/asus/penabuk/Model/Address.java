@@ -3,7 +3,7 @@ package com.example.asus.penabuk.Model;
 public class Address {
     private Integer id;
     private Integer district_id;
-    private Integer zip_code;
+    private String zip_code;
     private String address_line;
     private String district;
     private String city;
@@ -26,11 +26,11 @@ public class Address {
         this.district_id = district_id;
     }
 
-    public Integer getZip_code() {
+    public String getZip_code() {
         return zip_code;
     }
 
-    public void setZip_code(Integer zip_code) {
+    public void setZip_code(String zip_code) {
         this.zip_code = zip_code;
     }
 

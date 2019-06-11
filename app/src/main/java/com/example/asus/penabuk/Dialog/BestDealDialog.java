@@ -51,6 +51,7 @@ public class BestDealDialog extends AppCompatDialogFragment {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String input = bestDealInput.getText().toString();
                         bestDealDialogListener.sendInput(input);
+
                     }
                 });
 

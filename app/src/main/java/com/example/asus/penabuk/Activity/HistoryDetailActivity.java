@@ -188,31 +188,37 @@ public class HistoryDetailActivity extends AppCompatActivity implements CancelOr
     }
 
     private void doCancelOrder(String orderId, Integer userId, String description){
-        ReqCancelOrder reqCancelOrder = new ReqCancelOrder();
-        reqCancelOrder.setDescription(description);
-        Call<ResMessage> call = userService.cancelOrderRequest(orderId, userId, reqCancelOrder);
-        call.enqueue(new Callback<ResMessage>() {
-            @Override
-            public void onResponse(Call<ResMessage> call, Response<ResMessage> response) {
-                if(response.isSuccessful()) {
-                    ResMessage resMessage = response.body();
-                    Toast.makeText(context, resMessage.getMessage(), Toast.LENGTH_SHORT).show();
-                    progressDialog.dismiss();
-                    finish();
+        if(description==null || description.trim().length()==0){
+            progressDialog.dismiss();
+            Toast.makeText(context, "Alasan harus diisi", Toast.LENGTH_SHORT).show();
+            openCancelOrderDialog();
+        }
+        else {
+            ReqCancelOrder reqCancelOrder = new ReqCancelOrder();
+            reqCancelOrder.setDescription(description);
+            Call<ResMessage> call = userService.cancelOrderRequest(orderId, userId, reqCancelOrder);
+            call.enqueue(new Callback<ResMessage>() {
+                @Override
+                public void onResponse(Call<ResMessage> call, Response<ResMessage> response) {
+                    if (response.isSuccessful()) {
+                        ResMessage resMessage = response.body();
+                        Toast.makeText(context, resMessage.getMessage(), Toast.LENGTH_SHORT).show();
+                        progressDialog.dismiss();
+                        finish();
+                    } else {
+                        ResMessage resMessage = ErrorUtils.parseError(response);
+                        Toast.makeText(HistoryDetailActivity.this, resMessage.getMessage(), Toast.LENGTH_LONG).show();
+                        progressDialog.dismiss();
+                    }
                 }
-                else {
-                    ResMessage resMessage = ErrorUtils.parseError(response);
-                    Toast.makeText(HistoryDetailActivity.this, resMessage.getMessage(), Toast.LENGTH_LONG).show();
-                    progressDialog.dismiss();
-                }
-            }
 
-            @Override
-            public void onFailure(Call<ResMessage> call, Throwable t) {
-                Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
-                progressDialog.dismiss();
-            }
-        });
+                @Override
+                public void onFailure(Call<ResMessage> call, Throwable t) {
+                    Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+                }
+            });
+        }
     }
 
     private void doConfirmOrder(String orderId, Integer userId){

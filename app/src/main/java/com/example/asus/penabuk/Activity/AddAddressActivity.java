@@ -1,5 +1,6 @@
 package com.example.asus.penabuk.Activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.asus.penabuk.ErrorUtils.ErrorUtils;
 import com.example.asus.penabuk.Model.Address;
 import com.example.asus.penabuk.Model.City;
 import com.example.asus.penabuk.Model.District;
@@ -50,7 +52,7 @@ public class AddAddressActivity extends AppCompatActivity {
     Button btnSimpan;
     EditText editKodepos;
     EditText editAlamat;
-
+    ProgressDialog progressDialog;
     Toolbar toolbarAddAddress;
 
     @Override
@@ -66,10 +68,10 @@ public class AddAddressActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String address_line = editAlamat.getText().toString();
-                String strzip_code = editKodepos.getText().toString();
+                String zip_code = editKodepos.getText().toString();
                 Integer userId = Integer.parseInt(sharedPrefManager.getSPId());
-                if(validateAddAddress(strzip_code, address_line)){
-                    Integer zip_code = Integer.parseInt(strzip_code);
+                if(validateAddAddress(zip_code, address_line)){
+                    progressDialog = ProgressDialog.show(context, null, "Please Wait..", true);
                     doAddAddress(district_idselected, address_line, zip_code, userId);
                 }
             }
@@ -217,7 +219,7 @@ public class AddAddressActivity extends AppCompatActivity {
         });
     }
 
-    private void doAddAddress(Integer district_id, String address_line, Integer zip_code, Integer userId){
+    private void doAddAddress(Integer district_id, String address_line, String zip_code, Integer userId){
         Address address = new Address();
         address.setDistrict_id(district_id);
         address.setAddress_line(address_line);
@@ -226,14 +228,23 @@ public class AddAddressActivity extends AppCompatActivity {
         call.enqueue(new Callback<ResMessage>() {
             @Override
             public void onResponse(Call<ResMessage> call, Response<ResMessage> response) {
-                ResMessage resMessage = response.body();
-                Toast.makeText(AddAddressActivity.this, resMessage.getMessage(), Toast.LENGTH_LONG).show();
-                finish();
+                if(response.isSuccessful()) {
+                    ResMessage resMessage = response.body();
+                    progressDialog.dismiss();
+                    Toast.makeText(AddAddressActivity.this, resMessage.getMessage(), Toast.LENGTH_LONG).show();
+                    finish();
+                }
+                else {
+                    ResMessage resMessage = ErrorUtils.parseError(response);
+                    Toast.makeText(AddAddressActivity.this, resMessage.getMessage(), Toast.LENGTH_LONG).show();
+                    progressDialog.dismiss();
+                }
             }
 
             @Override
             public void onFailure(Call<ResMessage> call, Throwable t) {
                 Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
             }
         });
     }

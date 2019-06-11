@@ -353,29 +353,36 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
     }
 
     private void doGetBookByBestDeal(String balance){
-        Call<ReqBook> call = userService.getBookByBestDeal(userId, balance);
-        call.enqueue(new Callback<ReqBook>() {
-            @Override
-            public void onResponse(Call<ReqBook> call, Response<ReqBook> response) {
-                ReqBook reqBook = response.body();
-                books = reqBook.getBooks();
-                checkSearchSize(books);
-                viewAllAdapter = new ViewAllAdapter(books);
-                page=6;
+        if(balance==null || balance.trim().length()==0){
+            progressDialog.dismiss();
+            openBestDealDialog();
+            Toast.makeText(context, "Nominal tidak boleh kosong", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            Call<ReqBook> call = userService.getBookByBestDeal(userId, balance);
+            call.enqueue(new Callback<ReqBook>() {
+                @Override
+                public void onResponse(Call<ReqBook> call, Response<ReqBook> response) {
+                    ReqBook reqBook = response.body();
+                    books = reqBook.getBooks();
+                    checkSearchSize(books);
+                    viewAllAdapter = new ViewAllAdapter(books);
+                    page = 6;
 
-                rvManager = new LinearLayoutManager(context);
-                rvViewAllActivity.setLayoutManager(rvManager);
-                rvViewAllActivity.setItemAnimator(new DefaultItemAnimator());
-                rvViewAllActivity.setAdapter(viewAllAdapter);
-                progressDialog.dismiss();
-            }
+                    rvManager = new LinearLayoutManager(context);
+                    rvViewAllActivity.setLayoutManager(rvManager);
+                    rvViewAllActivity.setItemAnimator(new DefaultItemAnimator());
+                    rvViewAllActivity.setAdapter(viewAllAdapter);
+                    progressDialog.dismiss();
+                }
 
-            @Override
-            public void onFailure(Call<ReqBook> call, Throwable t) {
-                Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
-                progressDialog.dismiss();
-            }
-        });
+                @Override
+                public void onFailure(Call<ReqBook> call, Throwable t) {
+                    Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+                }
+            });
+        }
     }
 
     private void checkSearchSize(List<Book> books){
