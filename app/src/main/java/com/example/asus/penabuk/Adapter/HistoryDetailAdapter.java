@@ -1,6 +1,7 @@
 package com.example.asus.penabuk.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.asus.penabuk.Activity.ViewDetailActivity;
 import com.example.asus.penabuk.Model.BookHistory;
 import com.example.asus.penabuk.R;
 import com.example.asus.penabuk.Remote.ApiUtils;
@@ -47,6 +49,15 @@ public class HistoryDetailAdapter extends RecyclerView.Adapter<HistoryDetailAdap
         holder.textPrice.setText("Rp. " + priceformat);
 
         holder.textQty.setText("Qty : " + bookHistory.getCount());
+
+        holder.cv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), ViewDetailActivity.class);
+                intent.putExtra("bookid", bookHistory.getId());
+                view.getContext().startActivity(intent);
+            }
+        });
 
         if(bookHistory.getImage_url().length()>0) {
             Picasso.with(context)

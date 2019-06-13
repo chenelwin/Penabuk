@@ -28,7 +28,7 @@ public class CancelOrderDialog extends AppCompatDialogFragment {
 
         builder.setView(view)
                 .setTitle("Batalkan Pesanan?")
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Batal", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 

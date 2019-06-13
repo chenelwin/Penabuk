@@ -2,7 +2,9 @@ package com.example.asus.penabuk.Activity;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -70,7 +72,7 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
     }
 
     @Override
-    public void passData(Integer address_id, int position){
+    public void passData(final Integer address_id, final int position){
         progressDialog = ProgressDialog.show(context, null, "Please Wait..", true);
         doRemoveAddress(address_id, userId, position);
     }

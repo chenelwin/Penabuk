@@ -1,7 +1,11 @@
 package com.example.asus.penabuk.Adapter;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.provider.ContactsContract;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -13,6 +17,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.asus.penabuk.Activity.ViewDetailActivity;
 import com.example.asus.penabuk.Model.Book;
 import com.example.asus.penabuk.Model.Cart;
 import com.example.asus.penabuk.R;
@@ -121,9 +126,42 @@ public class CartFragmentAdapter extends RecyclerView.Adapter<CartFragmentAdapte
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                passingBtnRemoveCart.passData(cart.getCart_id(), position);
-                carts.remove(position);
-                totalHarga.passTotalHarga(carts);
+                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                builder.setMessage("Apakah Anda yakin akan menghapus barang dari keranjang?")
+                        .setCancelable(false)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                passingBtnRemoveCart.passData(cart.getCart_id(), position);
+                                carts.remove(position);
+                                totalHarga.passTotalHarga(carts);
+                            }
+                        })
+                        .setNegativeButton("Batal", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.cancel();
+                            }
+                        });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+            }
+        });
+
+        holder.cartImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), ViewDetailActivity.class);
+                intent.putExtra("bookid", cart.getBook().getId());
+                view.getContext().startActivity(intent);
+            }
+        });
+        holder.cartTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), ViewDetailActivity.class);
+                intent.putExtra("bookid", cart.getBook().getId());
+                view.getContext().startActivity(intent);
             }
         });
 
@@ -166,7 +204,6 @@ public class CartFragmentAdapter extends RecyclerView.Adapter<CartFragmentAdapte
         }
         notifyDataSetChanged();
         totalHarga.passTotalHarga(carts);
-        Log.e("cek", "" + carts.get(0).isSelected());
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

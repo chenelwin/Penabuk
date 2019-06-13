@@ -58,6 +58,14 @@ public class HistoryFragmentAdapter extends RecyclerView.Adapter<HistoryFragment
                 view.getContext().startActivity(intent);
             }
         });
+        holder.cv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, HistoryDetailActivity.class);
+                intent.putExtra("passingorderid", history.getOrder_id());
+                view.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override

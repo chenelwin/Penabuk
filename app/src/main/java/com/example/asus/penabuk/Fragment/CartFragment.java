@@ -1,12 +1,14 @@
 package com.example.asus.penabuk.Fragment;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -130,7 +132,7 @@ public class CartFragment extends Fragment implements CartFragmentAdapter.Passin
     }
 
     @Override
-    public void passData(Integer cart_id, int position){
+    public void passData(final Integer cart_id, final int position){
         progressDialog = ProgressDialog.show(view.getContext(), null, "Please Wait..", true);
         doRemoveCart(cart_id, userId, position);
     }
@@ -216,7 +218,6 @@ public class CartFragment extends Fragment implements CartFragmentAdapter.Passin
         refreshCart.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                doGetCart(userId);
 
                 new Handler().postDelayed(new Runnable() {
                     @Override

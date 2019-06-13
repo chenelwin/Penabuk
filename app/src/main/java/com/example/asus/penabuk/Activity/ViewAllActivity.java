@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import com.example.asus.penabuk.Adapter.ViewAllAdapter;
 import com.example.asus.penabuk.Dialog.BestDealDialog;
+import com.example.asus.penabuk.ErrorUtils.ErrorUtils;
 import com.example.asus.penabuk.Model.Book;
 import com.example.asus.penabuk.Model.Order;
 import com.example.asus.penabuk.Model.ReqBook;
@@ -363,17 +364,24 @@ public class ViewAllActivity extends AppCompatActivity implements ViewAllAdapter
             call.enqueue(new Callback<ReqBook>() {
                 @Override
                 public void onResponse(Call<ReqBook> call, Response<ReqBook> response) {
-                    ReqBook reqBook = response.body();
-                    books = reqBook.getBooks();
-                    checkSearchSize(books);
-                    viewAllAdapter = new ViewAllAdapter(books);
-                    page = 6;
+                    if(response.isSuccessful()) {
+                        ReqBook reqBook = response.body();
+                        books = reqBook.getBooks();
+                        checkSearchSize(books);
+                        viewAllAdapter = new ViewAllAdapter(books);
+                        page = 6;
 
-                    rvManager = new LinearLayoutManager(context);
-                    rvViewAllActivity.setLayoutManager(rvManager);
-                    rvViewAllActivity.setItemAnimator(new DefaultItemAnimator());
-                    rvViewAllActivity.setAdapter(viewAllAdapter);
-                    progressDialog.dismiss();
+                        rvManager = new LinearLayoutManager(context);
+                        rvViewAllActivity.setLayoutManager(rvManager);
+                        rvViewAllActivity.setItemAnimator(new DefaultItemAnimator());
+                        rvViewAllActivity.setAdapter(viewAllAdapter);
+                        progressDialog.dismiss();
+                    }
+                    else{
+                        ResMessage resMessage = ErrorUtils.parseError(response);
+                        Toast.makeText(ViewAllActivity.this, resMessage.getMessage(), Toast.LENGTH_LONG).show();
+                        progressDialog.dismiss();
+                    }
                 }
 
                 @Override

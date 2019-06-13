@@ -1,12 +1,21 @@
 package com.example.asus.penabuk.Model;
 
 public class BookHistory {
+    private Integer id;
     private String title;
     private Integer price;
     private Integer count;
     private String image_url;
     private String small_image_url;
     private String image_local;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getTitle() {
         return title;
