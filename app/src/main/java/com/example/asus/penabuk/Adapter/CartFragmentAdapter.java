@@ -147,7 +147,7 @@ public class CartFragmentAdapter extends RecyclerView.Adapter<CartFragmentAdapte
                 alertDialog.show();
             }
         });
-
+        /*
         holder.cartImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -163,7 +163,7 @@ public class CartFragmentAdapter extends RecyclerView.Adapter<CartFragmentAdapte
                 intent.putExtra("bookid", cart.getBook().getId());
                 view.getContext().startActivity(intent);
             }
-        });
+        });*/
 
         holder.checkCart.setOnCheckedChangeListener(null);
         holder.checkCart.setChecked(cart.isSelected());

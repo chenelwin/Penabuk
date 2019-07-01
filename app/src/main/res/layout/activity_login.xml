@@ -50,9 +50,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Forgot Password?"
+            android:text="Lupa Password?"
             android:textAlignment="textEnd"
-            android:visibility="gone"
             android:textColor="@color/colorPrimaryDark"
             android:id="@+id/textForgotPassword"/>
         <LinearLayout
@@ -71,7 +70,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="or"
+                android:text="atau"
                 android:textAlignment="center"
                 android:layout_margin="10dp"
                 android:textColor="#000"

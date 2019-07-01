@@ -56,7 +56,7 @@ public class CartFragment extends Fragment implements CartFragmentAdapter.Passin
     UserService userService = ApiUtils.getUserService();
     SharedPrefManager sharedPrefManager;
     public View view;
-    SwipeRefreshLayout refreshCart;
+    //SwipeRefreshLayout refreshCart;
     CheckBox checkAll;
     TextView cartTotalPrice;
     Button btnBuy;
@@ -192,7 +192,7 @@ public class CartFragment extends Fragment implements CartFragmentAdapter.Passin
     public void initView(){
         sharedPrefManager = new SharedPrefManager(view.getContext());
         initToolbar();
-        initRefreshCart();
+        //initRefreshCart();
         userId = Integer.parseInt(sharedPrefManager.getSPId());
         CartFragmentAdapter.passingBtnRemoveCart = this;
         CartFragmentAdapter.totalHarga = this;
@@ -211,7 +211,7 @@ public class CartFragment extends Fragment implements CartFragmentAdapter.Passin
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbarCart);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Keranjang");
     }
-
+    /*
     private void initRefreshCart(){
         refreshCart = (SwipeRefreshLayout)view.findViewById(R.id.refreshCart);
 
@@ -227,7 +227,7 @@ public class CartFragment extends Fragment implements CartFragmentAdapter.Passin
                 }, 1000);
             }
         });
-    }
+    }*/
 
     private void doSaveQty(Integer book_id, Integer count){
         Order order = new Order();
