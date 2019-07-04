@@ -62,7 +62,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     private void initToolbar(){
         toolbarForgotPassword = (Toolbar)findViewById(R.id.toolbarForgotPassword);
         setSupportActionBar(toolbarForgotPassword);
-        getSupportActionBar().setTitle("Forgot Password");
+        getSupportActionBar().setTitle("Lupa Password");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         toolbarForgotPassword.setNavigationOnClickListener(new View.OnClickListener() {
@@ -75,7 +75,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
     private boolean validateReset(String email){
         if(email == null || email.trim().length() == 0){
-            Toast.makeText(this, "Email is required", Toast.LENGTH_SHORT).show();
+            inputEmail.setError("Email harus diisi");
             return false;
         }
         return true;

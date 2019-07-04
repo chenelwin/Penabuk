@@ -36,6 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     TextView textForgotPassword;
     Button btnRegister;
     Button btnLogin;
+    TextView textVerifyEmail;
     Context context;
     ProgressDialog progressDialog;
     SharedPrefManager sharedPrefManager;
@@ -81,6 +82,14 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+
+        textVerifyEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginActivity.this, VerifyEmailActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void initView(){
@@ -89,6 +98,7 @@ public class LoginActivity extends AppCompatActivity {
         textForgotPassword = (TextView)findViewById(R.id.textForgotPassword);
         btnRegister = (Button)findViewById(R.id.btnRegister);
         btnLogin = (Button)findViewById(R.id.btnLogin);
+        textVerifyEmail = (TextView)findViewById(R.id.textVerifyEmail);
         loginEmail = (EditText)findViewById(R.id.loginEmail);
         loginPassword = (EditText)findViewById(R.id.loginPassword);
     }

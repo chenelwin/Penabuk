@@ -70,7 +70,8 @@
         <activity android:name=".Activity.NotificationActivity" />
         <activity android:name=".Activity.HistoryBalanceActivity" />
         <activity android:name=".Activity.HistoryTopupActivity" />
-        <activity android:name=".Activity.HistoryTopupDetailActivity"></activity>
+        <activity android:name=".Activity.HistoryTopupDetailActivity" />
+        <activity android:name=".Activity.VerifyEmailActivity"></activity>
     </application>
 
 </manifest>

@@ -23,57 +23,64 @@
                 android:layout_height="120dp"
                 android:id="@+id/bookImg"/>
             <LinearLayout
-                android:layout_weight="1"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="5dp"
                 android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="BLABLABLA"
-                    android:textColor="#000"
-                    android:textStyle="bold"
-                    android:textSize="14sp"
-                    android:id="@+id/bookTitle"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Rp. 100"
-                    android:textColor="@color/colorPrice"
-                    android:textStyle="bold"
-                    android:textSize="14sp"
-                    android:id="@+id/bookPrice"/>
-                <RatingBar
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="?android:attr/ratingBarStyleSmall"
-                    android:numStars="5"
-                    android:stepSize="0.01"
-                    android:isIndicator="true"
-                    android:id="@+id/bookRating"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:gravity="right">
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="BLABLABLA"
+                        android:textColor="#000"
+                        android:textStyle="bold"
+                        android:textSize="14sp"
+                        android:maxLines="2"
+                        android:ellipsize="end"
+                        android:id="@+id/bookTitle"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Rp. 100"
+                        android:textColor="@color/colorPrice"
+                        android:textStyle="bold"
+                        android:textSize="14sp"
+                        android:id="@+id/bookPrice"/>
+                    <RatingBar
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="?android:attr/ratingBarStyleSmall"
+                        android:numStars="5"
+                        android:stepSize="0.01"
+                        android:isIndicator="true"
+                        android:id="@+id/bookRating"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:gravity="bottom"
-                    android:paddingBottom="5dp">
-                    <Button
-                        android:layout_width="120dp"
-                        android:layout_height="25dp"
-                        android:text="Add to Cart"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:textSize="12sp"
-                        android:layout_margin="3dp"
-                        android:background="@drawable/mybordergreen"
-                        android:id="@+id/btnAdd"/>
+                    android:gravity="right">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:gravity="bottom"
+                        android:paddingBottom="5dp">
+                        <Button
+                            android:layout_width="120dp"
+                            android:layout_height="25dp"
+                            android:text="Add to Cart"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="12sp"
+                            android:layout_margin="3dp"
+                            android:background="@drawable/mybordergreen"
+                            android:id="@+id/btnAdd"/>
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
             
