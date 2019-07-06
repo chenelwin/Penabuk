@@ -10,9 +10,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.asus.penabuk.ErrorUtils.ErrorUtils;
+import com.example.asus.penabuk.Model.ResMessage;
+import com.example.asus.penabuk.Model.User;
 import com.example.asus.penabuk.R;
 import com.example.asus.penabuk.Remote.ApiUtils;
 import com.example.asus.penabuk.Remote.UserService;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class VerifyEmailActivity extends AppCompatActivity {
 
@@ -71,6 +78,30 @@ public class VerifyEmailActivity extends AppCompatActivity {
     }
 
     private void doVerifyEmail(String email){
-        progressDialog.dismiss();
+        final User user = new User();
+        user.setEmail(email);
+        Call<ResMessage> call = userService.verifyAccountRequest(user);
+        call.enqueue(new Callback<ResMessage>() {
+            @Override
+            public void onResponse(Call<ResMessage> call, Response<ResMessage> response) {
+                if(response.isSuccessful()) {
+                    ResMessage resMessage = response.body();
+                    Toast.makeText(context, resMessage.getMessage(), Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+                    finish();
+                }
+                else {
+                    ResMessage resMessage = ErrorUtils.parseError(response);
+                    Toast.makeText(VerifyEmailActivity.this, resMessage.getMessage(), Toast.LENGTH_LONG).show();
+                    progressDialog.dismiss();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResMessage> call, Throwable t) {
+                Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
+            }
+        });
     }
 }

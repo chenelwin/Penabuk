@@ -88,6 +88,9 @@ public interface UserService {
     @POST("/remove/rate/{id}")
     Call<ResMessage> removeReviewRequest(@Path("id") Integer bookId, @Query("token") Integer userId);
 
+    @POST("/users/verify")
+    Call<ResMessage> verifyAccountRequest(@Body User user);
+
     @Multipart
     @POST("/topup/balance")
     Call<ResMessage> uploadRequest(@Part("balance") RequestBody balance, @Part MultipartBody.Part image, @Query("token") Integer userId);
